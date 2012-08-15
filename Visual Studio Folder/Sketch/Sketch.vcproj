@@ -182,11 +182,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\Documenation\Sketch\Buglist.md"
+				RelativePath="..\..\Documenation\Sketch\Buglist.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Documenation\Sketch\Pseudocode.md"
+				RelativePath="..\..\Documenation\Sketch\Pseudocode.txt"
 				>
 			</File>
 			<File
@@ -194,7 +194,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Documenation\Sketch\TODO.md"
+				RelativePath="..\..\Documenation\Sketch\TODO.txt"
 				>
 			</File>
 			<Filter
