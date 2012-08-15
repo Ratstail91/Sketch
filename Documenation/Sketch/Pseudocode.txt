@@ -1,0 +1,18 @@
+startup:
+	run the load script
+	...
+end
+
+normal:
+	draw map to the screen
+	click left: call lua click left --can be extened later
+	key down: call lua key down --can be extended later
+end
+
+scripts:
+	new map
+	load map
+	save map
+end
+
+I need a console sub window in the editor.
