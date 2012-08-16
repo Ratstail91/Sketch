@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SDL.lib SDLmain.lib lua.lib"
+				AdditionalDependencies="SDL.lib SDLmain.lib SDL_ttf.lib lua.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="1"
@@ -175,6 +175,18 @@
 				RelativePath=".\main.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\test_deque.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 		<Filter
 			Name="-Documentation"
@@ -200,13 +212,45 @@
 			<Filter
 				Name="Pseudocode"
 				>
+				<File
+					RelativePath="..\..\Documenation\Sketch\Pseudocode\Terminal.txt"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Resource Files"
+			Name="Terminal"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\terminal.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\terminal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\terminal_util.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\terminal_util.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Colors"
+			>
+			<File
+				RelativePath=".\colors.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\colors.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

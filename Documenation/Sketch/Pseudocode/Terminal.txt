@@ -1,0 +1,23 @@
+The list of lines should act like a que, since I don't want too much backlog,
+the lines nearer to the top of the que should be deleted.
+
+using a deque might be the best option.
+
+Terminal:
+	KeyDown(SDLKey)
+	KeyUp(SDLKey)
+	
+	input field
+	list of lines
+	
+	delete lines at the top of the list
+	delete lines at the bottom of the list
+end
+
+-------------------------
+
+for each keypress, add that key onto the "input field"
+
+when "enter" is pressed, push that line onto the BACK of the deque
+
+in the draw event, iterate through each line and draw it to the screen.

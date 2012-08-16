@@ -16,3 +16,27 @@ scripts:
 end
 
 I need a console sub window in the editor.
+
+-------------------------
+
+Console:
+	KeyDown(SDLKey)
+	KeyUp(SDLKey)
+	
+	input field
+	list of lines
+	
+	delete lines at the top of the list
+	delete lines at the bottom of the list
+end
+
+-------------------------
+
+drawing the terminal:
+
+args: dest, terminal, font, size, rect, line count
+
+adjust the terminal
+fill the background rect
+draw each line
+draw the input line
