@@ -252,6 +252,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Lua"
+			>
+			<File
+				RelativePath=".\lua_util.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\lua_util.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

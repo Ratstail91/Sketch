@@ -16,4 +16,6 @@ enum {
 
 extern SDL_Color colors[];
 
+#define MapRGB(format, color) SDL_MapRGB(format, color.r, color.g, color.b)
+
 #endif
