@@ -4,8 +4,18 @@
 #include "SDL.h"
 #include "SDL_ttf.h"
 
+#include "lua.h"
+
 #include "terminal.h"
 
-void DrawTerminal(SDL_Surface* pDest, Terminal* pTerminal, TTF_Font* pFont, int iSize, SDL_Rect* pRect, unsigned int lines);
+//utilities
+void TerminalDraw		(Terminal* pTerminal, SDL_Surface* pDest, TTF_Font* pFont, int iSize, SDL_Rect* pRect, unsigned int lines);
+void TerminalDoString	(Terminal* pTerminal, lua_State* L, const char* prompt = "");
+void TerminalPrintf		(Terminal* pTerminal, const char* fmt, ...);
+
+//lua interface functions
+void lua_TerminalOpen	(lua_State* L, Terminal* pTerminal);
+void lua_TerminalSet	(lua_State* L, Terminal* pTerminal);
+void lua_TerminalGet	(lua_State* L);
 
 #endif

@@ -35,9 +35,11 @@ int SDL_main(int, char**) {
 		exit(-4);
 	if ( (g_pFont = TTF_OpenFont("/WINDOWS/fonts/arial.ttf", 16)) == NULL ) //platform
 		exit(-5);
-	luaL_openlibs(g_pLuaVM);
 
-	dofile(g_pLuaVM, "load.lua");
+	luaL_openlibs(g_pLuaVM);
+	lua_TerminalOpen(g_pLuaVM, &g_terminal); //should be moved
+
+	DoFile(g_pLuaVM, "load.lua");
 
 
 	SDL_Event event;
@@ -53,20 +55,9 @@ int SDL_main(int, char**) {
 					g_terminal.KeyDown(event.key.keysym);
 
 					//run the lua code, if given the command
-					if (
-							//when the enter key is pressed, run the most recent line: not perfect, just proof of concept.
-							event.key.keysym.sym == SDLK_RETURN &&
-							g_terminal.GetLines()->size() &&
-							g_terminal.GetLine(-1).size() &&
-							!strncmp(g_terminal.GetLine(-1).c_str(), "lua:", 4)
-						)
-					{
-						try {
-							dostring(g_pLuaVM, g_terminal.GetLine(-1).c_str()+4);
-						}
-						catch(exception& e) {
-							cerr << "Prompt Error: " << e.what() << endl;
-						}
+					if (event.key.keysym.sym == SDLK_RETURN) {
+						//for a pure lua prompt, leave the third parameter out
+						TerminalDoString(&g_terminal, g_pLuaVM, "lua:");
 					}
 					break;
 
@@ -83,7 +74,7 @@ int SDL_main(int, char**) {
 
 		//draw the terminal
 		SDL_Rect rect = {0, 380, 640, 100};
-		DrawTerminal(g_pScreen, &g_terminal, g_pFont, 16, &rect, 5);
+		TerminalDraw(&g_terminal, g_pScreen, g_pFont, 16, &rect, 5);
 
 		SDL_Flip(g_pScreen);
 	}

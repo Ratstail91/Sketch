@@ -40,3 +40,8 @@ adjust the terminal
 fill the background rect
 draw each line
 draw the input line
+
+-------------------------
+
+TerminalDraw(Terminal, pScreen, ...
+TerminalDoString(Terminal, L)

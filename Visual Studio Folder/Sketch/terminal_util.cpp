@@ -1,8 +1,22 @@
+#include <exception>
 #include <stdexcept>
-#include "terminal_util.h"
-#include "colors.h"
+#include <iostream>
+#include <stdarg.h>
 
-void DrawTerminal(SDL_Surface* pDest, Terminal* pTerminal, TTF_Font* pFont, int iSize, SDL_Rect* pRect, unsigned int lines) {
+#include "lua.hpp"
+
+#include "colors.h"
+#include "lua_util.h"
+
+#include "terminal_util.h"
+
+using namespace std;
+
+//-------------------------
+//Utilities
+//-------------------------
+
+void TerminalDraw(Terminal* pTerminal, SDL_Surface* pDest, TTF_Font* pFont, int iSize, SDL_Rect* pRect, unsigned int lines) {
 	//log the lines?
 
 	//adjust the terminal
@@ -50,4 +64,99 @@ void DrawTerminal(SDL_Surface* pDest, Terminal* pTerminal, TTF_Font* pFont, int 
 
 	SDL_BlitSurface(pMsg, &sclip, pDest, &dclip);
 	SDL_FreeSurface(pMsg);
+}
+
+void TerminalDoString(Terminal* pTerminal, lua_State* L, const char* prompt) {
+	//if the most recent line is valid, execute it as a lua script
+
+	try {
+		if (pTerminal->GetLines()->size() &&
+			pTerminal->GetLine(-1).size() &&
+			!strncmp(pTerminal->GetLine(-1).c_str(), prompt, strlen(prompt))
+			)
+		{
+			//pop the most recent line, and execute it
+			string s = pTerminal->GetLine(-1);
+			pTerminal->GetLines()->pop_back();
+			DoString(L, s.c_str()+strlen(prompt));
+
+//			DoString(L, pTerminal->GetLine(-1).c_str()+4);
+		}
+	}
+	catch(exception& e) {
+		TerminalPrintf(pTerminal, "Error: check console");
+		cout << "Prompt Error: " << e.what() << endl;
+	}
+}
+
+void TerminalPrintf(Terminal* pTerminal, const char* fmt, ...) {
+	//get the formatted string
+	va_list argp;
+
+	va_start(argp, fmt);
+
+	char buf[1024];
+	vsprintf(buf, fmt, argp);
+
+	va_end(argp);
+
+	pTerminal->Push(buf);
+}
+
+//-------------------------
+//Glue Functions
+//-------------------------
+
+int l_TerminalPrint(lua_State* L) {
+	//print to the terminal, but only one line
+	Terminal* pTerminal = NULL;
+	const char* str = NULL;
+	int argc = lua_gettop(L);
+
+	//get the terminal
+	lua_TerminalGet(L);
+	if ( (pTerminal = (Terminal*)lua_touserdata(L, -1)) == NULL) {
+		throw(exception("Failed to get terminal pointer from the registry"));
+	}
+
+	lua_pop(L, 1);
+
+	for (int i = 0; i < argc; i++) {
+		if ( (str = lua_tostring(L, -argc+i)) == NULL) {
+			throw(exception("Failed to print line to the terminal"));
+		}
+
+		TerminalPrintf(pTerminal, str);
+	}
+
+	lua_pop(L, argc);
+
+	return 0;
+}
+
+//-------------------------
+//Lua Interface Functions
+//-------------------------
+
+void lua_TerminalOpen(lua_State* L, Terminal* pTerminal) {
+	//this should be moved to it's own module, but I won't worry for now
+
+	//this is in the registry
+	lua_TerminalSet(L, pTerminal);
+
+	lua_pushcfunction(L, l_TerminalPrint);
+	lua_setglobal(L, "terminal");
+}
+
+void lua_TerminalSet(lua_State* L, Terminal* pTerminal) {
+	//push this terminal into the registry
+	lua_pushstring(L, "terminal");
+	lua_pushlightuserdata(L, (void*)pTerminal);
+	lua_settable(L, LUA_REGISTRYINDEX);
+}
+
+void lua_TerminalGet(lua_State* L) {
+	//copy the terminal from the registry to the stack
+	lua_pushstring(L, "terminal");
+	lua_gettable(L, LUA_REGISTRYINDEX);
 }

@@ -3,11 +3,11 @@
 
 #include "lua.h"
 
-void error(lua_State* L, const char* fmt, ...);
+void Error(lua_State* L, const char* fmt, ...);
 
-void dofile		(lua_State* L, const char* fname);
-void dostring	(lua_State* L, const char* str);
-void docall		(lua_State* L, const char* func, const char* sig, ...);
+void DoFile		(lua_State* L, const char* fname);
+void DoString	(lua_State* L, const char* str);
+void DoCall		(lua_State* L, const char* func, const char* sig, ...);
 
 /*
 
