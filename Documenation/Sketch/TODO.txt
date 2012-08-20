@@ -22,7 +22,3 @@ Extended Functionality:
 *	Position markers
 *	Waypoints
 end
-
--------------------------
-
-Some sort of time delay for the backspace in Terminal

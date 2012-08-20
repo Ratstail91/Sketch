@@ -14,10 +14,28 @@ Terminal:
 	delete lines at the bottom of the list
 end
 
+Some sort of time delay for the backspace in Terminal?
+
 -------------------------
 
 for each keypress, add that key onto the "input field"
-
 when "enter" is pressed, push that line onto the BACK of the deque
-
 in the draw event, iterate through each line and draw it to the screen.
+
+-------------------------
+
+terminal utilities:
+
+drawing the terminal:
+
+args: terminal, dest, font, size, rect, line count
+
+adjust the terminal
+fill the background rect
+draw each line
+draw the input line
+
+-------------------------
+
+TerminalDraw(Terminal, pScreen, ...
+TerminalDoString(Terminal, L)
