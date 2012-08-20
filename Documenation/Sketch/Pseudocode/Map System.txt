@@ -1,0 +1,139 @@
+map data and tileset data will be kept separate.
+Pagination isn't necessary, but it would be nice.
+
+x count, y count, l count <--map data
+tileset, tile w, tile h <--tileset data
+
+-------------------------
+
+class list:
+
+Region
+Tileset
+TilesetLoader
+
+-------------------------
+
+region: --single region class
+	Constructor(x, y, l)
+	Destructor
+	
+	-GenArray()
+	-ClrArray()
+	
+	GetTile(x, y, l)
+	SetTile(x, y, l, v) --only in the editor
+	
+	private:
+	x count
+	y count
+	l count
+	
+	array...
+end
+
+-------------------------
+
+Tileset:
+	Constructor(fname, w, h) --tile width & height; also validates the file's tileset
+	Destructor --frees the surface
+	
+	Get...
+	SetCount
+	
+	private:
+	tileset name --std::string
+	tileset surface --SDL_Surface
+	
+	tile x --tiles along the x axis
+	tile y --tiles along the y axis
+	tile w --width in pixels of each tile
+	tile h --height in pixels of each tile
+	
+	tile count --tiles in total (tile x * tile y)
+	tile start --tiles in total prior to this tileset
+end
+
+NOTES:
+
+start is 0-indexed
+count is absolute
+
+start[x] = start[x-1] + count[x-1]
+
+-------------------------
+
+TilesetManager holds all of the currently used tilesets, and can be used to add, delete or rearrange the
+tilesets as needed. TilesetManager is also responsible for producing the strip of tiles as a usable surface.
+
+The only ceveat is that all tilesets should have matching w & h for the tiles. If the conversion process
+detects a problem, than it will reject the process.
+
+TilesetManager:
+	LoadTileset(string, w, h) --add a tileset
+	UnloadTileset(string) --remove a tileset, pop the tiles too?
+	
+	Convert() --creates the strip surface
+	GetList()
+	
+	vector<Tileset> list
+end
+
+sorting tilesets is impossible without remaking the map
+
+-------------------------
+
+I need to hook the regions and the tilesets into lua
+
+
+MapFrame: --the actual map thingy drawn to the screen
+	struct { region, x, y } --location of a specific region within the frame
+	SDL_Surface* strip --the strip of tiles
+	
+	//
+end
+
+-------------------------
+
+Lua functions:
+
+NewRegion
+NewTileset
+
+DeleteRegion
+DeleteTileset
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------
+-------------------------
+
+//this doesn't seem right.
+//theres too much referencing unnessecary objects, etc.
+
+Tile:
+	tileset	--index of the tileset
+	value --value of the tile
+end
+
+draw:
+	for each region
+		for each tile
+			calc sclip
+			SDL_Blit(TilesetMgr.GetTileset(tile.tileset)->surface, sclip, dest, dclip)
+			

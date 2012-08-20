@@ -14,6 +14,9 @@
 using namespace std;
 
 
+#include "tileset.h"
+
+
 static SDL_Surface* g_pScreen = NULL;
 static bool g_bRunning = true;
 static Terminal g_terminal;
@@ -31,7 +34,7 @@ int SDL_main(int, char**) {
 		exit(-3);
 
 	//load
-	if ( (g_pScreen = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE|SDL_DOUBLEBUF)) == NULL)
+	if ( (g_pScreen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE|SDL_DOUBLEBUF)) == NULL)
 		exit(-4);
 	if ( (g_pFont = TTF_OpenFont("/WINDOWS/fonts/arial.ttf", 16)) == NULL ) //platform
 		exit(-5);
@@ -40,6 +43,9 @@ int SDL_main(int, char**) {
 	lua_TerminalOpen(g_pLuaVM, &g_terminal); //should be moved
 
 	DoFile(g_pLuaVM, "load.lua");
+
+
+	Tileset terrain("terrain.bmp", 32, 32);
 
 
 	SDL_Event event;
@@ -72,8 +78,10 @@ int SDL_main(int, char**) {
 
 		//draw the map from lua code...
 
-		//draw the terminal
-		SDL_Rect rect = {0, 380, 640, 100};
+		SDL_BlitSurface(terrain.GetSurface(), NULL, g_pScreen, NULL);
+
+		//draw the terminal (should usually be on top)
+		SDL_Rect rect = {0, g_pScreen->h-100, g_pScreen->w, 100};
 		TerminalDraw(&g_terminal, g_pScreen, g_pFont, 16, &rect, 5);
 
 		SDL_Flip(g_pScreen);

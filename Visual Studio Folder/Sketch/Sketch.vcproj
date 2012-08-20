@@ -213,6 +213,10 @@
 				Name="Pseudocode"
 				>
 				<File
+					RelativePath="..\..\Documenation\Sketch\Pseudocode\Map System.txt"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Documenation\Sketch\Pseudocode\Terminal.txt"
 					>
 				</File>
@@ -263,6 +267,34 @@
 				RelativePath=".\lua_util.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Map System"
+			>
+			<Filter
+				Name="Region"
+				>
+				<File
+					RelativePath=".\region.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\region.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Tileset"
+				>
+				<File
+					RelativePath=".\tileset.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\tileset.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

@@ -22,3 +22,8 @@ Extended Functionality:
 *	Position markers
 *	Waypoints
 end
+
+-------------------------
+
+TilesetManager
+MapFrame
