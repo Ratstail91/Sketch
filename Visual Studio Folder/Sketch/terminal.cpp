@@ -2,7 +2,7 @@
 #include "terminal.h"
 using namespace std;
 
-void Terminal::KeyDown(SDL_keysym& keysym) {
+void Terminal::KeyDown(SDL_keysym const& keysym) {
 	//shift modifier
 	if (keysym.mod & KMOD_SHIFT) {
 		switch(keysym.sym) {
@@ -83,7 +83,7 @@ void Terminal::KeyDown(SDL_keysym& keysym) {
 	};
 }
 
-void Terminal::KeyUp(SDL_keysym& keysym) {
+void Terminal::KeyUp(SDL_keysym const& keysym) {
 	//blank
 }
 

@@ -7,8 +7,8 @@
 
 class Terminal {
 public:
-	void KeyDown	(SDL_keysym&);
-	void KeyUp		(SDL_keysym&);
+	void KeyDown	(SDL_keysym const&);
+	void KeyUp		(SDL_keysym const&);
 
 	void Push(std::string s = "");
 	std::string GetLine(int);

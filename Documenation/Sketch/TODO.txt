@@ -5,25 +5,21 @@ Basic Functionality:
 *	Clean interface
 *	Smooth, intuitive controls
 *	Custom layered map sizes
-*	Multiple tilesets per map
+-	Map Pagination
+-	Multiple tilesets per map
 end
 
 Scripts And Filters:
 *	Standard brush filters
 *	Standard saving/loading
 *	Standard lua scripts
-*	Custom saving/loading
-*	Custom brush filters
-*	Custom Lua scripts
+-	Custom saving/loading
+-	Custom brush filters
+-	Custom Lua scripts
 end
 
 Extended Functionality:
-*	Collision map
-*	Position markers
-*	Waypoints
+-	Collision map
+-	Position markers
+-	Waypoints
 end
-
--------------------------
-
-TilesetManager
-MapFrame

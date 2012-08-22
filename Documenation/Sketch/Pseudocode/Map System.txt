@@ -1,20 +1,27 @@
+Outline:
+
 map data and tileset data will be kept separate.
 Pagination isn't necessary, but it would be nice.
 
 x count, y count, l count <--map data
 tileset, tile w, tile h <--tileset data
 
+TilesetManager and MapFrame are interesting concepts, both of which are more complicated than
+"basic functionality". One allows for multiple tilesets in a single map, the other allows for pagination.
+Although I'd like these features, they aren't necessary for a prototype.
+
 -------------------------
 
-class list:
+Class List:
 
 Region
 Tileset
-TilesetLoader
+TilesetManager
+MapFrame
 
 -------------------------
 
-region: --single region class
+Region: --single region class
 	Constructor(x, y, l)
 	Destructor
 	
@@ -51,7 +58,7 @@ Tileset:
 	tile h --height in pixels of each tile
 	
 	tile count --tiles in total (tile x * tile y)
-	tile start --tiles in total prior to this tileset
+	tile start --tiles in total prior to this tileset; higher cohesion
 end
 
 NOTES:
@@ -63,37 +70,58 @@ start[x] = start[x-1] + count[x-1]
 
 -------------------------
 
+TilesetManager:
+	LoadTileset(string, w, h) --add a tileset
+	UnloadTileset(string) --remove a tileset, (pop the tiles too? that would need to be part of the higher script)
+	
+	Convert() --creates the strip surface
+	GetList() --OO breaker
+	
+	vector<Tileset> list
+end
+
+NOTES:
+
 TilesetManager holds all of the currently used tilesets, and can be used to add, delete or rearrange the
 tilesets as needed. TilesetManager is also responsible for producing the strip of tiles as a usable surface.
 
 The only ceveat is that all tilesets should have matching w & h for the tiles. If the conversion process
 detects a problem, than it will reject the process.
 
-TilesetManager:
-	LoadTileset(string, w, h) --add a tileset
-	UnloadTileset(string) --remove a tileset, pop the tiles too?
-	
-	Convert() --creates the strip surface
-	GetList()
-	
-	vector<Tileset> list
-end
-
 sorting tilesets is impossible without remaking the map
 
+if there is a problem during loading, all tilesets should be considered invalid, and should be cleared.
+
+could the strip itself be a tileset object?
+
 -------------------------
 
-I need to hook the regions and the tilesets into lua
-
-
-MapFrame: --the actual map thingy drawn to the screen
-	struct { region, x, y } --location of a specific region within the frame
-	SDL_Surface* strip --the strip of tiles
+MapFrame:
+	SetStrip(Tileset)
+	GetStrip()
 	
-	//
+	LoadRegion		(x, y) --region is created here, but loaded from a lua script?
+	UnloadRegion	(index)
+	
+	DrawTo(pDest, iCamX, iCamY)
+	
+	GetList() --OO Breaker
+	
+	private:
+	
+	struct {region, x, y} --structure for holding the region, and it's x & y
+	Tileset strip
+	vector<...> list
 end
 
+NOTES:
+
+MapFrame is the actual map that is rendered to the screen, which then holds a list of regions
+to be drawn.
+
 -------------------------
+
+--I need to hook the regions and the tilesets into lua
 
 Lua functions:
 
@@ -103,37 +131,7 @@ NewTileset
 DeleteRegion
 DeleteTileset
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--------------------------
 -------------------------
 
-//this doesn't seem right.
-//theres too much referencing unnessecary objects, etc.
-
-Tile:
-	tileset	--index of the tileset
-	value --value of the tile
-end
-
-draw:
-	for each region
-		for each tile
-			calc sclip
-			SDL_Blit(TilesetMgr.GetTileset(tile.tileset)->surface, sclip, dest, dclip)
-			
+--loads a region to the map frame
+LoadRegion(region, x, y) --x & y are the...
