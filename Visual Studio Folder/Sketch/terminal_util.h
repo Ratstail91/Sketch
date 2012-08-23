@@ -14,8 +14,6 @@ void TerminalDoString	(Terminal* pTerminal, lua_State* L, const char* prompt = "
 void TerminalPrintf		(Terminal* pTerminal, const char* fmt, ...);
 
 //lua interface functions
-void lua_TerminalOpen	(lua_State* L, Terminal* pTerminal);
-void lua_TerminalSet	(lua_State* L, Terminal* pTerminal);
-void lua_TerminalGet	(lua_State* L);
+int luaopen_terminal	(lua_State* L);
 
 #endif

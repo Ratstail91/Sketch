@@ -91,3 +91,14 @@ void DoCall(lua_State* L, const char* func, const char* sig, ...) {
 	}
 	va_end(vl);
 }
+
+void SetRegister(lua_State* L, const char* key, void* udata) {
+	lua_pushstring(L, key);
+	lua_pushlightuserdata(L, udata);
+	lua_settable(L, LUA_REGISTRYINDEX);
+}
+
+void GetRegister(lua_State* L, const char* key) {
+	lua_pushstring(L, key);
+	lua_gettable(L, LUA_REGISTRYINDEX);
+}

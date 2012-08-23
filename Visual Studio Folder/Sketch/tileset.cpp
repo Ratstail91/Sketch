@@ -9,6 +9,8 @@ m_sFileName(fname), m_iWidth(w), m_iHeight(h)
 		throw(exception("Failed to load bitmap"));
 	}
 
+	SDL_SetColorKey(m_pSurface, SDL_SRCCOLORKEY, SDL_MapRGB(m_pSurface->format, 255, 0, 255));
+
 	m_iXCount = m_pSurface->w / m_iWidth;
 	m_iYCount = m_pSurface->h / m_iHeight;
 

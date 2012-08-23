@@ -11,6 +11,10 @@ public:
 	Uint32 GetTile(Uint32 x, Uint32 y, Uint32 l);
 	Uint32 SetTile(Uint32 x, Uint32 y, Uint32 l, Uint32 v);
 
+	Uint32 GetXCount();
+	Uint32 GetYCount();
+	Uint32 GetLCount();
+
 private:
 	void GenArray();
 	void ClrArray();

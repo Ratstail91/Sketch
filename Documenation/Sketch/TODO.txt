@@ -23,3 +23,10 @@ Extended Functionality:
 -	Position markers
 -	Waypoints
 end
+
+-------------------------
+
+fix the terminal draw routine (stop it from deleting lines)
+fix the terminal active routine
+move the registering to the init function
+lua exit(err)

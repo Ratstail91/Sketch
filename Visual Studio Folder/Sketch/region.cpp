@@ -1,4 +1,9 @@
+#include <stdexcept>
 #include "region.h"
+
+#define CHECK_RANGE \
+	if (x >= m_iXCount || y >= m_iYCount || l >= m_iLCount) \
+		throw(std::out_of_range("Tile out of range"));
 
 Region::Region(Uint32 x, Uint32 y, Uint32 l):
 m_iXCount(x), m_iYCount(y), m_iLCount(l)
@@ -11,11 +16,25 @@ Region::~Region() {
 }
 
 Uint32 Region::GetTile(Uint32 x, Uint32 y, Uint32 l) {
+	CHECK_RANGE;
 	return m_pArray[x][y][l];
 }
 
 Uint32 Region::SetTile(Uint32 x, Uint32 y, Uint32 l, Uint32 v) {
+	CHECK_RANGE;
 	return m_pArray[x][y][l] = v;
+}
+
+Uint32 Region::GetXCount() {
+	return m_iXCount;
+}
+
+Uint32 Region::GetYCount() {
+	return m_iYCount;
+}
+
+Uint32 Region::GetLCount() {
+	return m_iLCount;
 }
 
 void Region::GenArray() {

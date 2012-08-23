@@ -248,6 +248,14 @@
 			Name="Lua"
 			>
 			<File
+				RelativePath=".\lua_interface.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\lua_interface.h"
+				>
+			</File>
+			<File
 				RelativePath=".\lua_util.cpp"
 				>
 			</File>
