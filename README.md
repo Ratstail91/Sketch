@@ -8,7 +8,7 @@ This project is only in early development; therefore many (or any) features are 
 * Clean interface
 * Smooth, intuitive controls
 * Custom layered map sizes
-* Map Pagination
+* Map pagination
 * Multiple tilesets per map
 
 #### Scripts And Filters
