@@ -44,6 +44,14 @@ Permission is granted to anyone to use this software for any purpose, including 
 
    3. This notice may not be removed or altered from any source distribution.
 
+#### SDL
+
+SDL version 1.2 is released under the GNU Lesser General Public License version 2.1 or newer. More details about SDL's license can be found [here](http://www.libsdl.org/license-lgpl.php).
+
+The GNU Lesser General Public License can be found [here](http://www.gnu.org/copyleft/lesser.html).
+
+The GNU General Public License can be found [here](http://www.gnu.org/licenses/gpl-3.0.html).
+
 #### Lua
 
 Sketch utilizes the [Lua embedded scripting language](http://www.lua.org/), which is released under the [MIT license](http://en.wikipedia.org/wiki/MIT_License).  
