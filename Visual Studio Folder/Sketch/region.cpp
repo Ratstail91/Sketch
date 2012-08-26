@@ -3,7 +3,7 @@
 
 #define CHECK_RANGE \
 	if (x >= m_iXCount || y >= m_iYCount || l >= m_iLCount) \
-		throw(std::out_of_range("Tile out of range"));
+		throw(std::out_of_range("Parameter out of range of region"));
 
 Region::Region(Uint32 x, Uint32 y, Uint32 l):
 m_iXCount(x), m_iYCount(y), m_iLCount(l)

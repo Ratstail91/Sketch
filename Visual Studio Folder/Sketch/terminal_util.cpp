@@ -16,28 +16,22 @@ using namespace std;
 //Utilities
 //-------------------------
 
-void TerminalDraw(Terminal* pTerminal, SDL_Surface* pDest, TTF_Font* pFont, int iSize, SDL_Rect* pRect, unsigned int lines) {
-	//log the lines?
-
-	//adjust the terminal
-	while(pTerminal->GetLines()->size() > lines)
-		pTerminal->GetLines()->pop_front(); //too many lines
-
-	lines = pTerminal->GetLines()->size(); //too few lines
-
-	//init the variables
+void TerminalDraw(Terminal* pTerminal, SDL_Surface* pDest, SDL_Rect* pRect, TTF_Font* pFont, unsigned int uiHeight, unsigned int uiLines) {
 	SDL_Rect sclip = {0, 0, pRect->w, pRect->h}, dclip = *pRect;
-	SDL_Surface* pMsg = NULL;
 
 	//fill the background
-	SDL_FillRect(pDest, &dclip, MapRGB(pDest->format, colors[C_DGREY] ));
+	SDL_FillRect(pDest, &dclip, MapRGB(pDest->format, colors[C_MGREY]));
 
-	//draw each line, until out of lines
-	for (unsigned int i = 0; i < lines, i < pTerminal->GetLines()->size(); i++) {
+	//prepeare these
+	SDL_Surface* pMsg = NULL;
+	unsigned int uiStart = ((pTerminal->GetLines()->size() > uiLines) ? pTerminal->GetLines()->size() - uiLines : 0);
+
+	//draw the x most recent lines
+	for (unsigned int i = uiStart; i < pTerminal->GetLines()->size(); i++) {
 		//reset dclip
 		dclip = *pRect;
-		dclip.y += i*iSize;
-		dclip.h = iSize;
+		dclip.y += (i-uiStart)*uiHeight;
+		dclip.h = uiHeight;
 
 		//render line
 		pMsg = TTF_RenderText_Blended(pFont, pTerminal->GetLine(i).c_str(), colors[C_WHITE]);
@@ -45,13 +39,13 @@ void TerminalDraw(Terminal* pTerminal, SDL_Surface* pDest, TTF_Font* pFont, int 
 		SDL_FreeSurface(pMsg);
 	}
 
-	//if there is an input string, draw it
+	//if there isn't an input string, end here
 	if (pTerminal->GetInput()->size() == 0) return;
 
-	//reset dclip
+	//reset dclip: draw the line at the bottom if the rect
 	dclip = *pRect;
-	dclip.y += dclip.h - iSize;
-	dclip.h = iSize;
+	dclip.y += dclip.h - uiHeight;
+	dclip.h = uiHeight;
 
 	//render line
 	pMsg = TTF_RenderText_Blended(pFont, pTerminal->GetInput()->c_str(), colors[C_LGREY]);
@@ -104,6 +98,8 @@ void TerminalPrintf(Terminal* pTerminal, const char* fmt, ...) {
 //-------------------------
 //Glue Functions
 //-------------------------
+
+//TODO: Move these into their own module
 
 int l_TerminalPrint(lua_State* L) {
 	//print to the terminal, but only one line

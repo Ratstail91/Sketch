@@ -75,20 +75,32 @@ void Init() {
 	//load
 	if ( (g_pScreen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE|SDL_DOUBLEBUF)) == NULL)
 		exit(-4);
-	if ( (g_pFont = TTF_OpenFont("/WINDOWS/fonts/arial.ttf", 16)) == NULL ) //platform
+	if ( (g_pFont = TTF_OpenFont("/WINDOWS/fonts/arial.ttf", 16)) == NULL ) //platform dependancy
 		exit(-5);
 
 	//initialise lua and load the config
 	luaL_openlibs(g_pLuaVM);
-	luaopen_terminal(g_pLuaVM); //should be moved
 
+	//set the registers
+//	SetRegister(g_pLuaVM, "terminal", (void*)&g_terminal);
+//	SetRegister(g_pLuaVM, "region", (void*)g_pRegion);
 
-	//load the tileset and the region (default layout)
+	//should be moved/fixed
+	luaopen_terminal(g_pLuaVM);
+
+	//load the tileset and the region (default layout), tmp
 	g_pTileset = new Tileset("terrain.bmp", 32, 32);
 	g_pRegion = new Region(40, 40, 3);
 
-	//set the registers
-	SetRegister(g_pLuaVM, "terminal", (void*)&g_terminal);
+	for (int i = 0; i < 40; i++) { //this will be moved into the startup script
+		for (int j = 0; j < 40; j++) {
+			g_pRegion->SetTile(i, j, 0, 1);
+		}
+	}
+
+	//register the globals for lua
+	SetRegister(g_pLuaVM, "terminal", &g_terminal);
+	SetRegister(g_pLuaVM, "region", g_pRegion);
 
 	DoFile(g_pLuaVM, "startup.lua");
 
@@ -145,6 +157,8 @@ void Quit() {
 }
 
 void Draw() {
+	//this coulr be pushed into a script...
+
 	//zero the background
 	SDL_FillRect(g_pScreen, NULL, MapRGB(g_pScreen->format, colors[C_BLACK]));
 
@@ -174,7 +188,7 @@ void Draw() {
 	//draw the terminal
 	if (g_bTerminalActive) {
 		SDL_Rect rect = {0, g_pScreen->h-100, g_pScreen->w, 100};
-		TerminalDraw(&g_terminal, g_pScreen, g_pFont, 16, &rect, 5);
+		TerminalDraw(&g_terminal, g_pScreen, &rect, g_pFont, 16, 5);
 	}
 
 	SDL_Flip(g_pScreen);
@@ -212,7 +226,7 @@ void KeyDown(SDL_KeyboardEvent const& rKey) {
 		g_terminal.KeyDown(rKey.keysym);
 
 		if (rKey.keysym.sym == SDLK_RETURN) {
-			TerminalDoString(&g_terminal, g_pLuaVM, "lua:");
+			TerminalDoString(&g_terminal, g_pLuaVM);
 		}
 	}
 }

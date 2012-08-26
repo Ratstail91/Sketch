@@ -211,26 +211,34 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Terminal"
+			Name="Terminal System"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-			<File
-				RelativePath=".\terminal.cpp"
+			<Filter
+				Name="Terminal"
 				>
-			</File>
-			<File
-				RelativePath=".\terminal.h"
+				<File
+					RelativePath=".\terminal.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\terminal.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Utility Functions"
 				>
-			</File>
-			<File
-				RelativePath=".\terminal_util.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\terminal_util.h"
-				>
-			</File>
+				<File
+					RelativePath=".\terminal_util.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\terminal_util.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Colors"
@@ -247,22 +255,38 @@
 		<Filter
 			Name="Lua"
 			>
-			<File
-				RelativePath=".\lua_interface.cpp"
+			<Filter
+				Name="Libraries"
 				>
-			</File>
-			<File
-				RelativePath=".\lua_interface.h"
+				<File
+					RelativePath=".\maplib.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Utility Functions"
 				>
-			</File>
-			<File
-				RelativePath=".\lua_util.cpp"
+				<File
+					RelativePath=".\lua_util.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\lua_util.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Lua Spoof"
 				>
-			</File>
-			<File
-				RelativePath=".\lua_util.h"
-				>
-			</File>
+				<File
+					RelativePath=".\linit.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sketch_lib.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Map System"

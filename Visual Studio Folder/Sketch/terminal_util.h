@@ -9,7 +9,7 @@
 #include "terminal.h"
 
 //utilities
-void TerminalDraw		(Terminal* pTerminal, SDL_Surface* pDest, TTF_Font* pFont, int iSize, SDL_Rect* pRect, unsigned int lines);
+void TerminalDraw		(Terminal* pTerminal, SDL_Surface* pDest, SDL_Rect* pRect, TTF_Font* pFont, unsigned int uiHeight, unsigned int uiLines);
 void TerminalDoString	(Terminal* pTerminal, lua_State* L, const char* prompt = "");
 void TerminalPrintf		(Terminal* pTerminal, const char* fmt, ...);
 

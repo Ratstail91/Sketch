@@ -6,7 +6,7 @@ Tileset::Tileset(string fname, Uint32 w, Uint32 h):
 m_sFileName(fname), m_iWidth(w), m_iHeight(h)
 {
 	if ( (m_pSurface = SDL_LoadBMP(m_sFileName.c_str())) == NULL) {
-		throw(exception("Failed to load bitmap"));
+		throw(exception("Failed to load bitmap into Tileset"));
 	}
 
 	SDL_SetColorKey(m_pSurface, SDL_SRCCOLORKEY, SDL_MapRGB(m_pSurface->format, 255, 0, 255));

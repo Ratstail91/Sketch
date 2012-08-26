@@ -17,3 +17,9 @@ end
 
 -------------------------
 
+Lua:
+
+mapframe --global userdata refering to the mapframe in C++
+region --type
+
+region = newregion(x, y, l)
