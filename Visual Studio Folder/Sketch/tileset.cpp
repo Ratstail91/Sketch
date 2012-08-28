@@ -2,24 +2,48 @@
 #include "tileset.h"
 using namespace std;
 
-Tileset::Tileset(string fname, Uint32 w, Uint32 h):
-m_sFileName(fname), m_iWidth(w), m_iHeight(h)
-{
-	if ( (m_pSurface = SDL_LoadBMP(m_sFileName.c_str())) == NULL) {
+Tileset::Tileset() {
+	m_pSurface = NULL;
+	m_iXCount = 0;
+	m_iYCount = 0;
+	m_iWidth = 0;
+	m_iHeight = 0;
+}
+
+Tileset::~Tileset() {
+	Unload();
+}
+
+void Tileset::Load(std::string fname, Uint32 w, Uint32 h) {
+	m_sFileName = fname;
+	m_iWidth = w;
+	m_iHeight = h;
+
+	if ( ( m_pSurface = SDL_LoadBMP(m_sFileName.c_str()) ) == NULL) {
+		Unload();
 		throw(exception("Failed to load bitmap into Tileset"));
 	}
 
+	//force of habit
 	SDL_SetColorKey(m_pSurface, SDL_SRCCOLORKEY, SDL_MapRGB(m_pSurface->format, 255, 0, 255));
 
 	m_iXCount = m_pSurface->w / m_iWidth;
 	m_iYCount = m_pSurface->h / m_iHeight;
-
-	m_iCount = m_iXCount * m_iYCount;
-	m_iStart = 0;
 }
 
-Tileset::~Tileset() {
+void Tileset::Unload() {
 	SDL_FreeSurface(m_pSurface);
+	m_pSurface = NULL;
+	m_sFileName.clear();
+	m_iXCount = 0;
+	m_iYCount = 0;
+	m_iWidth = 0;
+	m_iHeight = 0;
+}
+
+bool Tileset::IsLoaded() {
+	if (!m_pSurface) return false;
+	return true;
 }
 
 string Tileset::GetFileName() {
@@ -47,13 +71,5 @@ Uint32 Tileset::GetHeight() {
 }
 
 Uint32 Tileset::GetCount() {
-	return m_iCount;
-}
-
-Uint32 Tileset::GetStart() {
-	return m_iStart;
-}
-
-Uint32 Tileset::SetStart(Uint32 iStartIndex) {
-	return m_iStart = iStartIndex;
+	return m_iXCount * m_iYCount;
 }

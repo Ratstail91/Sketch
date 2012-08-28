@@ -28,8 +28,6 @@ static bool g_bRunning = true;
 static Terminal g_terminal;
 static TTF_Font* g_pFont = NULL;
 static lua_State* g_pLuaVM = NULL;
-static Tileset* g_pTileset = NULL;
-static Region* g_pRegion = NULL;
 static bool g_bTerminalActive = true;
 static SDL_Rect g_cam = {0, 0};
 
@@ -81,26 +79,13 @@ void Init() {
 	//initialise lua and load the config
 	luaL_openlibs(g_pLuaVM);
 
-	//set the registers
-//	SetRegister(g_pLuaVM, "terminal", (void*)&g_terminal);
-//	SetRegister(g_pLuaVM, "region", (void*)g_pRegion);
-
 	//should be moved/fixed
-	luaopen_terminal(g_pLuaVM);
-
-	//load the tileset and the region (default layout), tmp
-	g_pTileset = new Tileset("terrain.bmp", 32, 32);
-	g_pRegion = new Region(40, 40, 3);
-
-	for (int i = 0; i < 40; i++) { //this will be moved into the startup script
-		for (int j = 0; j < 40; j++) {
-			g_pRegion->SetTile(i, j, 0, 1);
-		}
-	}
+	luaopen_terminal(g_pLuaVM); //TODO
 
 	//register the globals for lua
-	SetRegister(g_pLuaVM, "terminal", &g_terminal);
-	SetRegister(g_pLuaVM, "region", g_pRegion);
+	SetRegister(g_pLuaVM, REG_TERMINAL, &g_terminal); //TODO
+	SetRegister(g_pLuaVM, REG_REGION, new Region());
+	SetRegister(g_pLuaVM, REG_TILESET, new Tileset());
 
 	DoFile(g_pLuaVM, "startup.lua");
 
@@ -148,8 +133,10 @@ void Proc() {
 void Quit() {
 	DoFile(g_pLuaVM, "shutdown.lua");
 
-	delete g_pRegion;
-	delete g_pTileset;
+	//delete the pointers
+	delete GetRegisterUserData(g_pLuaVM, REG_REGION);
+	delete GetRegisterUserData(g_pLuaVM, REG_TILESET);
+
 	TTF_CloseFont(g_pFont);
 	lua_close(g_pLuaVM);
 	TTF_Quit();
@@ -157,33 +144,39 @@ void Quit() {
 }
 
 void Draw() {
-	//this coulr be pushed into a script...
+	//this could be pushed into a script...
 
 	//zero the background
 	SDL_FillRect(g_pScreen, NULL, MapRGB(g_pScreen->format, colors[C_BLACK]));
 
-	//draw the tileset
-	SDL_Rect sclip, dclip;
+	//draw the map
+	Region* pRegion = (Region*)GetRegisterUserData(g_pLuaVM, REG_REGION);
+	Tileset* pTileset = (Tileset*)GetRegisterUserData(g_pLuaVM, REG_TILESET);
 
-	sclip.w = g_pTileset->GetWidth();
-	sclip.h = g_pTileset->GetHeight();
+	if (pRegion->IsLoaded() && pTileset->IsLoaded()) {
+		SDL_Rect sclip, dclip;
 
-	for (int i = 0; i < g_pRegion->GetXCount(); i++) {
-		for (int j = 0; j < g_pRegion->GetYCount(); j++) {
-			for (int k = 0; k < g_pRegion->GetLCount(); k++) {
-				//set dclip
-				dclip.x = i * g_pTileset->GetWidth() + g_cam.x;
-				dclip.y = j * g_pTileset->GetHeight() + g_cam.y;
+		//setup sclip
+		sclip.w = pTileset->GetWidth();
+		sclip.h = pTileset->GetHeight();
 
-				//set sclip
-				sclip.x = (g_pRegion->GetTile(i, j, k)-1) % g_pTileset->GetXCount() * g_pTileset->GetWidth();
-				sclip.y = (g_pRegion->GetTile(i, j, k)-1) / g_pTileset->GetXCount() * g_pTileset->GetHeight();
+		for (int i = 0; i < pRegion->GetXCount(); i++) {
+			for (int j = 0; j < pRegion->GetYCount(); j++) {
+				for (int k = 0; k < pRegion->GetLCount(); k++) {
+					//set dclip
+					dclip.x = i * pTileset->GetWidth() + g_cam.x;
+					dclip.y = j * pTileset->GetHeight() + g_cam.y;
 
-				//blit the surface
-				SDL_BlitSurface(g_pTileset->GetSurface(), &sclip, g_pScreen, &dclip);
-			}
-		}
-	}
+					//set sclip
+					sclip.x = (pRegion->GetTile(i, j, k)-1) % pTileset->GetXCount() * pTileset->GetWidth();
+					sclip.y = (pRegion->GetTile(i, j, k)-1) / pTileset->GetXCount() * pTileset->GetHeight();
+
+					//blit the surface
+					SDL_BlitSurface(pTileset->GetSurface(), &sclip, g_pScreen, &dclip);
+				}//l
+			}//y
+		}//x
+	}//if
 
 	//draw the terminal
 	if (g_bTerminalActive) {

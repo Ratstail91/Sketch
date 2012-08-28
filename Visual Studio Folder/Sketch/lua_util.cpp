@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS //I'm really sick of your shit VC++!
 #include <exception>
 #include <iostream>
 #include <stdarg.h>
@@ -98,7 +99,14 @@ void SetRegister(lua_State* L, const char* key, void* udata) {
 	lua_settable(L, LUA_REGISTRYINDEX);
 }
 
-void GetRegister(lua_State* L, const char* key) {
+void PushRegister(lua_State* L, const char* key) {
 	lua_pushstring(L, key);
 	lua_gettable(L, LUA_REGISTRYINDEX);
+}
+
+void* GetRegisterUserData(lua_State* L, const char* key) {
+	PushRegister(L, key);
+	void* p = lua_touserdata(L, -1);
+	lua_pop(L, 1);
+	return p;
 }

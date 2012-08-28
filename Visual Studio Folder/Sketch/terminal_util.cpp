@@ -108,12 +108,9 @@ int l_TerminalPrint(lua_State* L) {
 	int argc = lua_gettop(L);
 
 	//get the terminal
-	GetRegister(L, "terminal");
-	if ( (pTerminal = (Terminal*)lua_touserdata(L, -1)) == NULL) {
+	if ( (pTerminal = (Terminal*)GetRegisterUserData(L, REG_TERMINAL)) == NULL) {
 		throw(exception("Failed to get terminal pointer from the registry"));
 	}
-
-	lua_pop(L, 1);
 
 	for (int i = 0; i < argc; i++) {
 		if ( (str = lua_tostring(L, -argc+i)) == NULL) {
@@ -135,6 +132,6 @@ int l_TerminalPrint(lua_State* L) {
 int luaopen_terminal(lua_State* L) {
 	//this should be moved to it's own module, but I won't worry for now
 	lua_pushcfunction(L, l_TerminalPrint);
-	lua_setglobal(L, "terminal");
+	lua_setglobal(L, REG_TERMINAL);
 	return 0;
 }

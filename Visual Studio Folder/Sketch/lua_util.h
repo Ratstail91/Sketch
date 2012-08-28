@@ -9,8 +9,13 @@ void DoFile		(lua_State* L, const char* fname);
 void DoString	(lua_State* L, const char* str);
 void DoCall		(lua_State* L, const char* func, const char* sig, ...);
 
-void SetRegister(lua_State* L, const char* key, void* udata);
-void GetRegister(lua_State* L, const char* key);
+void SetRegister			(lua_State* L, const char* key, void* udata);
+void PushRegister			(lua_State* L, const char* key);
+void* GetRegisterUserData	(lua_State* L, const char* key);
+
+#define REG_REGION "region"
+#define REG_TERMINAL "terminal"
+#define REG_TILESET "tileset"
 
 /*
 
@@ -24,7 +29,8 @@ docall
 -pushtablenumber
 
 setregister
-getregister
+pushregister
+getregisteruserdata
 
 */
 

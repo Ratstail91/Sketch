@@ -26,9 +26,15 @@ end
 
 -------------------------
 
-fix the terminal active routine (move "active" boolean into the terminal?)
 move the registering to the init function --do i need registering at all? make everything user data?
 lua exit(err)
+Remake maplib
 
-Split maplib into separate libraries
-move terminal library into a separate module
+Tileset
+	Tileset library
+
+Terminal
+	register this
+	fix the terminal active routine (move "active" boolean into the terminal?)
+	move terminal library into a separate module
+	reassess terminal util, and terminal system

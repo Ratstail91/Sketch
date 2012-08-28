@@ -5,8 +5,12 @@
 
 class Region {
 public:
-	Region(Uint32 x, Uint32 y, Uint32 l);
+	Region();
 	~Region();
+
+	void Load		(Uint32 x, Uint32 y, Uint32 l);
+	void Unload		();
+	bool IsLoaded	();
 
 	Uint32 GetTile(Uint32 x, Uint32 y, Uint32 l);
 	Uint32 SetTile(Uint32 x, Uint32 y, Uint32 l, Uint32 v);

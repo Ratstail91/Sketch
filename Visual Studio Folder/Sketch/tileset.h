@@ -8,8 +8,12 @@
 
 class Tileset {
 public:
-	Tileset(std::string fname, Uint32 w, Uint32 h);
+	Tileset();
 	~Tileset();
+
+	void Load		(std::string fname, Uint32 w, Uint32 h);
+	void Unload		();
+	bool IsLoaded	();
 
 	std::string GetFileName();
 	SDL_Surface* GetSurface();
@@ -20,8 +24,6 @@ public:
 	Uint32 GetHeight();
 
 	Uint32 GetCount();
-	Uint32 GetStart();
-	Uint32 SetStart(Uint32 iStartIndex);
 
 private:
 	std::string m_sFileName;
@@ -31,9 +33,6 @@ private:
 	Uint32 m_iYCount;
 	Uint32 m_iWidth;
 	Uint32 m_iHeight;
-
-	Uint32 m_iCount;
-	Uint32 m_iStart;
 };
 
 #endif

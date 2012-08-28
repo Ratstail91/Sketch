@@ -4,141 +4,106 @@
 #include "sketch_lib.h"
 
 #include "region.h"
+#include "tileset.h"
 
-//TODO this needs to be split into several modules:
-//region, mapframe, tileset, etc.
+//preprocessor
+
+#define CHECK_LTHAN(L, i) if (lua_gettop(L) < i) throw(std::exception("Too few arguments"));
+#define CHECK_GTHAN(L, i) if (lua_gettop(L) > i) throw(std::exception("Too many arguments"));
 
 //glue functions
-
-int l_gettile(lua_State* L) {
-	if (lua_gettop(L) > 3) {
-		throw(std::exception("Too many arguments"));
-	}
-
-	if (lua_gettop(L) < 3) {
-		throw(std::exception("Too few arguments"));
-	}
+int map_generate(lua_State* L) {
+	CHECK_LTHAN(L, 3);
+	CHECK_GTHAN(L, 3);
 
 	double x = lua_tonumber(L, 1);
 	double y = lua_tonumber(L, 2);
 	double l = lua_tonumber(L, 3);
 
-	GetRegister(L, "region");
+	reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->Load(x, y, l);
 
-	double v = reinterpret_cast<Region*>(lua_touserdata(L, -1))->GetTile(x-1, y-1, l-1);
+	return 0;
+}
+
+int map_clear(lua_State* L) {
+	CHECK_GTHAN(L, 0);
+	reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->Unload();
+	return 0;
+}
+
+int map_getxcount(lua_State* L) {
+	CHECK_GTHAN(L, 0);
+	double ret = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetXCount();
+	lua_pushnumber(L, ret);
+	return 1;
+}
+
+int map_getycount(lua_State* L) {
+	CHECK_GTHAN(L, 0);
+	double ret = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetYCount();
+	lua_pushnumber(L, ret);
+	return 1;
+}
+
+int map_getlcount(lua_State* L) {
+	CHECK_GTHAN(L, 0);
+	double ret = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetLCount();
+	lua_pushnumber(L, ret);
+	return 1;
+}
+
+int map_gettile(lua_State* L) {
+	CHECK_LTHAN(L, 3);
+	CHECK_GTHAN(L, 3);
+
+	double x = lua_tonumber(L, 1);
+	double y = lua_tonumber(L, 2);
+	double l = lua_tonumber(L, 3);
+
+	double v = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetTile(x-1, y-1, l-1);
 
 	lua_pushnumber(L, v);
 
 	return 1;
 }
 
-int l_settile(lua_State* L) {
-	if (lua_gettop(L) > 4) {
-		throw(std::exception("Too many arguments"));
-	}
-
-	if (lua_gettop(L) < 4) {
-		throw(std::exception("Too few arguments"));
-	}
+int map_settile(lua_State* L) {
+	CHECK_LTHAN(L, 4);
+	CHECK_GTHAN(L, 4);
 
 	double x = lua_tonumber(L, 1);
 	double y = lua_tonumber(L, 2);
 	double l = lua_tonumber(L, 3);
 	double v = lua_tonumber(L, 4);
 
-	GetRegister(L, "region");
-
-	reinterpret_cast<Region*>(lua_touserdata(L, -1))->SetTile(x-1, y-1, l-1, v);
+	reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->SetTile(x-1, y-1, l-1, v);
 
 	return 0;
 }
 
-int l_getxcount(lua_State* L) {
-	if (lua_gettop(L) != 0) {
-		throw(std::exception("Too many arguments"));
-	}
+int map_loadtileset(lua_State* L) {
+	CHECK_LTHAN(L, 3);
+	CHECK_GTHAN(L, 3);
 
-	GetRegister(L, "region");
+	const char* fname = lua_tostring(L, 1);
+	double w = lua_tonumber(L, 2);
+	double h = lua_tonumber(L, 3);
 
-	double ret = reinterpret_cast<Region*>(lua_touserdata(L, 1))->GetXCount();
-
-	lua_pushnumber(L, ret);
-
-	return 1;
-}
-
-int l_getycount(lua_State* L) {
-	if (lua_gettop(L) != 0) {
-		throw(std::exception("Too many arguments"));
-	}
-
-	GetRegister(L, "region");
-
-	double ret = reinterpret_cast<Region*>(lua_touserdata(L, 1))->GetYCount();
-
-	lua_pushnumber(L, ret);
-
-	return 1;
-}
-
-int l_getlcount(lua_State* L) {
-	if (lua_gettop(L) != 0) {
-		throw(std::exception("Too many arguments"));
-	}
-
-	GetRegister(L, "region");
-
-	double ret = reinterpret_cast<Region*>(lua_touserdata(L, 1))->GetLCount();
-
-	lua_pushnumber(L, ret);
-
-	return 1;
-}
-
-int l_newregion(lua_State* L) {
-	if (lua_gettop(L) > 3) {
-		throw(std::exception("Too many arguments"));
-	}
-
-	if (lua_gettop(L) < 3) {
-		throw(std::exception("Too few arguments"));
-	}
-
-	double x = lua_tonumber(L, 1);
-	double y = lua_tonumber(L, 2);
-	double l = lua_tonumber(L, 3);
-
-	//delete the existing region
-	DoCall(L, "deletemap", ">");
-
-	SetRegister(L, "region", new Region(x, y, l));
-
-	return 0;
-}
-
-int l_deleteregion(lua_State* L) {
-	if (lua_gettop(L) != 0) {
-		throw(std::exception("Too many arguments"));
-	}
-
-	GetRegister(L, "region");
-
-	delete lua_touserdata(L, -1);
-
-	SetRegister(L, "region", NULL);
+	reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->Load(fname, w, h);
 
 	return 0;
 }
 
 //library
 static const luaL_Reg maplib[] = {
-	{"gettile", l_gettile},
-	{"settile", l_settile},
-	{"getxcount", l_getxcount},
-	{"getycount", l_getycount},
-	{"getlcount", l_getlcount},
-//	{"newmap", l_newregion},
-//	{"deletemap", l_deleteregion},
+	{"generate", map_generate},
+	{"clear", map_clear},
+	{"getxcount", map_getxcount},
+	{"getycount", map_getycount},
+	{"getlcount", map_getlcount},
+	{"gettile", map_gettile},
+	{"settile", map_settile},
+	{"loadtileset", map_loadtileset},
 	{NULL, NULL},
 };
 

@@ -5,14 +5,37 @@
 	if (x >= m_iXCount || y >= m_iYCount || l >= m_iLCount) \
 		throw(std::out_of_range("Parameter out of range of region"));
 
-Region::Region(Uint32 x, Uint32 y, Uint32 l):
-m_iXCount(x), m_iYCount(y), m_iLCount(l)
-{
-	GenArray();
+Region::Region() {
+	m_iXCount = 0;
+	m_iYCount = 0;
+	m_iLCount = 0;
+	m_pArray = NULL;
 }
 
 Region::~Region() {
+	Unload();
+}
+
+void Region::Load(Uint32 x, Uint32 y, Uint32 l) {
+	Unload();
+	m_iXCount = x;
+	m_iYCount = y;
+	m_iLCount = l;
+	GenArray();
+}
+
+void Region::Unload() {
 	ClrArray();
+	m_iXCount = 0;
+	m_iYCount = 0;
+	m_iLCount = 0;
+	m_pArray = NULL;
+}
+
+bool Region::IsLoaded() {
+	if (!m_pArray)
+		return false;
+	return true;
 }
 
 Uint32 Region::GetTile(Uint32 x, Uint32 y, Uint32 l) {
@@ -38,6 +61,12 @@ Uint32 Region::GetLCount() {
 }
 
 void Region::GenArray() {
+	if (m_pArray != NULL) {
+		throw(std::logic_error("Region array is not null"));
+	}
+
+	if (!m_iXCount || !m_iYCount || !m_iLCount) return;
+
 	//generate and zero the array
 	m_pArray = new Uint32**[m_iXCount];
 	for (Uint32 i = 0; i < m_iXCount; i++) {
@@ -52,6 +81,10 @@ void Region::GenArray() {
 }
 
 void Region::ClrArray() {
+	if (m_pArray == NULL) return;
+
+	if (!m_iXCount || !m_iYCount || !m_iLCount) return;
+
 	//delete each nested array
 	for (Uint32 i = 0; i < m_iXCount; i++) {
 		for (Uint32 j = 0; j < m_iYCount; j++) {

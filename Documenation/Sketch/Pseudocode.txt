@@ -1,25 +1,27 @@
-startup:
-	run the load script
-	...
-end
-
-normal:
-	draw map to the screen
-	click left: call lua click left --can be extened later
-	key down: call lua key down --can be extended later
-end
-
-scripts:
-	new map
-	load map
-	save map
-end
-
--------------------------
+BASIC FUNCTIONALITY
+No more, no less, for now.
 
 Lua:
 
-mapframe --global userdata refering to the mapframe in C++
-region --type
+map --lib
+map.generate	(xcount, ycount, lcount)
+map.clear		()
+map.getxcount	()
+map.getycount	()
+map.getlcount	()
+map.gettile		(x, y, l)
+map.settile		(x, y, l, v)
+map.loadtileset	(fName, w, h) --LOAD the tileset?
 
-region = newregion(x, y, l)
+-------------------------
+
+startup.lua:
+
+--set the paths
+
+--this can add an emergency save/backup system
+map.olddelete = map.delete
+function map.delete()
+	save()
+	map.olddelete()
+end

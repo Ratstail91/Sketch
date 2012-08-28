@@ -4,7 +4,7 @@
 #include "lua.h"
 
 //tmp?
-#define SKETCH_MAPLIBNAME "maplib"
+#define SKETCH_MAPLIBNAME "map"
 LUAMOD_API int sketchopen_maplib(lua_State* L);
 
 //region...
