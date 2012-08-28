@@ -43,6 +43,7 @@ static const luaL_Reg loadedlibs[] = {
   /* Sketch specific libraries */
   {SKETCH_MAPLIBNAME, sketchopen_maplib},
   {SKETCH_TILESETLIBNAME, sketchopen_tilesetlib},
+  {SKETCH_TERMINALLIBNAME, sketchopen_terminallib},
   {NULL, NULL}
 };
 

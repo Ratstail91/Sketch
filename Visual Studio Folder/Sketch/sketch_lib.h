@@ -9,6 +9,9 @@ LUAMOD_API int sketchopen_maplib(lua_State* L);
 #define SKETCH_TILESETLIBNAME "tileset"
 LUAMOD_API int sketchopen_tilesetlib(lua_State* L);
 
+#define SKETCH_TERMINALLIBNAME "terminal"
+LUAMOD_API int sketchopen_terminallib(lua_State* L);
+
 //region...
 
 //map frame...

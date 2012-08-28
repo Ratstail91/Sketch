@@ -79,11 +79,8 @@ void Init() {
 	//initialise lua and load the config
 	luaL_openlibs(g_pLuaVM);
 
-	//should be moved/fixed
-	luaopen_terminal(g_pLuaVM); //TODO
-
 	//register the globals for lua
-	SetRegister(g_pLuaVM, REG_TERMINAL, &g_terminal); //TODO
+	SetRegister(g_pLuaVM, REG_TERMINAL, &g_terminal);
 	SetRegister(g_pLuaVM, REG_REGION, new Region());
 	SetRegister(g_pLuaVM, REG_TILESET, new Tileset());
 
