@@ -6,12 +6,23 @@ Lua:
 map --lib
 map.generate	(xcount, ycount, lcount)
 map.clear		()
+map.isloaded	()
 map.getxcount	()
 map.getycount	()
 map.getlcount	()
 map.gettile		(x, y, l)
 map.settile		(x, y, l, v)
-map.loadtileset	(fName, w, h) --LOAD the tileset?
+--map.loadtileset	(fName, w, h) --LOAD the tileset?
+
+tileset.load		(fname, w, h)
+tileset.unload		()
+tileset.isloaded	()
+tileset.getfilename	()
+tileset.getxcount	()
+tileset.getycount	()
+tileset.getwidth	()
+tileset.getheight	()
+tileset.getcount	()
 
 -------------------------
 

@@ -262,6 +262,10 @@
 					RelativePath=".\maplib.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\tilesetlib.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Utility Functions"

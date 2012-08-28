@@ -42,6 +42,7 @@ static const luaL_Reg loadedlibs[] = {
   {LUA_DBLIBNAME, luaopen_debug},
   /* Sketch specific libraries */
   {SKETCH_MAPLIBNAME, sketchopen_maplib},
+  {SKETCH_TILESETLIBNAME, sketchopen_tilesetlib},
   {NULL, NULL}
 };
 

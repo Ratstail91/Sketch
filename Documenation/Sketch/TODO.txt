@@ -28,10 +28,6 @@ end
 
 move the registering to the init function --do i need registering at all? make everything user data?
 lua exit(err)
-Remake maplib
-
-Tileset
-	Tileset library
 
 Terminal
 	register this

@@ -4,7 +4,6 @@
 #include "sketch_lib.h"
 
 #include "region.h"
-#include "tileset.h"
 
 //preprocessor
 
@@ -12,7 +11,7 @@
 #define CHECK_GTHAN(L, i) if (lua_gettop(L) > i) throw(std::exception("Too many arguments"));
 
 //glue functions
-int map_generate(lua_State* L) {
+int map_Load(lua_State* L) {
 	CHECK_LTHAN(L, 3);
 	CHECK_GTHAN(L, 3);
 
@@ -25,34 +24,45 @@ int map_generate(lua_State* L) {
 	return 0;
 }
 
-int map_clear(lua_State* L) {
+int map_Unload(lua_State* L) {
 	CHECK_GTHAN(L, 0);
 	reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->Unload();
 	return 0;
 }
 
-int map_getxcount(lua_State* L) {
+int map_IsLoaded(lua_State* L) {
+	CHECK_GTHAN(L, 0);
+	if (reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->IsLoaded()) {
+		lua_pushboolean(L, 1);
+	}
+	else {
+		lua_pushboolean(L, 0);
+	}
+	return 1;
+}
+
+int map_GetXCount(lua_State* L) {
 	CHECK_GTHAN(L, 0);
 	double ret = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetXCount();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
-int map_getycount(lua_State* L) {
+int map_GetYCount(lua_State* L) {
 	CHECK_GTHAN(L, 0);
 	double ret = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetYCount();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
-int map_getlcount(lua_State* L) {
+int map_GetLCount(lua_State* L) {
 	CHECK_GTHAN(L, 0);
 	double ret = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetLCount();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
-int map_gettile(lua_State* L) {
+int map_GetTile(lua_State* L) {
 	CHECK_LTHAN(L, 3);
 	CHECK_GTHAN(L, 3);
 
@@ -67,7 +77,7 @@ int map_gettile(lua_State* L) {
 	return 1;
 }
 
-int map_settile(lua_State* L) {
+int map_SetTile(lua_State* L) {
 	CHECK_LTHAN(L, 4);
 	CHECK_GTHAN(L, 4);
 
@@ -81,29 +91,16 @@ int map_settile(lua_State* L) {
 	return 0;
 }
 
-int map_loadtileset(lua_State* L) {
-	CHECK_LTHAN(L, 3);
-	CHECK_GTHAN(L, 3);
-
-	const char* fname = lua_tostring(L, 1);
-	double w = lua_tonumber(L, 2);
-	double h = lua_tonumber(L, 3);
-
-	reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->Load(fname, w, h);
-
-	return 0;
-}
-
 //library
 static const luaL_Reg maplib[] = {
-	{"generate", map_generate},
-	{"clear", map_clear},
-	{"getxcount", map_getxcount},
-	{"getycount", map_getycount},
-	{"getlcount", map_getlcount},
-	{"gettile", map_gettile},
-	{"settile", map_settile},
-	{"loadtileset", map_loadtileset},
+	{"load", map_Load},
+	{"unload", map_Unload},
+	{"isloaded", map_IsLoaded},
+	{"getxcount", map_GetXCount},
+	{"getycount", map_GetYCount},
+	{"getlcount", map_GetLCount},
+	{"gettile", map_GetTile},
+	{"settile", map_SetTile},
 	{NULL, NULL},
 };
 
