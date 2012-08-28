@@ -5,11 +5,11 @@ This project is only in early development; therefore many (or any) features are 
 
 #### Basic Functionality
 
-* Clean interface
-* Smooth, intuitive controls
 * Custom layered map sizes
 * Map pagination
 * Multiple tilesets per map
+* Clean interface
+* Smooth, intuitive controls
 
 #### Scripts And Filters
 
