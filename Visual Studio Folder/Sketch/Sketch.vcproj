@@ -160,6 +160,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="CALL &quot;$(SolutionDir)dir-build.bat&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -292,6 +293,30 @@
 				</File>
 				<File
 					RelativePath=".\sketch_lib.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Scripts"
+				>
+				<File
+					RelativePath=".\brush.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\config.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\filter.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\shutdown.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\startup.lua"
 					>
 				</File>
 			</Filter>

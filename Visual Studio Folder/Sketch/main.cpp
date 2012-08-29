@@ -189,14 +189,57 @@ void MouseMotion(SDL_MouseMotionEvent const& rMotion) {
 		g_cam.x += rMotion.xrel;
 		g_cam.y += rMotion.yrel;
 	}
+
+	try {
+		//run the brush script
+		lua_getglobal(g_pLuaVM, "brush");
+		lua_getfield(g_pLuaVM, -1, "active");
+		lua_getfield(g_pLuaVM, -1, "mousemotion");
+		lua_pushnumber(g_pLuaVM, rMotion.state);
+		lua_pushnumber(g_pLuaVM, rMotion.x-g_cam.x);
+		lua_pushnumber(g_pLuaVM, rMotion.y-g_cam.y);
+		lua_pushnumber(g_pLuaVM, rMotion.xrel);
+		lua_pushnumber(g_pLuaVM, rMotion.yrel);
+		lua_pcall(g_pLuaVM, 5, 0, 0);
+		lua_pop(g_pLuaVM, 2);
+	}
+	catch(exception& e) {
+		cout << "Brush Error: " << e.what() << endl;
+	}
 }
 
 void MouseButtonDown(SDL_MouseButtonEvent const& rButton) {
-	//
+	try {
+		//run the brush script
+		lua_getglobal(g_pLuaVM, "brush");
+		lua_getfield(g_pLuaVM, -1, "active");
+		lua_getfield(g_pLuaVM, -1, "mousebuttondown");
+		lua_pushnumber(g_pLuaVM, rButton.button);
+		lua_pushnumber(g_pLuaVM, rButton.x-g_cam.x);
+		lua_pushnumber(g_pLuaVM, rButton.y-g_cam.y);
+		lua_pcall(g_pLuaVM, 3, 0, 0);
+		lua_pop(g_pLuaVM, 2);
+	}
+	catch(exception& e) {
+		cout << "Brush Error: " << e.what() << endl;
+	}
 }
 
 void MouseButtonUp(SDL_MouseButtonEvent const& rButton) {
-	//
+	try {
+		//run the brush script
+		lua_getglobal(g_pLuaVM, "brush");
+		lua_getfield(g_pLuaVM, -1, "active");
+		lua_getfield(g_pLuaVM, -1, "mousebuttonup");
+		lua_pushnumber(g_pLuaVM, rButton.button);
+		lua_pushnumber(g_pLuaVM, rButton.x-g_cam.x);
+		lua_pushnumber(g_pLuaVM, rButton.y-g_cam.y);
+		lua_pcall(g_pLuaVM, 3, 0, 0);
+		lua_pop(g_pLuaVM, 2);
+	}
+	catch(exception& e) {
+		cout << "Brush Error: " << e.what() << endl;
+	}
 }
 
 void KeyDown(SDL_KeyboardEvent const& rKey) {

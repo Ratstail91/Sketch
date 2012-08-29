@@ -29,3 +29,5 @@ end
 rename the libs from xxxlib to xxx_lib
 move the registering to the init function --do i need registering at all? make everything user data?
 lua exit(err)
+save/load scripts
+pure lua camera

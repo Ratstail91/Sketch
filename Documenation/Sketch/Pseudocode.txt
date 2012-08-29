@@ -36,3 +36,47 @@ function map.delete()
 	save()
 	map.olddelete()
 end
+
+
+-------------------------
+
+brush = {}
+
+brush.standard = {}
+brush.standard. ...
+
+--each of these can be called, depending on which brush is currently in use
+leftdown
+leftup
+rightdown
+rightup
+middledown
+middleup
+
+motion
+
+--this can replace the built in loop
+draw() --the drawing loop (set buy something)
+drawmap() --draw the map
+drawtileset() --draw the tileset
+drawtile(index(from the tileset), x(on the screen), y(on the screen)) --used in the drawing loops
+
+
+
+having both buttons and drawing as lua systems can allow for more... dynamic stuff. good night.
+
+
+create brush templates using this facotry:
+
+brush.xxx = newbrush()
+
+function newbrush()
+	local b = {}
+	--one of these for each input event...
+	function b.mousemotion(...) end
+	function b.mousebuttondown(...
+	key...
+	return b
+end
+
+	
