@@ -12,7 +12,7 @@
 
 //glue functions
 int terminal_Push(lua_State* L) {
-	//print to the terminal, one line at a time
+	//push to the terminal, one line at a time
 
 	const char* str = NULL;
 	int argc = lua_gettop(L);
@@ -24,6 +24,22 @@ int terminal_Push(lua_State* L) {
 
 		reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->Push(str);
 	}
+
+	return 0;
+}
+
+int terminal_Print(lua_State* L) {
+	//print to the terminal
+
+	std::string s;
+	int argc = lua_gettop(L);
+
+	for (int i = 0; i < argc; i++) {
+		s += lua_tostring(L,-argc+i);
+		s += "    ";
+	}
+
+	reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->Push(s);
 
 	return 0;
 }
@@ -87,6 +103,7 @@ int terminal_ClearInput(lua_State* L) {
 //library
 static const luaL_Reg terminallib[] = {
 	{"push", terminal_Push},
+	{"print", terminal_Print},
 	{"get", terminal_GetLine},
 	{"count", terminal_GetLineCount},
 	{"pop", terminal_PopLine},
