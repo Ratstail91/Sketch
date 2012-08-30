@@ -3,8 +3,10 @@
 function standard_save(fname)
 	local hFile = io.open(fname, "w") --lua handles errors here
 	
-	hFile:write("sketch format 001\n")
+	hFile:write("sketch format 002\n")
 	hFile:write(tileset.getfname(), "\n")
+	
+	hFile:write(map.getxcount(), " ", map.getycount(), " ", map.getlcount(), " ", tileset.getwidth(), " ", tileset.getheight(), "\n")
 	
 	--note the y outside x format here, giving a more readable output
 	for j = 1, map.getycount() do
@@ -26,14 +28,23 @@ function standard_load(fname)
 	local hFile = io.open(fname, "r") --lua handles errors here
 	
 	--error checking
-	if hFile:read() ~= "sketch format 001" then
+	if hFile:read() ~= "sketch format 002" then
 		consoleprint("Load Error: incorrect file format")
 		terminal.print("Load Error: Check console")
 		hFile:close()
 		return
 	end
 	
-	tileset.load(hFile:read(), 32, 32)
+	fname = hFile:read()
+	
+	local x = hFile:read("*n")
+	local y = hFile:read("*n")
+	local l = hFile:read("*n")
+	local w = hFile:read("*n")
+	local h = hFile:read("*n")
+	
+	map.load(x,y,l)
+	tileset.load(fname,w,h)
 	
 	--note the y outside x format here, giving a more readable output
 	for j = 1, map.getycount() do
