@@ -19,20 +19,20 @@ int map_Load(lua_State* L) {
 	double y = lua_tonumber(L, 2);
 	double l = lua_tonumber(L, 3);
 
-	reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->Load(x, y, l);
+	GetRegion(L)->Load(x, y, l);
 
 	return 0;
 }
 
 int map_Unload(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->Unload();
+	GetRegion(L)->Unload();
 	return 0;
 }
 
 int map_IsLoaded(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	if (reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->IsLoaded()) {
+	if (GetRegion(L)->IsLoaded()) {
 		lua_pushboolean(L, 1);
 	}
 	else {
@@ -43,21 +43,21 @@ int map_IsLoaded(lua_State* L) {
 
 int map_GetXCount(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	double ret = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetXCount();
+	double ret = GetRegion(L)->GetXCount();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
 int map_GetYCount(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	double ret = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetYCount();
+	double ret = GetRegion(L)->GetYCount();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
 int map_GetLCount(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	double ret = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetLCount();
+	double ret = GetRegion(L)->GetLCount();
 	lua_pushnumber(L, ret);
 	return 1;
 }
@@ -70,7 +70,7 @@ int map_GetTile(lua_State* L) {
 	double y = lua_tonumber(L, 2);
 	double l = lua_tonumber(L, 3);
 
-	double v = reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->GetTile(x-1, y-1, l-1);
+	double v = GetRegion(L)->GetTile(x-1, y-1, l-1);
 
 	lua_pushnumber(L, v);
 
@@ -86,7 +86,7 @@ int map_SetTile(lua_State* L) {
 	double l = lua_tonumber(L, 3);
 	double v = lua_tonumber(L, 4);
 
-	reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION))->SetTile(x-1, y-1, l-1, v);
+	GetRegion(L)->SetTile(x-1, y-1, l-1, v);
 
 	return 0;
 }

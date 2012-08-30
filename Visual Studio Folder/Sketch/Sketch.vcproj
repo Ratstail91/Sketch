@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SDL.lib SDLmain.lib SDL_ttf.lib lua.lib"
+				AdditionalDependencies="SDL.lib SDLmain.lib SDL_ttf.lib lua.lib cb.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="1"
@@ -168,14 +168,62 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
+			Name="Scene System"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
 				RelativePath=".\main.cpp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\scene_list.h"
+				>
+			</File>
+			<Filter
+				Name="SceneMgr"
+				>
+				<File
+					RelativePath=".\scene_mgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\scene_mgr.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="SceneEditor"
+				>
+				<File
+					RelativePath=".\scene_editor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\scene_editor.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="SceneTileset"
+				>
+				<File
+					RelativePath=".\scene_tileset.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\scene_tileset.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="-Documentation"

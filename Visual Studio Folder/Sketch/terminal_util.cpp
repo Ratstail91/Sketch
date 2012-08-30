@@ -60,28 +60,28 @@ void TerminalDraw(Terminal* pTerminal, SDL_Surface* pDest, SDL_Rect* pRect, TTF_
 	SDL_FreeSurface(pMsg);
 }
 
-void TerminalDoString(Terminal* pTerminal, lua_State* L, const char* prompt) {
+void TerminalDoString(lua_State* L, const char* prompt) {
 	//if the most recent line is valid, execute it as a lua script
 
 	try {
-		if (pTerminal->GetLines()->size() &&
-			pTerminal->GetLine(-1).size() &&
-			!strncmp(pTerminal->GetLine(-1).c_str(), prompt, strlen(prompt))
+		if (GetTerminal(L)->GetLines()->size() &&
+			GetTerminal(L)->GetLine(-1).size() &&
+			!strncmp(GetTerminal(L)->GetLine(-1).c_str(), prompt, strlen(prompt))
 			)
 		{
 			//pop the most recent line, and execute it
-			string s = pTerminal->GetLine(-1);
-			pTerminal->GetLines()->pop_back();
+			string s = GetTerminal(L)->GetLine(-1);
+			GetTerminal(L)->GetLines()->pop_back();
 			DoString(L, s.c_str()+strlen(prompt));
 		}
 	}
 	catch(exception& e) {
-		TerminalPrintf(pTerminal, "Error: check console");
+		TerminalPrintf(L, "Error: check console");
 		cout << "Prompt Error: " << e.what() << endl;
 	}
 }
 
-void TerminalPrintf(Terminal* pTerminal, const char* fmt, ...) {
+void TerminalPrintf(lua_State* L, const char* fmt, ...) {
 	//get the formatted string
 	va_list argp;
 
@@ -92,5 +92,5 @@ void TerminalPrintf(Terminal* pTerminal, const char* fmt, ...) {
 
 	va_end(argp);
 
-	pTerminal->Push(buf);
+	GetTerminal(L)->Push(buf);
 }

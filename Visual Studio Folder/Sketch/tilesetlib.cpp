@@ -20,20 +20,20 @@ int tileset_Load(lua_State* L) {
 	double w = lua_tonumber(L, 2);
 	double h = lua_tonumber(L, 3);
 
-	reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->Load(fname, w, h);
+	GetTileset(L)->Load(fname, w, h);
 
 	return 0;
 }
 
 int tileset_Unload(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->Unload();
+	GetTileset(L)->Unload();
 	return 0;
 }
 
 int tileset_IsLoaded(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	if (reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->IsLoaded()) {
+	if (GetTileset(L)->IsLoaded()) {
 		lua_pushboolean(L, 1);
 	}
 	else {
@@ -44,42 +44,42 @@ int tileset_IsLoaded(lua_State* L) {
 
 int tileset_GetFileName(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	std::string str = reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->GetFileName();
+	std::string str = GetTileset(L)->GetFileName();
 	lua_pushstring(L, str.c_str());
 	return 1;
 }
 
 int tileset_GetXCount(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	double ret = reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->GetXCount();
+	double ret = GetTileset(L)->GetXCount();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
 int tileset_GetYCount(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	double ret = reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->GetYCount();
+	double ret = GetTileset(L)->GetYCount();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
 int tileset_GetWidth(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	double ret = reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->GetWidth();
+	double ret = GetTileset(L)->GetWidth();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
 int tileset_GetHeight(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	double ret = reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->GetHeight();
+	double ret = GetTileset(L)->GetHeight();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
 int tileset_GetCount(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	double ret = reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET))->GetCount();
+	double ret = GetTileset(L)->GetCount();
 	lua_pushnumber(L, ret);
 	return 1;
 }

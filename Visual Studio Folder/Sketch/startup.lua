@@ -1,5 +1,5 @@
 consoleprint = print
-print = terminal.print --shortcut
+--print = terminal.print --shortcut
 
 consoleprint("--Running startup script...")
 
@@ -28,11 +28,10 @@ end
 
 
 --default config
-tileset.load("terrain.bmp", 32, 32)
-map.load(40,40,3)
-map.fill(14)
+--tileset.load("terrain.bmp", 32, 32)
+--map.load(40,40,3)
+--map.fill(14)
 
 load("bksave.txt")
-
 
 consoleprint("--Finished")

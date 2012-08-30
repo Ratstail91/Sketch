@@ -38,3 +38,4 @@ Remove dependancy on SDL_ttf
 Control tile	--tileselect screen
 Control layer	--arrow keys
 Control size	--scroll wheel
+

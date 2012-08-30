@@ -22,7 +22,7 @@ int terminal_Push(lua_State* L) {
 			throw(std::exception("Failed to push line to the terminal"));
 		}
 
-		reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->Push(str);
+		GetTerminal(L)->Push(str);
 	}
 
 	return 0;
@@ -39,7 +39,7 @@ int terminal_Print(lua_State* L) {
 		s += "    ";
 	}
 
-	reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->Push(s);
+	GetTerminal(L)->Push(s);
 
 	return 0;
 }
@@ -52,7 +52,7 @@ int terminal_GetLine(lua_State* L) {
 
 	if (line < 0) line++; //compensate for reading from both directions
 
-	std::string s = reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->GetLine(line-1);
+	std::string s = GetTerminal(L)->GetLine(line-1);
 
 	lua_pushstring(L, s.c_str());
 
@@ -60,26 +60,26 @@ int terminal_GetLine(lua_State* L) {
 }
 
 int terminal_GetLineCount(lua_State* L) {
-	double ret = reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->GetLines()->size();
+	double ret = GetTerminal(L)->GetLines()->size();
 	lua_pushnumber(L, ret);
 	return 1;
 }
 
 int terminal_PopLine(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->GetLines()->pop_back();
+	GetTerminal(L)->GetLines()->pop_back();
 	return 0;
 }
 
 int terminal_ClearLines(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->GetLines()->clear();
+	GetTerminal(L)->GetLines()->clear();
 	return 0;
 }
 
 int terminal_GetInput(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	std::string s = *(reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->GetInput());
+	std::string s = *(GetTerminal(L)->GetInput());
 	lua_pushstring(L, s.c_str());
 	return 1;
 }
@@ -89,14 +89,14 @@ int terminal_SetInput(lua_State* L) {
 	CHECK_GTHAN(L, 1);
 
 	const char* str = lua_tostring(L, 1);
-	*(reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->GetInput()) = str;
+	*(GetTerminal(L)->GetInput()) = str;
 
 	return 0;
 }
 
 int terminal_ClearInput(lua_State* L) {
 	CHECK_GTHAN(L, 0);
-	reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL))->GetInput()->clear();
+	GetTerminal(L)->GetInput()->clear();
 	return 0;
 }
 
