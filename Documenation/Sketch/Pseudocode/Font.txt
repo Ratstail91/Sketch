@@ -1,0 +1,12 @@
+Font:
+	constructor
+	destructor
+	
+	Load(fname, SDL_Rect fmt) --xcount, ycount, width & height of the characters
+	Unload()
+	IsLoaded()
+	DrawString(pDest, str, SDL_Rect dclip) --x & y; max w & h in pixels
+	
+	-SDL_Surface* surface
+	SDL_Rect char
+end

@@ -32,7 +32,6 @@ lua exit(err)
 
 pure lua camera
 multiple modes
-Remove dependancy on SDL_ttf
 
 
 Control tile	--tileselect screen

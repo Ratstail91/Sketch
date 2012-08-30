@@ -12,6 +12,7 @@ enum {
 	C_DGREY,
 	C_MGREY,
 	C_LGREY,
+	C_HOTPINK,
 };
 
 extern SDL_Color colors[];

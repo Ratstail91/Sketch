@@ -8,19 +8,19 @@
 #include <iostream>
 
 #include "SDL.h"
-//#include "SDL_ttf.h"
 #include "lua.hpp"
 
 #include "lua_util.h"
 
 #include "colors.h"
 #include "terminal.h"
-//terminal util...
+#include "terminal_util.h"
 
 #include "scene_mgr.h"
 
 #include "region.h"
 #include "tileset.h"
+#include "font.h"
 
 using namespace std;
 
@@ -55,9 +55,8 @@ void SceneMgr::Init() {
 	//init the libraries
 	if (SDL_Init(SDL_INIT_VIDEO))
 		exit(-1);
-	//ttf...
 	if ( (m_pLuaVM = luaL_newstate()) == NULL)
-		exit(-3);
+		exit(-2);
 
 	BaseScene::SetScreen(800, 600, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
 	//
@@ -69,13 +68,17 @@ void SceneMgr::Init() {
 	SetRegister(m_pLuaVM, REG_TERMINAL, new Terminal());
 	SetRegister(m_pLuaVM, REG_REGION, new Region());
 	SetRegister(m_pLuaVM, REG_TILESET, new Tileset());
+	SetRegister(m_pLuaVM, REG_FONT, new Font());
+
+	SDL_Rect fmt = {16, 16, 16, 16};
+	GetFont(m_pLuaVM)->Load("pokemon_dark_font.bmp", fmt);
 
 	try {
 		DoFile(m_pLuaVM, "startup.lua");
 	}
 	catch(exception& e) {
 		cerr << "Startup Error: " << e.what() << endl;
-//		TerminalPrintf(&g_terminal, "Error: check console");
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 	}
 
 	//debugging...
@@ -92,17 +95,18 @@ void SceneMgr::Quit() {
 	}
 	catch(exception& e) {
 		cerr << "Shutdown Error: " << e.what() << endl;
-//		TerminalPrintf(&g_terminal, "Error: check console");
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 	}
+
+	GetFont(m_pLuaVM)->Unload();
 
 	//delete the pointers
 	delete GetTerminal(m_pLuaVM);
 	delete GetRegion(m_pLuaVM);
 	delete GetTileset(m_pLuaVM);
+	delete GetFont(m_pLuaVM);
 
-//	TTF_CloseFont(g_pFont);
 	lua_close(m_pLuaVM);
-//	TTF_Quit();
 	SDL_Quit();
 }
 

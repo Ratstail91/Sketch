@@ -18,11 +18,13 @@ void* GetRegisterUserData	(lua_State* L, const char* key);
 #define REG_REGION "region"
 #define REG_TERMINAL "terminal"
 #define REG_TILESET "tileset"
+#define REG_FONT "font"
 
 //register object pointers
 #define GetRegion(L) (reinterpret_cast<Region*>(GetRegisterUserData(L, REG_REGION)))
 #define GetTerminal(L) (reinterpret_cast<Terminal*>(GetRegisterUserData(L, REG_TERMINAL)))
 #define GetTileset(L) (reinterpret_cast<Tileset*>(GetRegisterUserData(L, REG_TILESET)))
+#define GetFont(L) (reinterpret_cast<Font*>(GetRegisterUserData(L, REG_FONT)))
 
 /*
 

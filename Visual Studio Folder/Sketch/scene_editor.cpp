@@ -17,6 +17,8 @@
 #include "region.h"
 #include "tileset.h"
 
+#include "font.h"
+
 using namespace std;
 
 //-------------------------
@@ -88,11 +90,9 @@ void SceneEditor::Render(SDL_Surface* const pScreen) {
 		}//x
 	}//if
 
-//	//draw the terminal
-//	if (g_bTerminalActive) {
-//		SDL_Rect rect = {0, pScreen->h-100, pScreen->w, 100};
-//		TerminalDraw(&g_terminal, pScreen, &rect, g_pFont, 16, 5);
-//	}
+	//draw the terminal
+	SDL_Rect rect = {0, pScreen->h-100, pScreen->w, 100};
+	TerminalDraw(m_pLuaVM, pScreen, rect, 5);
 }
 
 //-------------------------

@@ -9,6 +9,7 @@
 #include "lua_util.h"
 
 #include "terminal_util.h"
+#include "font.h"
 
 using namespace std;
 
@@ -16,48 +17,38 @@ using namespace std;
 //Utilities
 //-------------------------
 
-void TerminalDraw(Terminal* pTerminal, SDL_Surface* pDest, SDL_Rect* pRect, TTF_Font* pFont, unsigned int uiHeight, unsigned int uiLines) {
-	SDL_Rect sclip = {0, 0, pRect->w, pRect->h}, dclip = *pRect;
+void TerminalDraw(lua_State* L, SDL_Surface* pDest, SDL_Rect rect, int lines) {
+	SDL_Rect sclip = {0, 0, rect.w, rect.h}, dclip = rect;
 
 	//fill the background
-	SDL_FillRect(pDest, &dclip, MapRGB(pDest->format, colors[C_MGREY]));
+	SDL_FillRect(pDest, &dclip, MapRGB(pDest->format, colors[C_WHITE]));
 
 	//prepeare these
-	SDL_Surface* pMsg = NULL;
-	unsigned int uiStart = ((pTerminal->GetLines()->size() > uiLines) ? pTerminal->GetLines()->size() - uiLines : 0);
+	int start = ((GetTerminal(L)->GetLines()->size() > lines) ? GetTerminal(L)->GetLines()->size() - lines : 0);
 
 	//draw the x most recent lines
-	for (unsigned int i = uiStart; i < pTerminal->GetLines()->size(); i++) {
+	for (int i = start; i < GetTerminal(L)->GetLines()->size(); i++) {
 		//reset dclip
-		dclip = *pRect;
-		dclip.y += (i-uiStart)*uiHeight;
-		dclip.h = uiHeight;
+		dclip = rect;
+		dclip.y += (i-start)* GetFont(L)->GetFormat()->h;
+		dclip.h = GetFont(L)->GetFormat()->h;
 
 		//render line
-		pMsg = TTF_RenderText_Blended(pFont, pTerminal->GetLine(i).c_str(), colors[C_WHITE]);
-		SDL_BlitSurface(pMsg, &sclip, pDest, &dclip);
-		SDL_FreeSurface(pMsg);
+		GetFont(L)->DrawString(pDest, GetTerminal(L)->GetLine(i).c_str(), dclip);
 	}
 
 	//if there isn't an input string, end here
-	if (pTerminal->GetInput()->size() == 0) return;
+	if (GetTerminal(L)->GetInput()->size() == 0) return;
 
 	//reset dclip: draw the line at the bottom if the rect
-	dclip = *pRect;
-	dclip.y += dclip.h - uiHeight;
-	dclip.h = uiHeight;
-
-	//render line
-	pMsg = TTF_RenderText_Blended(pFont, pTerminal->GetInput()->c_str(), colors[C_LGREY]);
+	dclip = rect;
+	dclip.y += dclip.h - GetFont(L)->GetFormat()->h;
+	dclip.h = GetFont(L)->GetFormat()->h;
 
 	//scroll tweak
-	if ( Uint16(pMsg->w) > pRect->w) {
-		dclip.x -= Uint16(pMsg->w) - pRect->w;
-		sclip.w += Uint16(pMsg->w) - pRect->w;
-	}
+	//...
 
-	SDL_BlitSurface(pMsg, &sclip, pDest, &dclip);
-	SDL_FreeSurface(pMsg);
+	GetFont(L)->DrawString(pDest, GetTerminal(L)->GetInput()->c_str(), dclip);
 }
 
 void TerminalDoString(lua_State* L, const char* prompt) {
