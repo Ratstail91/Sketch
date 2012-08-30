@@ -32,5 +32,7 @@ tileset.load("terrain.bmp", 32, 32)
 map.load(40,40,3)
 map.fill(14)
 
+load("bksave.txt")
+
 
 consoleprint("--Finished")
