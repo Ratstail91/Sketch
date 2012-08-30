@@ -1,59 +1,7 @@
 BASIC FUNCTIONALITY
 No more, no less, for now.
 
-Lua:
-
-map --lib
-map.generate	(xcount, ycount, lcount)
-map.clear		()
-map.isloaded	()
-map.getxcount	()
-map.getycount	()
-map.getlcount	()
-map.gettile		(x, y, l)
-map.settile		(x, y, l, v)
---map.loadtileset	(fName, w, h) --LOAD the tileset?
-
-tileset.load		(fname, w, h)
-tileset.unload		()
-tileset.isloaded	()
-tileset.getfilename	()
-tileset.getxcount	()
-tileset.getycount	()
-tileset.getwidth	()
-tileset.getheight	()
-tileset.getcount	()
-
 -------------------------
-
-startup.lua:
-
---set the paths
-
---this can add an emergency save/backup system
-map.olddelete = map.delete
-function map.delete()
-	save()
-	map.olddelete()
-end
-
-
--------------------------
-
-brush = {}
-
-brush.standard = {}
-brush.standard. ...
-
---each of these can be called, depending on which brush is currently in use
-leftdown
-leftup
-rightdown
-rightup
-middledown
-middleup
-
-motion
 
 --this can replace the built in loop
 draw() --the drawing loop (set buy something)
@@ -61,22 +9,37 @@ drawmap() --draw the map
 drawtileset() --draw the tileset
 drawtile(index(from the tileset), x(on the screen), y(on the screen)) --used in the drawing loops
 
+-------------------------
 
-
-having both buttons and drawing as lua systems can allow for more... dynamic stuff. good night.
-
-
-create brush templates using this facotry:
-
-brush.xxx = newbrush()
-
-function newbrush()
-	local b = {}
-	--one of these for each input event...
-	function b.mousemotion(...) end
-	function b.mousebuttondown(...
-	key...
-	return b
+Modes:
+	Normal --map only
+	Terminal --terminal onscreen, to allow debugging, etc.
+	Tileset --choose the tile from the tileset, only temporary in the core
+	Max --bounding
 end
 
+-------------------------
+
+Architecture (Scene System):
+
+SceneMgr:
+	Init
+	Loop
+	Quit
+end
+
+SceneEditor:
+	MouseMotion	--call the brush script
+	MouseButtonDown --call the brush script
+	MouseButtonUp --call the brush script
+	KeyDown --pass to the terminal
+	KeyUp --pass to the terminal
 	
+	Draw --draw the map & terminal
+end
+
+SceneTileSelect:
+	draw the tileset w/ a camera
+	
+	set the brush/tile
+end

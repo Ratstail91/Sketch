@@ -4,14 +4,14 @@ The basic functionality is the most important. If I can get that going
 Basic Functionality:
 *	Clean interface
 *	Smooth, intuitive controls
-*	Custom layered map sizes
+>	Custom layered map sizes
 -	Map Pagination
 -	Multiple tilesets per map
 end
 
 Scripts And Filters:
 *	Standard brush filters
-*	Standard saving/loading
+>	Standard saving/loading
 *	Standard lua scripts
 -	Custom saving/loading
 -	Custom brush filters
@@ -29,5 +29,11 @@ end
 rename the libs from xxxlib to xxx_lib
 move the registering to the init function --do i need registering at all? make everything user data?
 lua exit(err)
-save/load scripts
 pure lua camera
+multiple modes
+Remove dependancy on SDL_ttf
+
+
+Control tile
+Control layer
+Control size

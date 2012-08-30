@@ -1,10 +1,13 @@
---bkprint = print
+consoleprint = print
 print = terminal.print --shortcut
 
-print("--Running startup script...")
+consoleprint("--Running startup script...")
 
 
+--load the standard scripts
 --dofile("config.lua") --not used
+dofile("brush.lua")
+dofile("save_format.lua")
 
 
 --useful functions
@@ -19,20 +22,15 @@ end
 
 function debugtable(t)
 	for k, v in pairs(t) do
-		print(k,v)
+		consoleprint(k,v)
 	end
-	print("")
 end
 
 
 --default config
 tileset.load("terrain.bmp", 32, 32)
 map.load(40,40,3)
-map.fill(1)
+map.fill(14)
 
 
---load the standard brushes
-dofile("brush.lua")
-
-
-print("--Finished")
+consoleprint("--Finished")

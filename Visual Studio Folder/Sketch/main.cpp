@@ -84,7 +84,13 @@ void Init() {
 	SetRegister(g_pLuaVM, REG_REGION, new Region());
 	SetRegister(g_pLuaVM, REG_TILESET, new Tileset());
 
-	DoFile(g_pLuaVM, "startup.lua");
+	try {
+		DoFile(g_pLuaVM, "startup.lua");
+	}
+	catch(exception& e) {
+		cerr << "Startup Error: " << e.what() << endl;
+		TerminalPrintf(&g_terminal, "Error: check console");
+	}
 
 	//debugging...
 	//...
@@ -128,7 +134,13 @@ void Proc() {
 }
 
 void Quit() {
-	DoFile(g_pLuaVM, "shutdown.lua");
+	try {
+		DoFile(g_pLuaVM, "shutdown.lua");
+	}
+	catch(exception& e) {
+		cerr << "Shutdown Error: " << e.what() << endl;
+		TerminalPrintf(&g_terminal, "Error: check console");
+	}
 
 	//delete the pointers
 	delete GetRegisterUserData(g_pLuaVM, REG_REGION);

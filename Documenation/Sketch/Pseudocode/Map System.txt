@@ -16,8 +16,8 @@ Class List:
 
 Region
 Tileset
-TilesetManager
-MapFrame
+-TilesetManager
+-MapFrame
 
 -------------------------
 
@@ -121,17 +121,33 @@ to be drawn.
 
 -------------------------
 
---I need to hook the regions and the tilesets into lua
+Lua:
 
-Lua functions:
+map --lib
+map.generate	(xcount, ycount, lcount)
+map.clear		()
+map.isloaded	()
+map.getxcount	()
+map.getycount	()
+map.getlcount	()
+map.gettile		(x, y, l)
+map.settile		(x, y, l, v)
+--map.loadtileset	(fName, w, h) --LOAD the tileset?
 
-NewRegion
-NewTileset
+tileset.load		(fname, w, h)
+tileset.unload		()
+tileset.isloaded	()
+tileset.getfilename	()
+tileset.getxcount	()
+tileset.getycount	()
+tileset.getwidth	()
+tileset.getheight	()
+tileset.getcount	()
 
-DeleteRegion
-DeleteTileset
+--this can add an emergency save/backup system
+map.olddelete = map.delete
+function map.delete()
+	save()
+	map.olddelete()
+end
 
--------------------------
-
---loads a region to the map frame
-LoadRegion(region, x, y) --x & y are the...

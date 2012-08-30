@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\Documenation\Sketch\File Header.txt"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Documenation\Sketch\Pseudocode.txt"
 				>
 			</File>
@@ -201,6 +205,10 @@
 			<Filter
 				Name="Pseudocode"
 				>
+				<File
+					RelativePath="..\..\Documenation\Sketch\Pseudocode\Brush.txt"
+					>
+				</File>
 				<File
 					RelativePath="..\..\Documenation\Sketch\Pseudocode\Map System.txt"
 					>
@@ -309,6 +317,10 @@
 				</File>
 				<File
 					RelativePath=".\filter.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\save_format.lua"
 					>
 				</File>
 				<File

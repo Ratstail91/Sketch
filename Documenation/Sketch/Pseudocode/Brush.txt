@@ -1,0 +1,11 @@
+brush = {}
+
+function brush.newbrush()
+	local b = {}
+	function b.mousemotion...
+end
+
+brush.pencil = brush.newbrush()
+...
+
+brush.active = brush.pencil

@@ -1,7 +1,8 @@
-print("--Running shutdown script...")
+consoleprint("--Running shutdown script...")
 
 
---
+consoleprint("saving to bksave.txt")
+save("bksave.txt")
 
 
-print("--Finished")
+consoleprint("--Finished")
