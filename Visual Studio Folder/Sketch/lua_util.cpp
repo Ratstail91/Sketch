@@ -32,8 +32,18 @@ void DoFile(lua_State* L, const char* fname) {
 	}
 }
 
-void DoString(lua_State* L, const char* str) {
-	if (luaL_loadbuffer(L, str, strlen(str), "line") || lua_pcall(L, 0,0,0)) {
+void DoString(lua_State* L, const char* fmt, ...) {
+	//get the formatted string
+	va_list argp;
+
+	va_start(argp, fmt);
+
+	char buf[1024];
+	vsprintf(buf, fmt, argp);
+
+	va_end(argp);
+
+	if (luaL_loadbuffer(L, buf, strlen(buf), "line") || lua_pcall(L, 0,0,0)) {
 		Error(L, "Cannot run the specified string: %s", lua_tostring(L, -1));
 	}
 }

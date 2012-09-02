@@ -28,13 +28,13 @@ end
 
 rename the libs from xxxlib to xxx_lib
 move the registering to the init function --do i need registering at all? make everything user data?
-lua exit(err)
+lua exit, error
 
 pure lua camera
 multiple modes
 
 
-Control tile	--tileselect screen
+Control tile	--tileselect screen, done
 Control layer	--arrow keys
 Control size	--scroll wheel
 

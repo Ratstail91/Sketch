@@ -6,7 +6,7 @@
 void Error(lua_State* L, const char* fmt, ...);
 
 void DoFile		(lua_State* L, const char* fname);
-void DoString	(lua_State* L, const char* str);
+void DoString	(lua_State* L, const char* fmt, ...);
 void DoCall		(lua_State* L, const char* func, const char* sig, ...);
 
 //register system

@@ -11,15 +11,6 @@ drawtile(index(from the tileset), x(on the screen), y(on the screen)) --used in 
 
 -------------------------
 
-Modes:
-	Normal --map only
-	Terminal --terminal onscreen, to allow debugging, etc.
-	Tileset --choose the tile from the tileset, only temporary in the core
-	Max --bounding
-end
-
--------------------------
-
 Architecture (Scene System):
 
 SceneMgr:

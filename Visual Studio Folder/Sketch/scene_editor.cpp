@@ -107,68 +107,54 @@ void SceneEditor::MouseMotion(SDL_MouseMotionEvent const& rMotion) {
 
 	try {
 		//run the brush script
-		lua_getglobal(m_pLuaVM, "brush");
-		lua_getfield(m_pLuaVM, -1, "active");
-		lua_getfield(m_pLuaVM, -1, "mousemotion");
-		lua_pushnumber(m_pLuaVM, rMotion.state);
-		lua_pushnumber(m_pLuaVM, rMotion.x-m_cam.x);
-		lua_pushnumber(m_pLuaVM, rMotion.y-m_cam.y);
-		lua_pushnumber(m_pLuaVM, rMotion.xrel);
-		lua_pushnumber(m_pLuaVM, rMotion.yrel);
-		lua_pcall(m_pLuaVM, 5, 0, 0);
-		lua_pop(m_pLuaVM, 2);
+		DoString(m_pLuaVM, "brush.mousemotion(%d, %d, %d, %d, %d)",
+			rMotion.state, rMotion.x-m_cam.x, rMotion.y-m_cam.y, rMotion.xrel, rMotion.yrel);
 	}
 	catch(exception& e) {
-		cout << "Brush Error: " << e.what() << endl;
+		cerr << "Brush Error: " << e.what() << endl;
 	}
 }
 
 void SceneEditor::MouseButtonDown(SDL_MouseButtonEvent const& rButton) {
 	try {
 		//run the brush script
-		lua_getglobal(m_pLuaVM, "brush");
-		lua_getfield(m_pLuaVM, -1, "active");
-		lua_getfield(m_pLuaVM, -1, "mousebuttondown");
-		lua_pushnumber(m_pLuaVM, rButton.button);
-		lua_pushnumber(m_pLuaVM, rButton.x-m_cam.x);
-		lua_pushnumber(m_pLuaVM, rButton.y-m_cam.y);
-		lua_pcall(m_pLuaVM, 3, 0, 0);
-		lua_pop(m_pLuaVM, 2);
+		DoString(m_pLuaVM, "brush.mousebuttondown(%d, %d, %d)",
+			rButton.button, rButton.x-m_cam.x, rButton.y-m_cam.y);
 	}
 	catch(exception& e) {
-		cout << "Brush Error: " << e.what() << endl;
+		cerr << "Brush Error: " << e.what() << endl;
 	}
 }
 
 void SceneEditor::MouseButtonUp(SDL_MouseButtonEvent const& rButton) {
 	try {
 		//run the brush script
-		lua_getglobal(m_pLuaVM, "brush");
-		lua_getfield(m_pLuaVM, -1, "active");
-		lua_getfield(m_pLuaVM, -1, "mousebuttonup");
-		lua_pushnumber(m_pLuaVM, rButton.button);
-		lua_pushnumber(m_pLuaVM, rButton.x-m_cam.x);
-		lua_pushnumber(m_pLuaVM, rButton.y-m_cam.y);
-		lua_pcall(m_pLuaVM, 3, 0, 0);
-		lua_pop(m_pLuaVM, 2);
+		DoString(m_pLuaVM, "brush.mousebuttonup(%d, %d, %d)",
+			rButton.button, rButton.x-m_cam.x, rButton.y-m_cam.y);
 	}
 	catch(exception& e) {
-		cout << "Brush Error: " << e.what() << endl;
+		cerr << "Brush Error: " << e.what() << endl;
 	}
 }
 
 void SceneEditor::KeyDown(SDL_KeyboardEvent const& rKey) {
+	if (rKey.keysym.sym == SDLK_ESCAPE) {
+		QuitEvent();
+		return;
+	}
+
+	if (rKey.keysym.sym == SDLK_TAB) {
+		SetNextScene(SCENE_TILESET);
+		return;
+	}
+
+	//up & down keys control layers
+
 	GetTerminal(m_pLuaVM)->KeyDown(rKey.keysym);
 
-	switch(rKey.keysym.sym) {
-		case SDLK_ESCAPE:
-			QuitEvent();
-			break;
-
-		case SDLK_RETURN:
-			TerminalDoString(m_pLuaVM);
-			break;
-	};
+	if (rKey.keysym.sym == SDLK_RETURN) {
+		TerminalDoString(m_pLuaVM);
+	}
 }
 
 void SceneEditor::KeyUp(SDL_KeyboardEvent const& rKey) {

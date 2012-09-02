@@ -1,5 +1,5 @@
 consoleprint = print
---print = terminal.print --shortcut
+print = terminal.print --shortcut
 
 consoleprint("--Running startup script...")
 

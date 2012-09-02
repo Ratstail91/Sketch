@@ -27,6 +27,7 @@ protected:
 	virtual void Render	(SDL_Surface* const);
 
 	/* Input loop members */
+	virtual void QuitEvent			() { SetNextScene(SCENE_EDITOR); } //hack
 	virtual void MouseMotion		(SDL_MouseMotionEvent const&);
 	virtual void MouseButtonDown	(SDL_MouseButtonEvent const&);
 	virtual void MouseButtonUp		(SDL_MouseButtonEvent const&);
@@ -35,6 +36,7 @@ protected:
 
 	/* Members */
 	lua_State* m_pLuaVM;
+	SDL_Rect m_cam;
 };
 
 #endif

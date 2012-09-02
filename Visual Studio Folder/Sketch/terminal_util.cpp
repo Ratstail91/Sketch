@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <stdarg.h>
+#include <time.h>
 
 #include "lua.hpp"
 
@@ -38,7 +39,7 @@ void TerminalDraw(lua_State* L, SDL_Surface* pDest, SDL_Rect rect, int lines) {
 	}
 
 	//if there isn't an input string, end here
-	if (GetTerminal(L)->GetInput()->size() == 0) return;
+//	if (GetTerminal(L)->GetInput()->size() == 0) return;
 
 	//reset dclip: draw the line at the bottom if the rect
 	dclip = rect;
@@ -48,7 +49,14 @@ void TerminalDraw(lua_State* L, SDL_Surface* pDest, SDL_Rect rect, int lines) {
 	//scroll tweak
 	//...
 
-	GetFont(L)->DrawString(pDest, GetTerminal(L)->GetInput()->c_str(), dclip);
+	string s = *GetTerminal(L)->GetInput();
+
+	//blinking cursor
+	if (clock() % CLOCKS_PER_SEC > CLOCKS_PER_SEC/2) {
+		s += '|';
+	}
+
+	GetFont(L)->DrawString(pDest, s.c_str(), dclip);
 }
 
 void TerminalDoString(lua_State* L, const char* prompt) {
@@ -68,7 +76,7 @@ void TerminalDoString(lua_State* L, const char* prompt) {
 	}
 	catch(exception& e) {
 		TerminalPrintf(L, "Error: check console");
-		cout << "Prompt Error: " << e.what() << endl;
+		cerr << "Prompt Error: " << e.what() << endl;
 	}
 }
 

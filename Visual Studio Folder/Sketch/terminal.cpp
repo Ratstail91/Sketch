@@ -34,9 +34,10 @@ void Terminal::KeyDown(SDL_keysym const& keysym) {
 			//error case
 			case SDLK_ESCAPE: break;
 			case SDLK_RETURN: break;
+			case SDLK_DELETE: break;
 
 			default:
-				if (isalnum(keysym.sym)) {
+				if (isalpha(keysym.sym)) {
 					m_sInput += keysym.sym + ('A' - 'a');
 				}
 
@@ -64,8 +65,9 @@ void Terminal::KeyDown(SDL_keysym const& keysym) {
 		case SDLK_SLASH:		m_sInput += '/'; break;
 
 		//error case
-		case SDLK_ESCAPE: m_sInput.clear(); break;
+		case SDLK_ESCAPE: break;
 		case SDLK_RETURN: Push(); break;
+		case SDLK_DELETE: m_sInput.clear(); break;
 
 		//delete the last character
 		case SDLK_BACKSPACE:
