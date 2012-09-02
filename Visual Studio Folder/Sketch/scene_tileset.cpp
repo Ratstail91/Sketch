@@ -81,7 +81,8 @@ void SceneTileset::MouseButtonDown(SDL_MouseButtonEvent const& rButton) {
 
 void SceneTileset::MouseButtonUp(SDL_MouseButtonEvent const& rButton) {
 	//select the tile
-	if (rButton.x - m_cam.x < 0 ||
+	if (rButton.button != SDL_BUTTON_LEFT ||
+		rButton.x - m_cam.x < 0 ||
 		rButton.y - m_cam.y < 0 ||
 		rButton.x - m_cam.x > GetTileset(m_pLuaVM)->GetSurface()->w ||
 		rButton.y - m_cam.y > GetTileset(m_pLuaVM)->GetSurface()->h
@@ -105,6 +106,7 @@ void SceneTileset::MouseButtonUp(SDL_MouseButtonEvent const& rButton) {
 void SceneTileset::KeyDown(SDL_KeyboardEvent const& rKey) {
 	switch(rKey.keysym.sym) {
 		case SDLK_ESCAPE:
+			DoString(m_pLuaVM, "settile(0)");
 			QuitEvent();
 			break;
 
