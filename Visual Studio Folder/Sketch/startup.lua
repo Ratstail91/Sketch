@@ -1,4 +1,6 @@
+--configure the outputs
 consoleprint = print
+terminalprint = terminal.print
 print = terminal.print --shortcut
 
 consoleprint("--Running startup script...")

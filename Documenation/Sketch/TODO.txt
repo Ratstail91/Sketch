@@ -26,15 +26,15 @@ end
 
 -------------------------
 
-rename the libs from xxxlib to xxx_lib
-move the registering to the init function --do i need registering at all? make everything user data?
-lua exit, error
-
-pure lua camera
-multiple modes
-
+directory
+other brushes
+filters:
+	edge smoother
+better font file/spacing
+-rename the libs from xxxlib to xxx_lib
+lua exit, error --eventually
 
 Control tile	--tileselect screen, done
-Control layer	--arrow keys
-Control size	--scroll wheel
+Control layer	--arrow keys, done
+Control size	--scroll wheel, done
 

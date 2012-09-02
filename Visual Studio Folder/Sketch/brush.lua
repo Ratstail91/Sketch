@@ -1,5 +1,5 @@
 brush = nil --the brush table
-brushdata = {} --the "global" brush data
+local brushdata = {} --the "global" brush data
 brushdata.layer = 1
 brushdata.tile = 1
 brushdata.size = 1
@@ -51,6 +51,13 @@ function setbrush(b)
 		brush = b
 	end
 end
+
+
+--accessors, for more advanced stuff?
+function getlayer() return brushdata.layer end
+function gettile() return brushdata.tile end
+function getsize() return brushdata.size end
+function getbrush() return brush end
 
 
 -------------------------

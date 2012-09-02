@@ -111,6 +111,7 @@ void SceneEditor::MouseMotion(SDL_MouseMotionEvent const& rMotion) {
 			rMotion.state, rMotion.x-m_cam.x, rMotion.y-m_cam.y, rMotion.xrel, rMotion.yrel);
 	}
 	catch(exception& e) {
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 		cerr << "Brush Error: " << e.what() << endl;
 	}
 }
@@ -122,7 +123,22 @@ void SceneEditor::MouseButtonDown(SDL_MouseButtonEvent const& rButton) {
 			rButton.button, rButton.x-m_cam.x, rButton.y-m_cam.y);
 	}
 	catch(exception& e) {
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 		cerr << "Brush Error: " << e.what() << endl;
+	}
+
+	//set the brush size
+	try {
+		if (rButton.button == SDL_BUTTON_WHEELUP) {
+			DoString(m_pLuaVM, "setsize(getsize()+1)");
+		}
+		if (rButton.button == SDL_BUTTON_WHEELDOWN) {
+			DoString(m_pLuaVM, "setsize(getsize()-1)");
+		}
+	}
+	catch(exception& e) {
+		TerminalPrintf(m_pLuaVM, "Error: check console");
+		cerr << "Size Error: " << e.what() << endl;
 	}
 }
 
@@ -133,6 +149,7 @@ void SceneEditor::MouseButtonUp(SDL_MouseButtonEvent const& rButton) {
 			rButton.button, rButton.x-m_cam.x, rButton.y-m_cam.y);
 	}
 	catch(exception& e) {
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 		cerr << "Brush Error: " << e.what() << endl;
 	}
 }
@@ -149,6 +166,18 @@ void SceneEditor::KeyDown(SDL_KeyboardEvent const& rKey) {
 	}
 
 	//up & down keys control layers
+	try {
+		if (rKey.keysym.sym == SDLK_UP) {
+			DoString(m_pLuaVM, "setlayer(getlayer()+1)");
+		}
+		if (rKey.keysym.sym == SDLK_DOWN) {
+			DoString(m_pLuaVM, "setlayer(getlayer()-1)");
+		}
+	}
+	catch(exception& e) {
+		TerminalPrintf(m_pLuaVM, "Error: check console");
+		cerr << "Keypress Error: " << e.what() << endl;
+	}
 
 	GetTerminal(m_pLuaVM)->KeyDown(rKey.keysym);
 
