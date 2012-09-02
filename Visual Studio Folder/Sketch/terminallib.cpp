@@ -18,7 +18,7 @@ int terminal_Push(lua_State* L) {
 	int argc = lua_gettop(L);
 
 	for (int i = 0; i < argc; i++) {
-		if ( (str = lua_tostring(L,-argc+i)) == NULL) {
+		if ( (!lua_isstring(L,-argc+i) && !lua_isnumber(L,-argc+i)) || (str = lua_tostring(L,-argc+i)) == NULL) {
 			throw(std::exception("Failed to push line to the terminal"));
 		}
 
@@ -35,6 +35,10 @@ int terminal_Print(lua_State* L) {
 	int argc = lua_gettop(L);
 
 	for (int i = 0; i < argc; i++) {
+		if (!lua_isstring(L,-argc+i) && !lua_isnumber(L,-argc+i)) {
+			throw(std::exception("Failed to print line to the terminal"));
+		}
+
 		s += lua_tostring(L,-argc+i);
 		s += "    ";
 	}
