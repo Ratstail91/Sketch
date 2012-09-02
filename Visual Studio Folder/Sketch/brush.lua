@@ -8,7 +8,7 @@ brushdata.size = 1
 function newbrush()
 	local b = {}
 	
-	function b.isbrush() return true end
+	b.isbrush = true --flag
 	
 	function b.mousemotion		(button, mouse_x, mouse_y, mouse_xrel, mouse_yrel) end
 	function b.mousebuttondown	(button, mouse_x, mouse_y) end
@@ -19,7 +19,7 @@ end
 
 function setlayer(l)
 	if l > map.getlcount() or l < 1 then
-		print("Layer out of range")
+		print("Layer out of range, current layer: ", getlayer())
 	else
 		brushdata.layer = l
 		print("Layer: ", brushdata.layer)
@@ -28,7 +28,7 @@ end
 
 function settile(t)
 	if t > tileset.getcount() or t < 0 then
-		print("Tile out of range")
+		print("Tile out of range, current tile: ", gettile())
 	else
 		brushdata.tile = t
 		print("Tile: ", brushdata.tile)
@@ -37,7 +37,7 @@ end
 
 function setsize(s)
 	if s > 8 or s < 1 then
-		print("Size out of range")
+		print("Size out of range, current size: ", getsize())
 	else
 		brushdata.size = s
 		print("Size: ", brushdata.size)
@@ -45,10 +45,10 @@ function setsize(s)
 end
 
 function setbrush(b)
-	if b.isbrush() ~= true then
-		print("Invalid brush")
-	else
+	if b.isbrush == true then
 		brush = b
+	else
+		print("Invalid brush")
 	end
 end
 
