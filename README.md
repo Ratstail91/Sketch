@@ -1,13 +1,13 @@
 Sketch is a simple, lightweight 2D tile map editor, written with C++, SDL and lua. The core is written in C++ with graphics and input handled by SDL. Lua scripts are used by the editor to process the map in various ways such as custom saving and loading formats, random terrain generation or extended functionality.  
-This project is only in early development; therefore many (or any) features are currently missing.
+This project is only in alpha, therefore many (or any) features are currently missing. Anything with a ~~strikethrough~~ is currently unimplemented.
 
 ### Feature List
 
 #### Basic Functionality
 
 * Custom layered map sizes
-* Map pagination
-* Multiple tilesets per map
+* ~~Map pagination~~
+* ~~Multiple tilesets per map~~
 * Clean interface
 * Smooth, intuitive controls
 
@@ -22,9 +22,13 @@ This project is only in early development; therefore many (or any) features are 
 
 #### Extended Functionality
 
-* Collision map
-* Position markers
-* Waypoints
+* ~~Collision map~~
+* ~~Position markers~~
+* ~~Waypoints~~
+
+### Instructions
+
+This project is built using my [Codebase](https://github.com/Ratstail91/Codebase), which you must compile and link to it to build this project.
 
 ### Copyright
 
