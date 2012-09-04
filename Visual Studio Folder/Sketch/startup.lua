@@ -26,6 +26,7 @@ dir["font"] = dir["rsc"] .. "fonts\\"
 --load the standard scripts
 dofile(dir["brush"] .. "brush.lua")
 dofile(dir["script"] .. "save_format.lua")
+dofile(dir["filter"] .. "filter.lua")
 
 
 --set the screensize
@@ -68,17 +69,21 @@ function debugtable(t)
 	end
 end
 
-
---default config
---tileset.load("terrain.bmp", 32, 32)
---map.load(40,40,3)
---map.fill(14)
-
-
-load("bksave.txt")
-
+function new(fname, x, y, l, w, h)
+	tileset.load(dir["tileset"] .. fname, w, h)
+	map.load(x, y, l)
+	map.filllayer(1, 1)
+end
 
 --msg
 consoleprint("--Finished")
 
---you can add more below this line
+--you can edit anything below this line
+
+--[[default config
+tileset.load(dir["tileset"] .. "terrain.bmp", 32, 32)
+map.load(40,40,3)
+map.fill(14)
+--]]
+
+load("bksave")

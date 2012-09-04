@@ -3,8 +3,8 @@
 consoleprint("--Running shutdown script...")
 
 
-consoleprint("saving to bksave.txt")
-save("bksave.txt")
+consoleprint("saving to bksave")
+save("bksave")
 
 
 consoleprint("--Finished")
