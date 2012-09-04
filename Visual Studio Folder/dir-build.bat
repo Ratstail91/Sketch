@@ -10,7 +10,11 @@ REM %0 $(SolutionDir)dir-build
 
 ECHO Copying scripts
 
-REM These are the specific scripts being copied to the correct directories
+REM These are the specific files being copied to the correct directories
+
+
+REM Documentation
+XCOPY "%~p0Sketch\README.txt" "%~p0Release\" /D /Y
 
 
 REM Scripts

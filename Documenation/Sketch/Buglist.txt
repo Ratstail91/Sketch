@@ -5,3 +5,6 @@ problems with implementing the drectory system:
 	
 	be mindful with directories, I don't know how many other issues are hiding here.
 end
+
+The current font file is missing some punctuation characters, including quote
+marks.

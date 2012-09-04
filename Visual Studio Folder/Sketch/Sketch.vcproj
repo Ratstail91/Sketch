@@ -247,6 +247,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\README.txt"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Documenation\Sketch\TODO.txt"
 				>
 			</File>
