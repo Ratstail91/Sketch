@@ -4,15 +4,20 @@
 #include "SDL.h"
 
 enum {
+	//standard colours
 	C_BLACK,
 	C_WHITE,
 	C_RED,
 	C_GREEN,
 	C_BLUE,
+
+	//non-standard colours
 	C_DGREY,
 	C_MGREY,
 	C_LGREY,
+
 	C_HOTPINK,
+	C_BEIGE,
 };
 
 extern SDL_Color colors[];

@@ -58,23 +58,44 @@ void SceneMgr::Init() {
 	if ( (m_pLuaVM = luaL_newstate()) == NULL)
 		exit(-2);
 
-	BaseScene::SetScreen(800, 600, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
-	//
-
 	//open the libraries
 	luaL_openlibs(m_pLuaVM);
 
-	//register the globals for lua
+	//register the globals to lua
 	SetRegister(m_pLuaVM, REG_TERMINAL, new Terminal());
 	SetRegister(m_pLuaVM, REG_REGION, new Region());
 	SetRegister(m_pLuaVM, REG_TILESET, new Tileset());
 	SetRegister(m_pLuaVM, REG_FONT, new Font());
 
-	SDL_Rect fmt = {16, 16, 16, 16};
-	GetFont(m_pLuaVM)->Load("pokemon_dark_font.bmp", fmt);
-
 	try {
-		DoFile(m_pLuaVM, "startup.lua");
+		//run the startup script
+		DoFile(m_pLuaVM, "rsc\\scripts\\startup.lua");
+
+		//load the font from lua (yes, it's messy)
+
+		lua_getglobal(m_pLuaVM, "terminal");
+		lua_getfield(m_pLuaVM, -1, "font");
+
+		lua_getfield(m_pLuaVM, -1, "fname");
+		lua_getfield(m_pLuaVM, -2, "x");
+		lua_getfield(m_pLuaVM, -3, "y");
+		lua_getfield(m_pLuaVM, -4, "w");
+		lua_getfield(m_pLuaVM, -5, "h");
+
+		SDL_Rect fmt;
+
+		fmt.x = lua_tonumber(m_pLuaVM, -4);
+		fmt.y = lua_tonumber(m_pLuaVM, -3);
+		fmt.w = lua_tonumber(m_pLuaVM, -2);
+		fmt.h = lua_tonumber(m_pLuaVM, -1);
+
+		GetFont(m_pLuaVM)->Load(lua_tostring(m_pLuaVM, -5), fmt);
+
+		lua_pop(m_pLuaVM, 7);
+
+		//setup the screen
+		//TODO
+		BaseScene::SetScreen(800, 600, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
 	}
 	catch(exception& e) {
 		cerr << "Startup Error: " << e.what() << endl;
@@ -91,7 +112,7 @@ void SceneMgr::Init() {
 
 void SceneMgr::Quit() {
 	try {
-		DoFile(m_pLuaVM, "shutdown.lua");
+		DoFile(m_pLuaVM, "rsc\\scripts\\shutdown.lua");
 	}
 	catch(exception& e) {
 		cerr << "Shutdown Error: " << e.what() << endl;

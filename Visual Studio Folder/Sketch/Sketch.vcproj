@@ -364,10 +364,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\config.lua"
-					>
-				</File>
-				<File
 					RelativePath=".\filter.lua"
 					>
 				</File>

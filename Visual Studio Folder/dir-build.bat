@@ -9,4 +9,20 @@ REM parameter list:
 REM %0 $(SolutionDir)dir-build
 
 ECHO Copying scripts
-XCOPY "%~p0Sketch\*.lua" "%~p0Release\" /D /S /Y /I
+
+REM These are the specific scripts being copied to the correct directories
+
+
+REM Scripts
+XCOPY "%~p0Sketch\startup.lua" "%~p0Release\rsc\scripts\" /D /Y
+XCOPY "%~p0Sketch\shutdown.lua" "%~p0Release\rsc\scripts\" /D /Y
+XCOPY "%~p0Sketch\save_format.lua" "%~p0Release\rsc\scripts\" /D /Y
+
+
+REM Brushes
+XCOPY "%~p0Sketch\brush.lua" "%~p0Release\rsc\brushes\" /D /Y
+
+
+REM Filters
+XCOPY "%~p0Sketch\filter.lua" "%~p0Release\rsc\filters\" /D /Y
+

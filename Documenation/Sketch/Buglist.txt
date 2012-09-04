@@ -1,0 +1,7 @@
+problems with implementing the drectory system:
+	The filepath and filenames for startup.lua & shutdown.lua are hardcoded
+	C++:Tileset::Load() has to strip the possible filepath from the filename
+	lua:dir["map"] is built into lua:standard_save() and lua:standard_load() functions
+	
+	be mindful with directories, I don't know how many other issues are hiding here.
+end

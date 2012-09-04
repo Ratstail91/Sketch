@@ -22,7 +22,7 @@ void TerminalDraw(lua_State* L, SDL_Surface* pDest, SDL_Rect rect, int lines) {
 	SDL_Rect sclip = {0, 0, rect.w, rect.h}, dclip = rect;
 
 	//fill the background
-	SDL_FillRect(pDest, &dclip, MapRGB(pDest->format, colors[C_WHITE]));
+	SDL_FillRect(pDest, &dclip, MapRGB(pDest->format, colors[C_BEIGE]));
 
 	//prepeare these
 	int start = ((GetTerminal(L)->GetLines()->size() > lines) ? GetTerminal(L)->GetLines()->size() - lines : 0);

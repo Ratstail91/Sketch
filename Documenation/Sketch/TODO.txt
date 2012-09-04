@@ -12,7 +12,7 @@ end
 Scripts And Filters:
 *	Standard brush filters
 >	Standard saving/loading
-*	Standard lua scripts
+>	Standard lua scripts
 -	Custom saving/loading
 -	Custom brush filters
 -	Custom Lua scripts
@@ -26,15 +26,19 @@ end
 
 -------------------------
 
-directory
-other brushes
+>directory system
+>other brushes
 filters:
 	edge smoother
-better font file/spacing
+	layer/size adjustment
+-better font file/spacing (handle the fmt better?)
 -rename the libs from xxxlib to xxx_lib
-lua exit, error --eventually
+-lua exit, error --eventually
+adjustable screen size
+-terminal prompts
 
-Control tile	--tileselect screen, done
-Control layer	--arrow keys, done
-Control size	--scroll wheel, done
+>Control tile	--tileselect screen, done
+>Control layer	--arrow keys, done
+>Control size	--scroll wheel, done
 
+distrobution readme & technical notes for modification

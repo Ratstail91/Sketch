@@ -15,11 +15,19 @@ Tileset::~Tileset() {
 }
 
 void Tileset::Load(std::string fname, Uint32 w, Uint32 h) {
-	m_sFileName = fname;
 	m_iWidth = w;
 	m_iHeight = h;
+	size_t pos;
 
-	if ( ( m_pSurface = SDL_LoadBMP(m_sFileName.c_str()) ) == NULL) {
+	//this gets only the filename, removing the possible file path
+	if ((pos = fname.rfind('\\')) == string::npos) {
+		m_sFileName = fname;
+	}
+	else {
+		m_sFileName = fname.c_str() + pos + 1;
+	}
+
+	if ( ( m_pSurface = SDL_LoadBMP(fname.c_str()) ) == NULL) {
 		Unload();
 		throw(exception("Failed to load bitmap into Tileset"));
 	}
