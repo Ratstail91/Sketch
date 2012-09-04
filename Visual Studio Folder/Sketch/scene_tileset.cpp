@@ -107,10 +107,15 @@ void SceneTileset::KeyDown(SDL_KeyboardEvent const& rKey) {
 	switch(rKey.keysym.sym) {
 		case SDLK_ESCAPE:
 			DoString(m_pLuaVM, "settile(0)");
-			QuitEvent();
+			SetNextScene(SCENE_EDITOR);
 			break;
 
 		case SDLK_TAB:
+			SetNextScene(SCENE_EDITOR);
+			break;
+
+		case SDLK_SPACE:
+			DoString(m_pLuaVM, "settile(0)");
 			SetNextScene(SCENE_EDITOR);
 			break;
 	};
