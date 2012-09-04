@@ -34,7 +34,7 @@ using namespace std;
 //-------------------------
 
 SceneEditor::SceneEditor(lua_State* L):
-m_pLuaVM(L)
+m_pLuaVM(L), m_bShowTerminal(true)
 {
 	m_cam.x = 0;
 	m_cam.y = 0;
@@ -90,9 +90,11 @@ void SceneEditor::Render(SDL_Surface* const pScreen) {
 		}//x
 	}//if
 
-	//draw the terminal
-	SDL_Rect rect = {0, pScreen->h-100, pScreen->w, 100};
-	TerminalDraw(m_pLuaVM, pScreen, rect, 5);
+	if (m_bShowTerminal) {
+		//draw the terminal
+		SDL_Rect rect = {0, pScreen->h-100, pScreen->w, 100};
+		TerminalDraw(m_pLuaVM, pScreen, rect, 5);
+	}
 }
 
 //-------------------------
@@ -160,8 +162,13 @@ void SceneEditor::KeyDown(SDL_KeyboardEvent const& rKey) {
 		return;
 	}
 
-	if (rKey.keysym.sym == SDLK_TAB) {
+	if (rKey.keysym.sym == SDLK_TAB && !(rKey.keysym.mod & KMOD_SHIFT)) {
 		SetNextScene(SCENE_TILESET);
+		return;
+	}
+
+	if (rKey.keysym.sym == SDLK_TAB && (rKey.keysym.mod & KMOD_SHIFT)) {
+		m_bShowTerminal = !m_bShowTerminal;
 		return;
 	}
 
@@ -179,15 +186,19 @@ void SceneEditor::KeyDown(SDL_KeyboardEvent const& rKey) {
 		cerr << "Keypress Error: " << e.what() << endl;
 	}
 
-	GetTerminal(m_pLuaVM)->KeyDown(rKey.keysym);
+	if (m_bShowTerminal) {
+		GetTerminal(m_pLuaVM)->KeyDown(rKey.keysym);
 
-	if (rKey.keysym.sym == SDLK_RETURN) {
-		TerminalDoString(m_pLuaVM);
+		if (rKey.keysym.sym == SDLK_RETURN) {
+			TerminalDoString(m_pLuaVM);
+		}
 	}
 }
 
 void SceneEditor::KeyUp(SDL_KeyboardEvent const& rKey) {
-	GetTerminal(m_pLuaVM)->KeyUp(rKey.keysym);
+	if (m_bShowTerminal) {
+		GetTerminal(m_pLuaVM)->KeyUp(rKey.keysym);
+	}
 }
 
 //-------------------------

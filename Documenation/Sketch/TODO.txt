@@ -34,7 +34,7 @@ filters:
 -better font file/spacing (handle the fmt better?)
 -rename the libs from xxxlib to xxx_lib
 -lua exit, error --eventually
-adjustable screen size
+>adjustable screen size (could conflict with terminal)
 -terminal prompts
 
 >Control tile	--tileselect screen, done

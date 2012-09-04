@@ -94,8 +94,29 @@ void SceneMgr::Init() {
 		lua_pop(m_pLuaVM, 7);
 
 		//setup the screen
-		//TODO
-		BaseScene::SetScreen(800, 600, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
+		lua_getglobal(m_pLuaVM, "screen");
+		lua_getfield(m_pLuaVM, -1, "w");
+		lua_getfield(m_pLuaVM, -2, "h");
+		lua_getfield(m_pLuaVM, -3, "fullscreen");
+
+		int w = lua_tonumber(m_pLuaVM, -3);
+		int h = lua_tonumber(m_pLuaVM, -2);
+		int f = lua_toboolean(m_pLuaVM, -1);
+
+		lua_pop(m_pLuaVM, 4);
+
+		if (w < 300 || h < 200) {
+			//minimum screen size
+			throw(exception("Specified screen size is too small"));
+		}
+
+		int flags = SDL_HWSURFACE|SDL_DOUBLEBUF;
+
+		if (f) {
+			flags |= SDL_FULLSCREEN;
+		}
+
+		BaseScene::SetScreen(w, h, SDL_GetVideoInfo()->vfmt->BitsPerPixel, flags);
 	}
 	catch(exception& e) {
 		cerr << "Startup Error: " << e.what() << endl;

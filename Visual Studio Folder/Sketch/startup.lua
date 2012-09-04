@@ -28,10 +28,11 @@ dofile(dir["brush"] .. "brush.lua")
 dofile(dir["script"] .. "save_format.lua")
 
 
---set the screensize (not yet implemented)
---screen.w = 640
---screen.h = 480
---screen.fullscreen = false
+--set the screensize
+screen = {}
+screen.w = 800
+screen.h = 600
+screen.fullscreen = false
 
 
 --set the standard font

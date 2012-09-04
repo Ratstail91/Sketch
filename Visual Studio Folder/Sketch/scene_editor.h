@@ -36,6 +36,7 @@ protected:
 	/* Members */
 	lua_State* m_pLuaVM;
 	SDL_Rect m_cam;
+	bool m_bShowTerminal;
 };
 
 #endif
