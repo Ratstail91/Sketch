@@ -141,7 +141,7 @@ void SceneMgr::Init() {
 	}
 	catch(exception& e) {
 		cerr << "Startup Error: " << e.what() << endl;
-		TerminalPrintf(m_pLuaVM, "Error: check console");
+		throw(1);
 	}
 
 	//debugging...
@@ -158,7 +158,7 @@ void SceneMgr::Quit() {
 	}
 	catch(exception& e) {
 		cerr << "Shutdown Error: " << e.what() << endl;
-		TerminalPrintf(m_pLuaVM, "Error: check console");
+		throw(1);
 	}
 
 	GetFont(m_pLuaVM)->Unload();
@@ -201,11 +201,16 @@ void SceneMgr::LoadScene() {
 using namespace std;
 
 int SDL_main(int, char**) {
-	SceneMgr app;
+	try {
+		SceneMgr app;
 
-	app.Init();
-	app.Proc();
-	app.Quit();
+		app.Init();
+		app.Proc();
+		app.Quit();
+	}
+	catch(int& i) {
+		return i;
+	}
 
 	return 0;
 }
