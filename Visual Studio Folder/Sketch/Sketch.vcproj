@@ -173,18 +173,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\main.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\scene_list.h"
 				>
 			</File>
@@ -231,15 +219,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\Documenation\Sketch\Buglist.txt"
+				RelativePath="..\..\Documentation\Sketch\Buglist.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Documenation\Sketch\File Header.txt"
+				RelativePath="..\..\Documentation\Sketch\File Header.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Documenation\Sketch\Pseudocode.txt"
+				RelativePath="..\..\Documentation\Sketch\Pseudocode.txt"
 				>
 			</File>
 			<File
@@ -247,30 +235,30 @@
 				>
 			</File>
 			<File
-				RelativePath=".\README.txt"
+				RelativePath="..\..\Documentation\Sketch\README.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Documenation\Sketch\TODO.txt"
+				RelativePath="..\..\Documentation\Sketch\TODO.txt"
 				>
 			</File>
 			<Filter
 				Name="Pseudocode"
 				>
 				<File
-					RelativePath="..\..\Documenation\Sketch\Pseudocode\Brush.txt"
+					RelativePath="..\..\Documentation\Sketch\Pseudocode\Brush.txt"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Documenation\Sketch\Pseudocode\Font.txt"
+					RelativePath="..\..\Documentation\Sketch\Pseudocode\Font.txt"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Documenation\Sketch\Pseudocode\Map System.txt"
+					RelativePath="..\..\Documentation\Sketch\Pseudocode\Map System.txt"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Documenation\Sketch\Pseudocode\Terminal.txt"
+					RelativePath="..\..\Documentation\Sketch\Pseudocode\Terminal.txt"
 					>
 				</File>
 			</Filter>

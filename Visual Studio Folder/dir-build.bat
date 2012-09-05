@@ -14,7 +14,7 @@ REM These are the specific files being copied to the correct directories
 
 
 REM Documentation
-XCOPY "%~p0Sketch\README.txt" "%~p0Release\" /D /Y
+XCOPY "%~p0..\Documentation\Sketch\README.txt" "%~p0Release\" /D /Y
 
 
 REM Scripts
