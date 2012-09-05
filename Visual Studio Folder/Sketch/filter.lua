@@ -33,6 +33,12 @@
 function resize(newx, newy, newl)
 	if newl == nil then newl = map.getlcount() end --optional parameter
 	
+	if newx < 1 or newy < 1 or newl < 1 then
+		consoleprint("Filter Error: Map dimensions cannot be smaller than 1")
+		terminalprint("Error: Check console")
+		return
+	end
+	
 	local tempmap = {}
 	local oldx = map.getxcount()
 	local oldy = map.getycount()
@@ -77,8 +83,8 @@ end
 
 function poplayers(lcount)
 	if lcount >= map.getlcount() then
-		consoleprint("Error: Cannot pop that many layers")
-		terminalprint("Filter Error: Check console")
+		consoleprint("Filter Error: Cannot pop that many layers")
+		terminalprint("Error: Check console")
 		return
 	end
 	

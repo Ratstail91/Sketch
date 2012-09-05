@@ -35,7 +35,8 @@ function standard_save(fname)
 	local hFile, errmsg = io.open(dir["map"] .. fname, "w") --lua handles errors here
 	
 	if (hFile == nil) then
-		print("Save Error: " .. errmsg)
+		consoleprint("Save Error: Failed to save the map in the standard format, error: " .. errmsg)
+		terminalprint("Error: Check console")
 		return
 	end
 	
@@ -64,13 +65,14 @@ function standard_load(fname)
 	local hFile, errmsg = io.open(dir["map"] .. fname, "r") --lua handles errors here
 	
 	if (hFile == nil) then
-		print("Load Error: " .. errmsg)
+		consoleprint("Load Error: Failed to load the map in the standard format, error: " .. errmsg)
+		terminalprint("Error: Check console")
 		return
 	end
 	
 	if hFile:read() ~= "sketch format 004" then --this format version
 		consoleprint("Load Error: incorrect file format")
-		terminalprint("Load Error: Check console")
+		terminalprint("Error: Check console")
 		hFile:close()
 		return
 	end
