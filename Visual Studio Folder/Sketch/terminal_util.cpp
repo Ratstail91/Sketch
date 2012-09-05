@@ -102,8 +102,8 @@ void TerminalDoString(lua_State* L, const char* prompt) {
 		}
 	}
 	catch(exception& e) {
-		TerminalPrintf(L, "Error: check console");
 		cerr << "Prompt Error: " << e.what() << endl;
+		TerminalPrintf(L, "Error: check console");
 	}
 }
 

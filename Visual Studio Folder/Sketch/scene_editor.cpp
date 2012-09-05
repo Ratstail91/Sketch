@@ -134,8 +134,8 @@ void SceneEditor::MouseMotion(SDL_MouseMotionEvent const& rMotion) {
 			rMotion.state, rMotion.x-m_cam.x, rMotion.y-m_cam.y, rMotion.xrel, rMotion.yrel);
 	}
 	catch(exception& e) {
-		TerminalPrintf(m_pLuaVM, "Error: check console");
 		cerr << "Brush Error: " << e.what() << endl;
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 	}
 }
 
@@ -146,8 +146,8 @@ void SceneEditor::MouseButtonDown(SDL_MouseButtonEvent const& rButton) {
 			rButton.button, rButton.x-m_cam.x, rButton.y-m_cam.y);
 	}
 	catch(exception& e) {
-		TerminalPrintf(m_pLuaVM, "Error: check console");
 		cerr << "Brush Error: " << e.what() << endl;
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 	}
 
 	//set the brush size
@@ -160,8 +160,8 @@ void SceneEditor::MouseButtonDown(SDL_MouseButtonEvent const& rButton) {
 		}
 	}
 	catch(exception& e) {
-		TerminalPrintf(m_pLuaVM, "Error: check console");
 		cerr << "Size Error: " << e.what() << endl;
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 	}
 }
 
@@ -172,8 +172,8 @@ void SceneEditor::MouseButtonUp(SDL_MouseButtonEvent const& rButton) {
 			rButton.button, rButton.x-m_cam.x, rButton.y-m_cam.y);
 	}
 	catch(exception& e) {
-		TerminalPrintf(m_pLuaVM, "Error: check console");
 		cerr << "Brush Error: " << e.what() << endl;
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 	}
 }
 
@@ -203,8 +203,8 @@ void SceneEditor::KeyDown(SDL_KeyboardEvent const& rKey) {
 		}
 	}
 	catch(exception& e) {
-		TerminalPrintf(m_pLuaVM, "Error: check console");
 		cerr << "Keypress Error: " << e.what() << endl;
+		TerminalPrintf(m_pLuaVM, "Error: check console");
 	}
 
 	if (m_bShowTerminal) {
