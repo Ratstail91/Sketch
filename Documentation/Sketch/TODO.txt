@@ -26,11 +26,11 @@ end
 
 -------------------------
 
-copyright
+>copyright
 >directory system
 >other brushes
 filters:
-	edge smoother
+-	edge smoother
 >	layer/size adjustment
 -better font file/spacing (handle the fmt better?)
 -rename the libs from xxxlib to xxx_lib
