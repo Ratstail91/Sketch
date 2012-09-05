@@ -91,3 +91,23 @@ function poplayers(lcount)
 	resize(map.getxcount(), map.getycount(), map.getlcount()-lcount)
 	print("Layers: ", map.getlcount())
 end
+
+
+--fill the map
+function filllayer(l, v)
+	if l < 1 or l > map.getlcount()	then
+		print("Layer to fill out of range")
+		return
+	end
+	
+	for i = 1, map.getxcount() do
+		for j = 1, map.getycount() do
+			map.settile(i,j,l,v)
+		end
+	end
+end
+
+function fill(v)
+	filllayer(1, v) --fill the first layer
+end
+

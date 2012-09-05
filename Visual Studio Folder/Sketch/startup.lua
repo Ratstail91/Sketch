@@ -75,23 +75,6 @@ terminal.font.h = 16
 
 
 --useful debugging functions
-function map.fill(v)
-	map.filllayer(1, v)
-end
-
-function map.filllayer(l, v)
-	if l < 1 or l > map.getlcount()	then
-		print("Layer to fill out of range")
-		return
-	end
-	
-	for i = 1, map.getxcount() do
-		for j = 1, map.getycount() do
-			map.settile(i,j,l,v)
-		end
-	end
-end
-
 function debugtable(t)
 	for k, v in pairs(t) do
 		consoleprint(k,v)
@@ -109,10 +92,9 @@ consoleprint("--Finished")
 
 --you can edit anything below this line
 
---[[default config
+---[[default config
 tileset.load(dir["tileset"] .. "terrain.bmp", 32, 32)
 map.load(40,40,3)
-map.fill(14)
+fill(14)
 --]]
 
-load("bksave")
