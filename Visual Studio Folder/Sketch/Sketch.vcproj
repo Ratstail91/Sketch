@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SDL.lib SDLmain.lib lua.lib cb.lib"
+				AdditionalDependencies="SDL.lib SDLmain.lib lua.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="1"
@@ -410,6 +410,74 @@
 			</File>
 			<File
 				RelativePath=".\font.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="-Old Codebase"
+			>
+			<File
+				RelativePath=".\base_scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\base_scene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\base_scene_mgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\base_scene_mgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\bbox_2d.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\bbox_2d.h"
+				>
+			</File>
+			<File
+				RelativePath=".\camera_2d_utility.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\camera_2d_utility.h"
+				>
+			</File>
+			<File
+				RelativePath=".\config_utility.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\config_utility.h"
+				>
+			</File>
+			<File
+				RelativePath=".\fps_utility.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\fps_utility.h"
+				>
+			</File>
+			<File
+				RelativePath=".\image.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\image.h"
+				>
+			</File>
+			<File
+				RelativePath=".\origin_2d.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\origin_2d.h"
 				>
 			</File>
 		</Filter>
