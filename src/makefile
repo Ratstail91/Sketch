@@ -2,7 +2,7 @@
 LIBDIR=../libs
 LOCALLIBS=
 LIB=-lmingw32 -lSDLmain -lSDL
-INCLUDES=
+INCLUDES=$(LIBDIR)/Codebase
 CXXFLAGS+=-std=c++11 -DDEBUG $(addprefix -I,$(INCLUDES))
 
 #source
