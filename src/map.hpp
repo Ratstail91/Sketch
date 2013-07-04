@@ -2,7 +2,6 @@
 #define MAP_HPP_
 
 #include <vector>
-#include <list>
 
 //TODO: tilesets
 
@@ -13,9 +12,11 @@ struct MapTile {
 class MapLayer {
 public:
 	MapLayer() = default;
+	MapLayer(MapLayer const&) = default;
+	MapLayer(MapLayer&&) = default;
 	~MapLayer() = default;
 
-	void Generate(int width, int height, int value);
+	void Generate(int width, int height, int defaultValue);
 	void Clear();
 
 	int SetTile(int x, int y, int value);
@@ -36,7 +37,7 @@ public:
 	Map() = default;
 	~Map() = default;
 
-	void Generate(int layers, int width, int height, int value);
+	void Generate(int layerCount, int width, int height, int defaultValue);
 	void Clear();
 
 	//TODO: save
@@ -50,7 +51,7 @@ public:
 	int GetHeight() const;
 
 private:
-	std::list<MapLayer> layers;
+	std::vector<MapLayer> layers;
 	//TODO: tilesets
 	//metadata?
 };
