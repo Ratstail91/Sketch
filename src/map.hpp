@@ -42,6 +42,8 @@ public:
 
 	//TODO: save
 	//TODO: load
+	//TODO: insert layer
+	//TODO: delete layer
 
 	int SetTile(int l, int x, int y, int value);
 	int GetTile(int l, int x, int y);
