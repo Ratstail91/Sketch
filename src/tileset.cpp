@@ -20,11 +20,6 @@ SDL_Surface* Tileset::SetOrigSurface(SDL_Surface* s, Uint16 w, Uint16 h) {
 	return origSurface;
 }
 
-void Tileset::FreeFastSurface() {
-	SDL_FreeSurface(fastSurface);
-	fastSurface = nullptr;
-}
-
 void Tileset::CreateFastSurface() {
 	if (!origSurface) {
 		throw(std::runtime_error("Can't create a fast tile surface, no original surface received"));
@@ -58,4 +53,9 @@ void Tileset::CreateFastSurface() {
 		SDL_Rect dclip = {Sint16(i * tileWidth * setWidth), 0, Uint16(tileWidth * setWidth), tileHeight};
 		SDL_BlitSurface(origSurface, &sclip, fastSurface, &dclip);
 	}
+}
+
+void Tileset::FreeFastSurface() {
+	SDL_FreeSurface(fastSurface);
+	fastSurface = nullptr;
 }

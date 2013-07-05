@@ -4,6 +4,8 @@
 #include "base_scene.hpp"
 
 #include "map.hpp"
+#include "tileset.hpp"
+#include "surface_manager.hpp"
 #include "vector2.hpp"
 
 class Editor : public BaseScene {
@@ -28,6 +30,7 @@ protected:
 
 	//members
 	Map map;
+	SurfaceManager surfMgr;
 	Vector2 cam;
 };
 

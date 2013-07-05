@@ -19,10 +19,9 @@ public:
 	Uint16 GetWidth() const { return tileWidth; };
 	Uint16 GetHeight() const { return tileHeight; };
 
-	void FreeFastSurface();
-
 private:
 	void CreateFastSurface();
+	void FreeFastSurface();
 	SDL_Surface* origSurface = nullptr;
 	SDL_Surface* fastSurface = nullptr;
 	Uint16 tileWidth = 0, tileHeight = 0;

@@ -29,6 +29,15 @@ void MapLayer::Clear() {
 	tiles.clear();
 }
 
+void MapLayer::DrawTo(SDL_Surface* const dest, int x, int y) {
+	//TODO: skip if they're out of the screen's view
+	for (int i = 0; i < tiles.size(); i++) {
+		for (int j = 0; j < tiles[i].size(); j++) {
+			tileset.DrawTileTo(dest, tiles[i][j].value, x + i*tileset.GetWidth(), y + j*tileset.GetHeight());
+		}
+	}
+}
+
 int MapLayer::SetTile(int x, int y, int value) {
 	if (x >= tiles.size() || y >= tiles.begin()->size()) {
 		throw(std::out_of_range("tile index out of range"));
@@ -77,6 +86,13 @@ void Map::Clear() {
 	layers.clear();
 }
 
+void Map::DrawLayerTo(SDL_Surface* const dest, int l, int x, int y) {
+	if (l >= layers.size()) {
+		throw(std::out_of_range("layer index out of range"));
+	}
+	layers[l].DrawTo(dest, x, y);
+}
+
 int Map::SetTile(int l, int x, int y, int value) {
 	if (l >= layers.size()) {
 		throw(std::out_of_range("layer index out of range"));
@@ -89,6 +105,13 @@ int Map::GetTile(int l, int x, int y) {
 		throw(std::out_of_range("layer index out of range"));
 	}
 	return layers[l].GetTile(x, y);
+}
+
+MapLayer* Map::GetLayer(int l) {
+	if (l >= layers.size()) {
+		throw(std::out_of_range("layer index out of range"));
+	}
+	return &layers[l];
 }
 
 int Map::GetLayers() const {

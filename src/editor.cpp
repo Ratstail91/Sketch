@@ -5,11 +5,13 @@
 //-------------------------
 
 Editor::Editor() {
-	//
+	surfMgr.Load("tileset", "tileset.bmp");
+	map.Generate(8, 400, 400, 0);
+	map.GetLayer(0)->GetTileset()->SetOrigSurface(surfMgr.Get("tileset"), 32, 32);
 }
 
 Editor::~Editor() {
-	//
+	surfMgr.FreeAll();
 }
 
 //-------------------------
@@ -30,6 +32,9 @@ void Editor::FrameEnd() {
 
 void Editor::Render(SDL_Surface* const screen) {
 //	map.DrawTo(screen, cam.x, cam.y);
+	for (int i = 0; i < map.GetLayers(); i++) {
+		map.DrawLayerTo(screen, i, cam.x, cam.y);
+	}
 }
 
 //-------------------------
