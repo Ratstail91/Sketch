@@ -1,30 +1,31 @@
 #ifndef TILESET_HPP_
 #define TILESET_HPP_
 
+#include "map_tile.hpp"
+
 #include "SDL/SDL.h"
+
+#include <vector>
 
 class Tileset {
 public:
 	Tileset() = default;
-	Tileset(SDL_Surface* ptr, Uint16 w, Uint16 h) { SetOrigSurface(ptr, w, h); }
-	~Tileset() { FreeFastSurface(); }
+	Tileset(SDL_Surface* s, Uint16 w, Uint16 h) { SetSurface(s, w, h); }
 
-	void DrawTileTo(SDL_Surface* const dest, int tileIndex, Sint16 x, Sint16 y);
+	void DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapTile>>&, Sint16 x, Sint16 y);
 
-	//manage the various surfaces
-	SDL_Surface* SetOrigSurface(SDL_Surface*, Uint16 tileWidth, Uint16 tileHeight);
-	SDL_Surface* GetOrigSurface() const { return origSurface; };
-	SDL_Surface* GetFastSurface() const { return fastSurface; };
+	//accessors and mutators
+	//TODO: load
+	//TODO: save
+	SDL_Surface* SetSurface(SDL_Surface*, Uint16 w, Uint16 h);
+	SDL_Surface* GetSurface() const { return surface; };
 
-	Uint16 GetWidth() const { return tileWidth; };
-	Uint16 GetHeight() const { return tileHeight; };
+	Uint16 GetWidth() const { return width; };
+	Uint16 GetHeight() const { return height; };
 
 private:
-	void CreateFastSurface();
-	void FreeFastSurface();
-	SDL_Surface* origSurface = nullptr;
-	SDL_Surface* fastSurface = nullptr;
-	Uint16 tileWidth = 0, tileHeight = 0;
+	SDL_Surface* surface = nullptr;
+	Uint16 width = 0, height = 0;
 };
 
 #endif

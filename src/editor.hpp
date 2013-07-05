@@ -31,6 +31,7 @@ protected:
 	//members
 	Map map;
 	SurfaceManager surfMgr;
+	Tileset tileset;
 	Vector2 cam;
 };
 

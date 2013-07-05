@@ -2,71 +2,6 @@
 
 #include <stdexcept>
 
-//-------------------------
-//MapLayer definitions
-//-------------------------
-
-void MapLayer::Generate(int width, int height, int defaultValue) {
-	using std::vector;
-
-	if (width <= 0) {
-		throw(std::invalid_argument("Cannot generate less than one column of tiles"));
-	}
-	if (height <= 0) {
-		throw(std::invalid_argument("Cannot generate less than one row of tiles"));
-	}
-
-	tiles.clear();
-	/* 1. create a vector<vector<MapTile>> structure of size "width"
-	 * 2. create a vector<MapTile> structure of size "height", which is the default value for above
-	 * 3. create a MapTile structure with the value "defaultValue", which is the default value for above
-	 * 4. cast is as an rvalue to prevent expensive movement
-	*/
-	tiles = std::move(vector<vector<MapTile>>(width, vector<MapTile>(height, MapTile{defaultValue})));
-}
-
-void MapLayer::Clear() {
-	tiles.clear();
-}
-
-void MapLayer::DrawTo(SDL_Surface* const dest, int x, int y) {
-	//TODO: skip if they're out of the screen's view
-	for (int i = 0; i < tiles.size(); i++) {
-		for (int j = 0; j < tiles[i].size(); j++) {
-			tileset.DrawTileTo(dest, tiles[i][j].value, x + i*tileset.GetWidth(), y + j*tileset.GetHeight());
-		}
-	}
-}
-
-int MapLayer::SetTile(int x, int y, int value) {
-	if (x >= tiles.size() || y >= tiles.begin()->size()) {
-		throw(std::out_of_range("tile index out of range"));
-	}
-	return tiles[x][y].value = value;
-}
-
-int MapLayer::GetTile(int x, int y) {
-	if (x >= tiles.size() || y >= tiles.begin()->size()) {
-		throw(std::out_of_range("tile index out of range"));
-	}
-	return tiles[x][y].value;
-}
-
-int MapLayer::GetWidth() const {
-	return tiles.size();
-}
-
-int MapLayer::GetHeight() const {
-	if (tiles.size() <= 0) {
-		return 0;
-	}
-	return tiles.begin()->size();
-}
-
-//-------------------------
-//Map definitions
-//-------------------------
-
 void Map::Generate(int layerCount, int width, int height, int defaultValue) {
 	if (layerCount <= 0) {
 		throw(std::invalid_argument("Cannot generate less than one layer of tiles"));
@@ -86,11 +21,11 @@ void Map::Clear() {
 	layers.clear();
 }
 
-void Map::DrawLayerTo(SDL_Surface* const dest, int l, int x, int y) {
+void Map::DrawLayerTo(SDL_Surface* const dest, Tileset* tset, int l, int x, int y) {
 	if (l >= layers.size()) {
 		throw(std::out_of_range("layer index out of range"));
 	}
-	layers[l].DrawTo(dest, x, y);
+	layers[l].DrawTo(dest, tset, x, y);
 }
 
 int Map::SetTile(int l, int x, int y, int value) {
@@ -114,7 +49,7 @@ MapLayer* Map::GetLayer(int l) {
 	return &layers[l];
 }
 
-int Map::GetLayers() const {
+int Map::GetLayerCount() const {
 	return layers.size();
 }
 
