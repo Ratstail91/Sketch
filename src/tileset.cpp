@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 void Tileset::DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapTile>>& tiles, Sint16 x, Sint16 y) {
+	//TODO: Optimize this, so that tiles outside of the window are not shown
 	if (!surface) {
 		throw(std::logic_error("No tileset to draw"));
 	}
