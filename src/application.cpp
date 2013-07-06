@@ -44,8 +44,15 @@ Application::~Application() {
 }
 
 void Application::Init() {
-	if (SDL_Init(SDL_INIT_VIDEO))
+	if (SDL_Init(SDL_INIT_VIDEO)) {
 		throw(std::runtime_error("Failed to initialize SDL"));
+	}
+
+	if (!(luaState = luaL_newstate())) {
+		throw(std::runtime_error("Failed to initialize lua"));
+	}
+
+	luaL_openlibs(luaState);
 
 	BaseScene::SetScreen(800, 600);
 }
@@ -90,6 +97,7 @@ void Application::Proc() {
 
 void Application::Quit() {
 	UnloadScene();
+	lua_close(luaState);
 	SDL_Quit();
 }
 

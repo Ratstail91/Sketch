@@ -26,6 +26,7 @@
 #include "base_scene.hpp"
 
 #include "SDL/SDL.h"
+#include "lua/lua.hpp"
 
 class Application {
 public:
@@ -42,7 +43,8 @@ private:
 	void LoadScene(SceneList sceneIndex);
 	void UnloadScene();
 
-	BaseScene* activeScene;
+	BaseScene* activeScene = nullptr;
+	lua_State* luaState = nullptr;
 };
 
 #endif
