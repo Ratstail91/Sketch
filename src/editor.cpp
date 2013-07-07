@@ -11,7 +11,7 @@ Editor::Editor() {
 	surfMgr.Load("tileset", "tileset.bmp");
 	tileset.SetSurface(surfMgr.Get("tileset"), 32, 32);
 	//debug: generate 1 visible layer, and push 7 invisible layers on top
-	map.Generate(1, 40, 40, -1);
+	map.Generate(1, 40, 40, 0);
 //	for (int i = 0; i < 7; i++) {
 //		map.InsertLayer(i+1);
 //	}
