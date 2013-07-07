@@ -1,5 +1,8 @@
 #include "editor.hpp"
 
+#include <iostream>
+using namespace std;
+
 //-------------------------
 //Public access members
 //-------------------------
@@ -7,7 +10,11 @@
 Editor::Editor() {
 	surfMgr.Load("tileset", "tileset.bmp");
 	tileset.SetSurface(surfMgr.Get("tileset"), 32, 32);
-	map.Generate(1, 40, 40, 0);
+	//debug: generate 1 visible layer, and push 7 invisible layers on top
+	map.Generate(1, 40, 40, -1);
+//	for (int i = 0; i < 7; i++) {
+//		map.InsertLayer(i+1);
+//	}
 }
 
 Editor::~Editor() {
@@ -35,6 +42,7 @@ void Editor::Render(SDL_Surface* const screen) {
 	for (int i = 0; i < map.GetLayerCount(); i++) {
 		map.DrawLayerTo(screen, &tileset, i, cam.x, cam.y);
 	}
+//	tileset.DrawTileTo(screen, 14, cam.x, cam.y);
 }
 
 //-------------------------

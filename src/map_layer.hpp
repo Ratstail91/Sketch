@@ -22,8 +22,8 @@ public:
 	int SetTile(int x, int y, int value);
 	int GetTile(int x, int y);
 
-	int GetWidth() const;
-	int GetHeight() const;
+	int GetWidth() const { return tiles.size(); }
+	int GetHeight() const { return tiles.size() ? tiles.begin()->size() : 0; }
 
 private:
 	std::vector<std::vector<MapTile>> tiles;

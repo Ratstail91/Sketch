@@ -36,7 +36,10 @@ void Map::InsertLayer(int l, int dv) {
 		throw(std::logic_error("Cannot insert into an empty map"));
 	}
 
-	CheckVecRange(layers, l);
+	//don't use the macro, since this condition is slightly different
+	if (l < 0 || l > layers.size()) {
+		throw(std::out_of_range("layer index out of range"));
+	}
 
 	MapLayer ml(layers.begin()->GetWidth(), layers.begin()->GetHeight(), dv);
 	layers.insert(layers.begin()+l, ml);

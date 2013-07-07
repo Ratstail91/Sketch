@@ -12,6 +12,7 @@ public:
 	Tileset() = default;
 	Tileset(SDL_Surface* s, Uint16 w, Uint16 h) { SetSurface(s, w, h); }
 
+	void DrawTileTo(SDL_Surface* const dest, int index, Sint16 x, Sint16 y);
 	void DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapTile>>&, Sint16 x, Sint16 y);
 
 	//accessors and mutators
