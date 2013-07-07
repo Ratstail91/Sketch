@@ -10,6 +10,9 @@
 
 class MapLayer {
 public:
+	MapLayer() = default;
+	MapLayer(int w, int h, int v) { Generate(w, h, v); }
+
 	void Generate(int width, int height, int defaultValue);
 	void Clear();
 

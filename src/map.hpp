@@ -10,26 +10,26 @@
 
 class Map {
 public:
-	void Generate(int layerCount, int width, int height, int defaultValue);
+	Map() = default;
+	Map(int l, int w, int h, int v) { Generate(l, w, h, v); }
+
+	void Generate(int layerCount, int width, int height, int defaultValue = -1);
 	void Clear();
 
 	void DrawLayerTo(SDL_Surface* const, Tileset*, int layer, int x, int y);
 
-	//TODO: save
-	//TODO: load
-	//TODO: insert layer
-	//TODO: delete layer
-	//TODO: handle tilesets
-
 	//accessors and mutators
+	void InsertLayer(int layer, int defaultValue = -1);
+	void DeleteLayer(int layer);
+
 	int SetTile(int l, int x, int y, int value);
 	int GetTile(int l, int x, int y);
 
 	MapLayer* GetLayer(int l);
 
-	int GetLayerCount() const;
-	int GetWidth() const;
-	int GetHeight() const;
+	int GetLayerCount() const { return layers.size(); }
+	int GetWidth() const { return layers.size() ? layers.begin()->GetWidth() : 0; }
+	int GetHeight() const { return layers.size() ? layers.begin()->GetHeight() : 0; }
 
 private:
 	std::vector<MapLayer> layers;
