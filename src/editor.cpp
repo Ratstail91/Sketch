@@ -32,12 +32,6 @@ Editor::Editor(lua_State* L) {
 	luaState = L;
 
 	tileset.LoadSurface("tileset.bmp", 32, 32);
-
-	//debug: generate 1 visible layer, and push 7 invisible layers on top
-	map->Generate(1, 40, 40, 0);
-//	for (int i = 0; i < 7; i++) {
-//		map.InsertLayer(i+1);
-//	}
 }
 
 Editor::~Editor() {
@@ -140,7 +134,12 @@ void Editor::KeyDown(SDL_KeyboardEvent const& key) {
 
 	//HOTKEYS: shift modifier
 	else if (key.keysym.mod & KMOD_SHIFT) {
-		//
+		switch(key.keysym.sym) {
+			case SDLK_d:
+				//execute the current debugging command
+				luaL_dofile(luaState, "debug.lua");
+			break;
+		}
 	}
 
 	//HOTKEYS: no recognized modifier

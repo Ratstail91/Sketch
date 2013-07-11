@@ -21,6 +21,8 @@
 */
 #include "custom_libraries.hpp"
 
-void openCustomLibraries(lua_State* L) {
-	//
+#include "map.hpp"
+
+void openCustomLibraries(lua_State* l) {
+	openMapLib(l);
 }

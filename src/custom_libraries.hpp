@@ -24,6 +24,8 @@
 
 #include "lua/lua.hpp"
 
-void openCustomLibraries(lua_State* L);
+void openCustomLibraries(lua_State*);
+
+void openMapLib(lua_State*);
 
 #endif
