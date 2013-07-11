@@ -27,27 +27,34 @@
 #include "SDL/SDL.h"
 
 #include <vector>
+#include <string>
 
 class Tileset {
 public:
 	Tileset() = default;
+	~Tileset() { FreeSurface(); }
 	Tileset(SDL_Surface* s, Uint16 w, Uint16 h) { SetSurface(s, w, h); }
 
 	void DrawTileTo(SDL_Surface* const dest, int index, Sint16 x, Sint16 y);
 	void DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapTile>>&, Sint16 x, Sint16 y);
 
+	void LoadSurface(std::string s, Uint16 w, Uint16 h);
+	void FreeSurface();
+
 	//accessors and mutators
-	//TODO: load
-	//TODO: save
 	SDL_Surface* SetSurface(SDL_Surface*, Uint16 w, Uint16 h);
 	SDL_Surface* GetSurface() const { return surface; };
 
 	Uint16 GetWidth() const { return width; };
 	Uint16 GetHeight() const { return height; };
 
+	std::string SetFileName(std::string s) { return fileName = s; }
+	std::string GetFileName() const { return fileName; }
+
 private:
 	SDL_Surface* surface = nullptr;
 	Uint16 width = 0, height = 0;
+	std::string fileName;
 };
 
 #endif

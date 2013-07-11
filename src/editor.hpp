@@ -26,13 +26,14 @@
 
 #include "map.hpp"
 #include "tileset.hpp"
-#include "surface_manager.hpp"
 #include "vector2.hpp"
+
+#include "lua/lua.hpp"
 
 class Editor : public BaseScene {
 public:
 	//Public access members
-	Editor();
+	Editor(lua_State*);
 	~Editor();
 
 protected:
@@ -50,8 +51,9 @@ protected:
 	void KeyUp(SDL_KeyboardEvent const&);
 
 	//members
+	lua_State* luaState = nullptr;
+
 	Map map;
-	SurfaceManager surfMgr;
 	Tileset tileset;
 	Vector2 cam;
 };

@@ -1,7 +1,6 @@
 OUTDIR=out
 
 all: $(OUTDIR)
-	$(MAKE) -C libs
 	$(MAKE) -C src
 
 $(OUTDIR):

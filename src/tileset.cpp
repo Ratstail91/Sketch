@@ -83,6 +83,22 @@ void Tileset::DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapT
 	}
 }
 
+void Tileset::LoadSurface(std::string s, Uint16 w, Uint16 h) {
+	FreeSurface();
+	if (!(surface = SDL_LoadBMP(s.c_str()))) {
+		throw(std::runtime_error(std::string() + "Failed to load tileset: " + s));
+	}
+	SDL_SetColorKey(surface, SDL_SRCCOLORKEY, SDL_MapRGB(surface->format, 255, 0, 255));
+	width = w;
+	height = h;
+	fileName = s;
+}
+
+void Tileset::FreeSurface() {
+	SDL_FreeSurface(surface);
+	surface = nullptr;
+}
+
 SDL_Surface* Tileset::SetSurface(SDL_Surface* s, Uint16 w, Uint16 h) {
 	width = w;
 	height = h;

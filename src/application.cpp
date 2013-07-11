@@ -112,7 +112,7 @@ void Application::LoadScene(SceneList sceneIndex) {
 		//add scene creation calls here
 		case SceneList::FIRST:
 		case SceneList::EDITOR:
-			activeScene = new Editor();
+			activeScene = new Editor(luaState);
 		break;
 
 		default:
