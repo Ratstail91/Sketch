@@ -37,7 +37,6 @@ void Tileset::DrawTileTo(SDL_Surface* const dest, int index, Sint16 x, Sint16 y)
 }
 
 void Tileset::DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapTile>>& tiles, Sint16 x, Sint16 y) {
-	//TODO: Optimize this, so that tiles outside of the window are not shown
 	if (!surface) {
 		throw(std::logic_error("No tileset to draw"));
 	}
@@ -70,7 +69,7 @@ void Tileset::DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapT
 
 			//set the clips for each tile
 			sclip.x = Sint16(tiles[i][j].value % xCount * width);
-			sclip.y = Sint16(tiles[i][j].value / yCount * height);
+			sclip.y = Sint16(tiles[i][j].value / xCount * height);
 			dclip.x = Sint16(x + i * width);
 			dclip.y = Sint16(y + j * height);
 
