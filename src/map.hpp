@@ -31,8 +31,9 @@
 
 class Map {
 public:
-	Map() = default;
-	Map(int l, int w, int h, int v) { Generate(l, w, h, v); }
+	//singleton pattern
+	static Map* GetSingletonPtr() { return &singleton; }
+	static Map& GetSingletonRef() { return singleton; };
 
 	void Generate(int layerCount, int width, int height, int defaultValue = -1);
 	void Clear();
@@ -53,8 +54,17 @@ public:
 	int GetHeight() const { return layers.size() ? layers.begin()->GetHeight() : 0; }
 
 private:
+	//singleton pattern
+	Map() = default;
+	~Map() = default;
+	Map(Map const&) = delete;
+	Map(Map&&) = delete;
+	Map& operator=(Map const&) = delete;
+	Map& operator=(Map&&) = delete;
+
+	static Map singleton;
+
 	std::vector<MapLayer> layers;
-	//metadata?
 };
 
 #endif

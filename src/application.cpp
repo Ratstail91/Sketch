@@ -21,6 +21,8 @@
 */
 #include "application.hpp"
 
+#include "custom_libraries.hpp"
+
 #include <stdexcept>
 #include <chrono>
 
@@ -53,6 +55,7 @@ void Application::Init() {
 	}
 
 	luaL_openlibs(luaState);
+	openCustomLibraries(luaState);
 
 	BaseScene::SetScreen(800, 600);
 }

@@ -34,7 +34,7 @@ Editor::Editor(lua_State* L) {
 	tileset.LoadSurface("tileset.bmp", 32, 32);
 
 	//debug: generate 1 visible layer, and push 7 invisible layers on top
-	map.Generate(1, 40, 40, 0);
+	map->Generate(1, 40, 40, 0);
 //	for (int i = 0; i < 7; i++) {
 //		map.InsertLayer(i+1);
 //	}
@@ -62,8 +62,8 @@ void Editor::FrameEnd() {
 
 void Editor::Render(SDL_Surface* const screen) {
 //	map.DrawTo(screen, cam.x, cam.y);
-	for (int i = 0; i < map.GetLayerCount(); i++) {
-		map.DrawLayerTo(screen, &tileset, i, cam.x, cam.y);
+	for (int i = 0; i < map->GetLayerCount(); i++) {
+		map->DrawLayerTo(screen, &tileset, i, cam.x, cam.y);
 	}
 //	tileset.DrawTileTo(screen, 14, cam.x, cam.y);
 }

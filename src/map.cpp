@@ -23,6 +23,9 @@
 
 #include <stdexcept>
 
+//define the singleton instance
+Map Map::singleton;
+
 //bah, this is a crappy shortcut, but it works
 #define CheckVecRange(vec, idx) \
 	if (idx < 0 || idx >= vec.size()) { throw(std::out_of_range("layer index out of range")); }
