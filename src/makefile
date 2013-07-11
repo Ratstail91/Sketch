@@ -1,7 +1,7 @@
 #config
 LIBDIR=../libs
 LOCALLIBS=$(LIBDIR)/out/libCodebase.a
-LIB=$(LOCALLIBS) -lmingw32 -lSDLmain -lSDL
+LIB=$(LOCALLIBS) -lmingw32 -lSDLmain -lSDL -llua
 INCLUDES=$(LIBDIR)/Codebase
 CXXFLAGS+=-std=c++11 -DDEBUG $(addprefix -I,$(INCLUDES))
 
