@@ -35,7 +35,7 @@ public:
 	~Tileset() { FreeSurface(); }
 	Tileset(SDL_Surface* s, Uint16 w, Uint16 h) { SetSurface(s, w, h); }
 
-	void DrawTileTo(SDL_Surface* const dest, TILE_TYPE index, Sint16 x, Sint16 y);
+	void DrawTileTo(SDL_Surface* const dest, tile_t index, Sint16 x, Sint16 y);
 	void DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapTile>>&, Sint16 x, Sint16 y);
 
 	void LoadSurface(std::string s, Uint16 w, Uint16 h);

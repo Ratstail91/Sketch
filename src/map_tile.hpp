@@ -26,17 +26,16 @@
 
 //for platform dependencies and modability
 #ifdef TILE_THIN
- #define TILE_TYPE uint8_t
- #define TILE_MAX 254
- #define TILE_NONE 255
+typedef uint8_t tile_t;
 #else
- #define TILE_TYPE int32_t
- #define TILE_MAX INT32_MAX
- #define TILE_NONE -1
+typedef uint32_t tile_t;
 #endif
 
+#define TILE_MAX ((tile_t)~0 -1)
+#define TILE_NONE ((tile_t)~0)
+
 struct MapTile {
-	TILE_TYPE value;
+	tile_t value;
 	//other metadata
 };
 

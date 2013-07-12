@@ -23,7 +23,7 @@
 
 #include <stdexcept>
 
-void Tileset::DrawTileTo(SDL_Surface* const dest, TILE_TYPE index, Sint16 x, Sint16 y) {
+void Tileset::DrawTileTo(SDL_Surface* const dest, tile_t index, Sint16 x, Sint16 y) {
 	if (!surface) {
 		throw(std::logic_error("No tileset to draw"));
 	}
