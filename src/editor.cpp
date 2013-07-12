@@ -22,7 +22,17 @@
 #include "editor.hpp"
 
 #include <iostream>
+#include <string>
 using namespace std;
+
+#define DEFAULT_SAVE "map.txt"
+#define DEFAULT_LOAD "map.txt"
+
+static string itos(int i) {
+	char buffer[20];
+	snprintf(buffer, 20, "%d", i);
+	return string(buffer);
+}
 
 //-------------------------
 //Public access members
@@ -67,10 +77,10 @@ void Editor::Render(SDL_Surface* const screen) {
 //-------------------------
 
 void Editor::MouseMotion(SDL_MouseMotionEvent const& motion) {
-	//TODO: lua hook
-
 	if (motion.state & SDL_BUTTON_LMASK) {
-		//left button: apply to the map
+		//left button: callback
+		string s = string() + "mouse.Motion(" + itos(motion.x) + ", " + itos(motion.y) + ", " + itos(motion.xrel) + ", " + itos(motion.yrel) + ")";
+		luaL_dostring(luaState, s.c_str());
 	}
 
 	if (motion.state & SDL_BUTTON_RMASK) {
@@ -81,10 +91,10 @@ void Editor::MouseMotion(SDL_MouseMotionEvent const& motion) {
 }
 
 void Editor::MouseButtonDown(SDL_MouseButtonEvent const& button) {
-	//TODO: lua hook
-
 	if (button.button == SDL_BUTTON_LEFT) {
-		//left button: ???
+		//left button: callback
+		string s = string() + "mouse.ButtonDown(" + itos(button.x) + ", " + itos(button.y) + ")";
+		luaL_dostring(luaState, s.c_str());
 	}
 
 	if (button.button == SDL_BUTTON_RIGHT) {
@@ -93,7 +103,15 @@ void Editor::MouseButtonDown(SDL_MouseButtonEvent const& button) {
 }
 
 void Editor::MouseButtonUp(SDL_MouseButtonEvent const& button) {
-	//TODO: lua hook
+	if (button.button == SDL_BUTTON_LEFT) {
+		//left button: callback
+		string s = string() + "mouse.ButtonUp(" + itos(button.x) + ", " + itos(button.y) + ")";
+		luaL_dostring(luaState, s.c_str());
+	}
+
+	if (button.button == SDL_BUTTON_RIGHT) {
+		//right button: ???
+	}
 }
 
 void Editor::KeyDown(SDL_KeyboardEvent const& key) {
@@ -111,13 +129,13 @@ void Editor::KeyDown(SDL_KeyboardEvent const& key) {
 	else if (key.keysym.mod & KMOD_CTRL) {
 		switch(key.keysym.sym) {
 			case SDLK_s:
-				//TODO: save the map to a specified file
+				luaL_dostring(luaState, "sketch.Save(\"" DEFAULT_SAVE "\")");
 			break;
 
 			case SDLK_l:
-				//TODO: load the map from a specified file
+				luaL_dostring(luaState, "sketch.Load(\"" DEFAULT_LOAD "\")");
 			break;
-
+/*
 			case SDLK_n:
 				//TODO: create a "blank" map
 			break;
@@ -129,17 +147,13 @@ void Editor::KeyDown(SDL_KeyboardEvent const& key) {
 			case SDLK_y:
 				//TODO: redo changes (change cache)
 			break;
+*/
 		}
 	}
 
 	//HOTKEYS: shift modifier
 	else if (key.keysym.mod & KMOD_SHIFT) {
-		switch(key.keysym.sym) {
-			case SDLK_d:
-				//execute the current debugging command
-				luaL_dofile(luaState, "debug.lua");
-			break;
-		}
+		//
 	}
 
 	//HOTKEYS: no recognized modifier
@@ -147,6 +161,10 @@ void Editor::KeyDown(SDL_KeyboardEvent const& key) {
 		switch(key.keysym.sym) {
 			case SDLK_ESCAPE:
 				QuitEvent();
+			break;
+			case SDLK_SPACE:
+			case SDLK_RETURN:
+				luaL_dofile(luaState, "debug.lua");
 			break;
 		}
 	}

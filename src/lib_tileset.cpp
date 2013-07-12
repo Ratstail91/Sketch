@@ -19,16 +19,25 @@
  * 3. This notice may not be removed or altered from any source
  * distribution.
 */
-#ifndef CUSTOMLIBRARIES_HPP_
-#define CUSTOMLIBRARIES_HPP_
+#include "custom_libraries.hpp"
 
-#include "lua/lua.hpp"
+//...
 
-void openCustomLibraries(lua_State*);
+//-------------------------
+//define the glue wrapper functons
+//-------------------------
 
-void openSketchLib(lua_State*);
-void openMouseLib(lua_State*);
-void openMapLib(lua_State*);
-void openTilesetLib(lua_State*);
+//...
 
-#endif
+//-------------------------
+//register  the functions
+//-------------------------
+
+static const luaL_Reg libs[] = {
+	{nullptr, nullptr}
+};
+
+void openTilesetLib(lua_State* l) {
+	luaL_newlib(l, libs);
+	lua_setglobal(l, "tileset");
+}

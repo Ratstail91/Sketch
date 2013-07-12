@@ -19,16 +19,34 @@
  * 3. This notice may not be removed or altered from any source
  * distribution.
 */
-#ifndef CUSTOMLIBRARIES_HPP_
-#define CUSTOMLIBRARIES_HPP_
+#include "custom_libraries.hpp"
 
-#include "lua/lua.hpp"
+#include <iostream>
+using namespace std;
 
-void openCustomLibraries(lua_State*);
+//-------------------------
+//define the glue wrapper functons
+//-------------------------
 
-void openSketchLib(lua_State*);
-void openMouseLib(lua_State*);
-void openMapLib(lua_State*);
-void openTilesetLib(lua_State*);
+static int save(lua_State* l) {
+	return 0;
+}
 
-#endif
+static int load(lua_State* l) {
+	return 0;
+}
+
+//-------------------------
+//register  the functions
+//-------------------------
+
+static const luaL_Reg libs[] = {
+	{"Save", save},
+	{"Load", load},
+	{nullptr, nullptr}
+};
+
+void openSketchLib(lua_State* l) {
+	luaL_newlib(l, libs);
+	lua_setglobal(l, "sketch");
+}

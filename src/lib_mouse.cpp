@@ -19,16 +19,37 @@
  * 3. This notice may not be removed or altered from any source
  * distribution.
 */
-#ifndef CUSTOMLIBRARIES_HPP_
-#define CUSTOMLIBRARIES_HPP_
+#include "custom_libraries.hpp"
 
-#include "lua/lua.hpp"
+//-------------------------
+//define the glue wrapper functons
+//-------------------------
 
-void openCustomLibraries(lua_State*);
+static int motion(lua_State* l) {
+	return 0;
+}
 
-void openSketchLib(lua_State*);
-void openMouseLib(lua_State*);
-void openMapLib(lua_State*);
-void openTilesetLib(lua_State*);
+static int buttonDown(lua_State* l) {
+	return 0;
+}
 
-#endif
+static int buttonUp(lua_State* l) {
+	return 0;
+}
+
+//-------------------------
+//register  the functions
+//-------------------------
+
+static const luaL_Reg libs[] = {
+	//callbacks, not glue
+	{"Motion", motion},
+	{"ButtonDown", buttonDown},
+	{"ButtonUp", buttonUp},
+	{nullptr, nullptr}
+};
+
+void openMouseLib(lua_State* l) {
+	luaL_newlib(l, libs);
+	lua_setglobal(l, "mouse");
+}
