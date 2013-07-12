@@ -32,16 +32,16 @@
 class MapLayer {
 public:
 	MapLayer() = default;
-	MapLayer(int w, int h, int v) { Generate(w, h, v); }
+	MapLayer(int w, int h, TILE_TYPE v) { Generate(w, h, v); }
 
-	void Generate(int width, int height, int defaultValue);
+	void Generate(int width, int height, TILE_TYPE defaultValue);
 	void Clear();
 
 	void DrawTo(SDL_Surface* const, Tileset*, int x, int y);
 
 	//accessors and mutators
-	int SetTile(int x, int y, int value);
-	int GetTile(int x, int y);
+	TILE_TYPE SetTile(int x, int y, TILE_TYPE value);
+	TILE_TYPE GetTile(int x, int y);
 
 	int GetWidth() const { return tiles.size(); }
 	int GetHeight() const { return tiles.size() ? tiles.begin()->size() : 0; }

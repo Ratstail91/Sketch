@@ -31,7 +31,7 @@ Map Map::singleton;
 	if (idx < 0 || idx >= vec.size()) { throw(std::out_of_range("layer index out of range")); }
 
 
-void Map::Generate(int l, int w, int h, int v) {
+void Map::Generate(int l, int w, int h, TILE_TYPE v) {
 	if (l <= 0) {
 		throw(std::invalid_argument("Cannot generate less than one layer of tiles"));
 	}
@@ -55,7 +55,7 @@ void Map::DrawLayerTo(SDL_Surface* const dest, Tileset* tset, int l, int x, int 
 	layers[l].DrawTo(dest, tset, x, y);
 }
 
-void Map::InsertLayer(int l, int dv) {
+void Map::InsertLayer(int l, TILE_TYPE dv) {
 	if (layers.size() == 0) {
 		throw(std::logic_error("Cannot insert into an empty map"));
 	}
@@ -79,12 +79,12 @@ void Map::DeleteLayer(int l) {
 	layers.erase(layers.begin()+l);
 }
 
-int Map::SetTile(int l, int x, int y, int v) {
+TILE_TYPE Map::SetTile(int l, int x, int y, TILE_TYPE v) {
 	CheckVecRange(layers, l);
 	return layers[l].SetTile(x, y, v);
 }
 
-int Map::GetTile(int l, int x, int y) {
+TILE_TYPE Map::GetTile(int l, int x, int y) {
 	CheckVecRange(layers, l);
 	return layers[l].GetTile(x, y);
 }

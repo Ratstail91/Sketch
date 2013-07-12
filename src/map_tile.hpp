@@ -22,14 +22,21 @@
 #ifndef MAPTILE_HPP_
 #define MAPTILE_HPP_
 
-/* TODO: allow this to be modified (at runtime?), to allow *massive* maps
- * Could use a macro TILE_INVISIBLE defined as the maximum value for "value"'s type,
- * and thread it into the existing code. That way, this could be an unsigned char,
- * or even have a non-standard size (bit fields).
-*/
+#include <cstdint>
+
+//for platform dependencies and modability
+#ifdef TILE_THIN
+ #define TILE_TYPE uint8_t
+ #define TILE_MAX 254
+ #define TILE_NONE 255
+#else
+ #define TILE_TYPE int32_t
+ #define TILE_MAX INT32_MAX
+ #define TILE_NONE -1
+#endif
 
 struct MapTile {
-	int value;
+	TILE_TYPE value;
 	//other metadata
 };
 

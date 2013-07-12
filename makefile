@@ -1,5 +1,9 @@
 OUTDIR=out
 
+#CXXFLAGS+=-DTILE_THIN
+
+export
+
 all: $(OUTDIR)
 	$(MAKE) -C src
 

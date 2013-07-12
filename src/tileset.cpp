@@ -23,11 +23,11 @@
 
 #include <stdexcept>
 
-void Tileset::DrawTileTo(SDL_Surface* const dest, int index, Sint16 x, Sint16 y) {
+void Tileset::DrawTileTo(SDL_Surface* const dest, TILE_TYPE index, Sint16 x, Sint16 y) {
 	if (!surface) {
 		throw(std::logic_error("No tileset to draw"));
 	}
-	if (index < 0) {
+	if (index == TILE_NONE) {
 		return;
 	}
 
@@ -63,7 +63,7 @@ void Tileset::DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapT
 	for (int i = iStart; i < iEnd; i++) {
 		for (int j = jStart; j < jEnd; j++) {
 			//skip invisible tiles
-			if (tiles[i][j].value < 0) {
+			if (tiles[i][j].value == TILE_NONE) {
 				continue;
 			}
 
@@ -83,6 +83,7 @@ void Tileset::DrawVectorTo(SDL_Surface* const dest, std::vector<std::vector<MapT
 }
 
 void Tileset::LoadSurface(std::string s, Uint16 w, Uint16 h) {
+	//should there be a warning here for when a surface has more tiles than TILE_MAX?
 	FreeSurface();
 	if (!(surface = SDL_LoadBMP(s.c_str()))) {
 		throw(std::runtime_error(std::string() + "Failed to load tileset: " + s));

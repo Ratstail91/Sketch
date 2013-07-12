@@ -30,7 +30,7 @@
 static int generate(lua_State* l) {
 	//default value
 	while (lua_gettop(l) < 4) {
-		lua_pushnumber(l, -1);
+		lua_pushnumber(l, TILE_NONE);
 	}
 
 	Map::GetSingletonPtr()->Generate(
@@ -92,6 +92,16 @@ static int getHeight(lua_State* l) {
 	return 1;
 }
 
+static int getTileMax(lua_State* l) {
+	lua_pushnumber(l, TILE_MAX);
+	return 1;
+}
+
+static int getTileNone(lua_State* l) {
+	lua_pushnumber(l, TILE_NONE);
+	return 1;
+}
+
 //-------------------------
 //register  the functions
 //-------------------------
@@ -106,6 +116,8 @@ static const luaL_Reg libs[] = {
 	{"GetLayerCount", getLayerCount},
 	{"GetWidth", getWidth},
 	{"GetHeight", getHeight},
+	{"GetTileMax", getTileMax},
+	{"GetTileNone", getTileNone},
 	{nullptr, nullptr}
 };
 

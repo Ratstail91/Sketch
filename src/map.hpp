@@ -35,17 +35,17 @@ public:
 	static Map* GetSingletonPtr() { return &singleton; }
 	static Map& GetSingletonRef() { return singleton; };
 
-	void Generate(int layerCount, int width, int height, int defaultValue = -1);
+	void Generate(int layerCount, int width, int height, TILE_TYPE defaultValue = TILE_NONE);
 	void Clear();
 
 	void DrawLayerTo(SDL_Surface* const, Tileset*, int layer, int x, int y);
 
 	//accessors and mutators
-	void InsertLayer(int layer, int defaultValue = -1);
+	void InsertLayer(int layer, TILE_TYPE defaultValue = TILE_NONE);
 	void DeleteLayer(int layer);
 
-	int SetTile(int l, int x, int y, int value);
-	int GetTile(int l, int x, int y);
+	TILE_TYPE SetTile(int l, int x, int y, TILE_TYPE value);
+	TILE_TYPE GetTile(int l, int x, int y);
 
 	MapLayer* GetLayer(int l);
 

@@ -28,7 +28,7 @@
 		throw(std::out_of_range("tile index out of range"));
 
 
-void MapLayer::Generate(int width, int height, int defaultValue) {
+void MapLayer::Generate(int width, int height, TILE_TYPE defaultValue) {
 	if (width <= 0) {
 		throw(std::invalid_argument("Cannot generate less than one column of tiles"));
 	}
@@ -55,12 +55,12 @@ void MapLayer::DrawTo(SDL_Surface* const dest, Tileset* tset, int x, int y) {
 	tset->DrawVectorTo(dest, tiles, x, y);
 }
 
-int MapLayer::SetTile(int x, int y, int value) {
+TILE_TYPE MapLayer::SetTile(int x, int y, TILE_TYPE value) {
 	CheckRange(x, y);
 	return tiles[x][y].value = value;
 }
 
-int MapLayer::GetTile(int x, int y) {
+TILE_TYPE MapLayer::GetTile(int x, int y) {
 	CheckRange(x, y);
 	return tiles[x][y].value;
 }
