@@ -25,6 +25,7 @@
 #include <string>
 using namespace std;
 
+//TODO: I DON'T LIKE THIS
 #define DEFAULT_SAVE "map.txt"
 #define DEFAULT_LOAD "map.txt"
 
@@ -40,6 +41,11 @@ static string itos(int i) {
 
 Editor::Editor(lua_State* L) {
 	luaState = L;
+
+	//get the map object
+	lua_getfield(luaState, LUA_REGISTRYINDEX, "sketch-map");
+	map = reinterpret_cast<Map*>(lua_touserdata(luaState, 1));
+	lua_pop(luaState, 1);
 
 	tileset.LoadSurface("tileset.bmp", 32, 32);
 }
@@ -65,11 +71,9 @@ void Editor::FrameEnd() {
 }
 
 void Editor::Render(SDL_Surface* const screen) {
-//	map.DrawTo(screen, cam.x, cam.y);
 	for (int i = 0; i < map->GetLayerCount(); i++) {
 		map->DrawLayerTo(screen, &tileset, i, cam.x, cam.y);
 	}
-//	tileset.DrawTileTo(screen, 14, cam.x, cam.y);
 }
 
 //-------------------------

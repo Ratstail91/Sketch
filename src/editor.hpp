@@ -52,8 +52,7 @@ protected:
 
 	//members
 	lua_State* luaState = nullptr;
-
-	Map* map = Map::GetSingletonPtr();
+	Map* map = nullptr;
 
 	Tileset tileset;
 	Vector2 cam;

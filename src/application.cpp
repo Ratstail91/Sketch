@@ -46,6 +46,7 @@ Application::~Application() {
 }
 
 void Application::Init() {
+	//initialize the APIs
 	if (SDL_Init(SDL_INIT_VIDEO)) {
 		throw(std::runtime_error("Failed to initialize SDL"));
 	}
@@ -54,9 +55,15 @@ void Application::Init() {
 		throw(std::runtime_error("Failed to initialize lua"));
 	}
 
+	//open the lua libraries
 	luaL_openlibs(luaState);
 	openCustomLibraries(luaState);
 
+	//create the "global" objects
+	lua_pushlightuserdata(luaState, reinterpret_cast<void*>(new Map()));
+	lua_setfield(luaState, LUA_REGISTRYINDEX, "sketch-map");
+
+	//create the screen
 	BaseScene::SetScreen(800, 600);
 }
 
@@ -100,6 +107,13 @@ void Application::Proc() {
 
 void Application::Quit() {
 	UnloadScene();
+
+	//delete the "global" objects
+	lua_getfield(luaState, LUA_REGISTRYINDEX, "sketch-map");
+	delete reinterpret_cast<Map*>(lua_touserdata(luaState, -1));
+	lua_pop(luaState, 1);
+
+	//clean up the APIs
 	lua_close(luaState);
 	SDL_Quit();
 }

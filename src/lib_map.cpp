@@ -33,7 +33,10 @@ static int generate(lua_State* l) {
 		lua_pushnumber(l, TILE_NONE);
 	}
 
-	Map::GetSingletonPtr()->Generate(
+	lua_getfield(l, LUA_REGISTRYINDEX, "sketch-map");
+	Map* m = reinterpret_cast<Map*>(lua_touserdata(l, -1));
+
+	m->Generate(
 		lua_tonumber(l, 1),
 		lua_tonumber(l, 2),
 		lua_tonumber(l, 3),
@@ -44,22 +47,34 @@ static int generate(lua_State* l) {
 }
 
 static int clear(lua_State* l) {
-	Map::GetSingletonPtr()->Clear();
+	lua_getfield(l, LUA_REGISTRYINDEX, "sketch-map");
+	Map* m = reinterpret_cast<Map*>(lua_touserdata(l, -1));
+
+	m->Clear();
 	return 0;
 }
 
 static int insertLayer(lua_State* l) {
-	Map::GetSingletonPtr()->InsertLayer(lua_tonumber(l, 1), lua_tonumber(l, 2));
+	lua_getfield(l, LUA_REGISTRYINDEX, "sketch-map");
+	Map* m = reinterpret_cast<Map*>(lua_touserdata(l, -1));
+
+	m->InsertLayer(lua_tonumber(l, 1), lua_tonumber(l, 2));
 	return 0;
 }
 
 static int deleteLayer(lua_State* l) {
-	Map::GetSingletonPtr()->DeleteLayer(lua_tonumber(l, 1));
+	lua_getfield(l, LUA_REGISTRYINDEX, "sketch-map");
+	Map* m = reinterpret_cast<Map*>(lua_touserdata(l, -1));
+
+	m->DeleteLayer(lua_tonumber(l, 1));
 	return 0;
 }
 
 static int setTile(lua_State* l) {
-	lua_pushnumber(l, Map::GetSingletonPtr()->SetTile(
+	lua_getfield(l, LUA_REGISTRYINDEX, "sketch-map");
+	Map* m = reinterpret_cast<Map*>(lua_touserdata(l, -1));
+
+	lua_pushnumber(l, m->SetTile(
 		lua_tonumber(l, 1),
 		lua_tonumber(l, 2),
 		lua_tonumber(l, 3),
@@ -69,7 +84,10 @@ static int setTile(lua_State* l) {
 }
 
 static int getTile(lua_State* l) {
-	lua_pushnumber(l, Map::GetSingletonPtr()->GetTile(
+	lua_getfield(l, LUA_REGISTRYINDEX, "sketch-map");
+	Map* m = reinterpret_cast<Map*>(lua_touserdata(l, -1));
+
+	lua_pushnumber(l, m->GetTile(
 		lua_tonumber(l, 1),
 		lua_tonumber(l, 2),
 		lua_tonumber(l, 3)
@@ -78,17 +96,26 @@ static int getTile(lua_State* l) {
 }
 
 static int getLayerCount(lua_State* l) {
-	lua_pushnumber(l, Map::GetSingletonPtr()->GetLayerCount());
+	lua_getfield(l, LUA_REGISTRYINDEX, "sketch-map");
+	Map* m = reinterpret_cast<Map*>(lua_touserdata(l, -1));
+
+	lua_pushnumber(l, m->GetLayerCount());
 	return 1;
 }
 
 static int getWidth(lua_State* l) {
-	lua_pushnumber(l, Map::GetSingletonPtr()->GetWidth());
+	lua_getfield(l, LUA_REGISTRYINDEX, "sketch-map");
+	Map* m = reinterpret_cast<Map*>(lua_touserdata(l, -1));
+
+	lua_pushnumber(l, m->GetWidth());
 	return 1;
 }
 
 static int getHeight(lua_State* l) {
-	lua_pushnumber(l, Map::GetSingletonPtr()->GetHeight());
+	lua_getfield(l, LUA_REGISTRYINDEX, "sketch-map");
+	Map* m = reinterpret_cast<Map*>(lua_touserdata(l, -1));
+
+	lua_pushnumber(l, m->GetHeight());
 	return 1;
 }
 
