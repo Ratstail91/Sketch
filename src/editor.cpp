@@ -25,10 +25,6 @@
 #include <string>
 using namespace std;
 
-//TODO: I DON'T LIKE THIS
-#define DEFAULT_SAVE "map.txt"
-#define DEFAULT_LOAD "map.txt"
-
 static string itos(int i) {
 	char buffer[20];
 	snprintf(buffer, 20, "%d", i);
@@ -132,12 +128,13 @@ void Editor::KeyDown(SDL_KeyboardEvent const& key) {
 	//HOTKEYS: control modifier
 	else if (key.keysym.mod & KMOD_CTRL) {
 		switch(key.keysym.sym) {
+			//TODO: fix these i.e. hook these up to the GUI
 			case SDLK_s:
-				luaL_dostring(luaState, "sketch.Save(\"" DEFAULT_SAVE "\")");
+				luaL_dostring(luaState, "sketch.Save(\"map.txt\")");
 			break;
 
 			case SDLK_l:
-				luaL_dostring(luaState, "sketch.Load(\"" DEFAULT_LOAD "\")");
+				luaL_dostring(luaState, "sketch.Load(\"map.txt\")");
 			break;
 /*
 			case SDLK_n:

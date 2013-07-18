@@ -59,6 +59,8 @@ void Application::Init() {
 	luaL_openlibs(luaState);
 	openCustomLibraries(luaState);
 
+	luaL_dofile(luaState, "rsc\\init.lua");
+
 	//create the "global" objects
 	lua_pushlightuserdata(luaState, reinterpret_cast<void*>(new Map()));
 	lua_setfield(luaState, LUA_REGISTRYINDEX, "sketch-map");

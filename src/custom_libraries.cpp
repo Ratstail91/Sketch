@@ -24,8 +24,6 @@
 #include "map.hpp"
 
 void openCustomLibraries(lua_State* l) {
-	openSketchLib(l);
-	openMouseLib(l);
 	openMapLib(l);
 	openTilesetLib(l);
 }

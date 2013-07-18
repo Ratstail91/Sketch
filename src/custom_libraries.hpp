@@ -26,8 +26,6 @@
 
 void openCustomLibraries(lua_State*);
 
-void openSketchLib(lua_State*);
-void openMouseLib(lua_State*);
 void openMapLib(lua_State*);
 void openTilesetLib(lua_State*);
 
