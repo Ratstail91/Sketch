@@ -24,6 +24,8 @@
 
 #include "base_scene.hpp"
 
+#include "menu_bar.hpp"
+
 #include "map.hpp"
 #include "tileset.hpp"
 #include "vector2.hpp"
@@ -56,6 +58,8 @@ protected:
 
 	Tileset tileset;
 	Vector2 cam;
+
+	MenuBar menuBar;
 };
 
 #endif

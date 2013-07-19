@@ -44,6 +44,17 @@ Editor::Editor(lua_State* L) {
 	lua_pop(luaState, 1);
 
 	tileset.LoadSurface("tileset.bmp", 32, 32);
+
+	menuBar.LoadSurfaces("rsc\\button.bmp", "rsc\\pk_white_8.bmp");
+	menuBar.NewButton("File");
+	menuBar.NewDropButton(0, "New");
+	menuBar.NewDropButton(0, "Open");
+	menuBar.NewDropButton(0, "Save");
+	menuBar.NewDropButton(0, "Save As");
+	menuBar.NewDropButton(0, "Exit");
+	menuBar.NewButton("Edit");
+	menuBar.NewDropButton(1, "Brush");
+	menuBar.NewDropButton(1, "Tilsets");
 }
 
 Editor::~Editor() {
@@ -70,6 +81,7 @@ void Editor::Render(SDL_Surface* const screen) {
 	for (int i = 0; i < map->GetLayerCount(); i++) {
 		map->DrawLayerTo(screen, &tileset, i, cam.x, cam.y);
 	}
+	menuBar.DrawTo(screen);
 }
 
 //-------------------------
