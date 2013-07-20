@@ -46,15 +46,16 @@ Editor::Editor(lua_State* L) {
 	tileset.LoadSurface("tileset.bmp", 32, 32);
 
 	menuBar.LoadSurfaces("rsc\\button.bmp", "rsc\\pk_white_8.bmp");
-	menuBar.NewButton("File");
-	menuBar.NewDropButton(0, "New");
-	menuBar.NewDropButton(0, "Open");
-	menuBar.NewDropButton(0, "Save");
-	menuBar.NewDropButton(0, "Save As");
-	menuBar.NewDropButton(0, "Exit");
-	menuBar.NewButton("Edit");
-	menuBar.NewDropButton(1, "Brush");
-	menuBar.NewDropButton(1, "Tilsets");
+	menuBar.NewMenu("File");
+	menuBar.NewButton(0, "New");
+	menuBar.NewButton(0, "Open");
+	menuBar.NewButton(0, "Save");
+	menuBar.NewButton(0, "Save As");
+	menuBar.NewButton(0, "Exit");
+	menuBar.NewMenu("Edit");
+	menuBar.NewButton(1, "Tilsets");
+	menuBar.NewButton(1, "Brushes");
+	menuBar.NewButton(1, "Filters");
 }
 
 Editor::~Editor() {
@@ -89,6 +90,8 @@ void Editor::Render(SDL_Surface* const screen) {
 //-------------------------
 
 void Editor::MouseMotion(SDL_MouseMotionEvent const& motion) {
+	menuBar.MouseMotion(motion);
+
 	if (motion.state & SDL_BUTTON_LMASK) {
 		//left button: callback
 		string s = string() + "mouse.Motion(" + itos(motion.x) + ", " + itos(motion.y) + ", " + itos(motion.xrel) + ", " + itos(motion.yrel) + ")";
@@ -103,6 +106,8 @@ void Editor::MouseMotion(SDL_MouseMotionEvent const& motion) {
 }
 
 void Editor::MouseButtonDown(SDL_MouseButtonEvent const& button) {
+	menuBar.MouseButtonDown(button);
+
 	if (button.button == SDL_BUTTON_LEFT) {
 		//left button: callback
 		string s = string() + "mouse.ButtonDown(" + itos(button.x) + ", " + itos(button.y) + ")";
@@ -115,6 +120,8 @@ void Editor::MouseButtonDown(SDL_MouseButtonEvent const& button) {
 }
 
 void Editor::MouseButtonUp(SDL_MouseButtonEvent const& button) {
+	menuBar.MouseButtonUp(button);
+
 	if (button.button == SDL_BUTTON_LEFT) {
 		//left button: callback
 		string s = string() + "mouse.ButtonUp(" + itos(button.x) + ", " + itos(button.y) + ")";

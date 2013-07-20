@@ -27,10 +27,25 @@
 
 #include <vector>
 
-struct menuBarEntry {
-	int index;
-	Button button;
+//TODO: Separate this into it's own module
+class DropDownMenu {
+public:
+	DropDownMenu() = default;
+	~DropDownMenu() = default;
+
+	void DrawTo(SDL_Surface* const dest);
+
+	void MouseMotion(SDL_MouseMotionEvent const&);
+	void MouseButtonDown(SDL_MouseButtonEvent const&);
+	int MouseButtonUp(SDL_MouseButtonEvent const&);
+
+private:
+	Button mainButton;
+
 	std::vector<Button> dropButtons;
+	bool open = false;
+
+	friend class MenuBar;
 };
 
 class MenuBar {
@@ -41,20 +56,27 @@ public:
 	void LoadSurfaces(std::string bgName, std::string fgName);
 	void DrawTo(SDL_Surface* const dest);
 
-	Button::State MouseMotion(SDL_MouseMotionEvent const&, int* entryIndex = nullptr, int* dropButtonIndex = nullptr);
-	Button::State MouseButtonDown(SDL_MouseButtonEvent const&, int* entryIndex = nullptr, int* dropButtonIndex = nullptr);
-	Button::State MouseButtonUp(SDL_MouseButtonEvent const&, int* entryIndex = nullptr, int* dropButtonIndex = nullptr);
+	//TODO: Stop this from interfering with the map
+	Button::State MouseMotion(SDL_MouseMotionEvent const&);
+	Button::State MouseButtonDown(SDL_MouseButtonEvent const&);
+	Button::State MouseButtonUp(SDL_MouseButtonEvent const&, int* menu = nullptr, int* button = nullptr);
 
 	//call when the menu is created
-	int NewButton(std::string text);
-	int NewDropButton(int entryIndex, std::string text);
+	int NewMenu(std::string text);
+	int NewButton(int index, std::string text);
 
 	//clean up
-	void ClearButtons();
-	void ClearDropButtons(int entryIndex);
+	void ClearMenus() { menuButtons.clear(); }
+	void ClearButtons(int menuIndex);
+
+	//accessors & mutators
+//	Image* GetBGImage() { return &bgImage; }
+//	Image* GetFGImage() { return &fgImage; }
+
+//	std::vector<DropDownMenu>* GetMenuButtons() { return &menuButtons; }
 
 private:
-	std::vector<menuBarEntry> buttons;
+	std::vector<DropDownMenu> menuButtons;
 	Image bgImage, fgImage;
 };
 

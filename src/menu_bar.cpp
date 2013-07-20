@@ -23,73 +23,133 @@
 
 #include <stdexcept>
 
+void DropDownMenu::DrawTo(SDL_Surface* const dest) {
+	//only draw the dropButtons in the user has this menu open
+	mainButton.DrawTo(dest);
+
+	if (!open) {
+		return;
+	}
+
+	for (auto& i : dropButtons) {
+		i.DrawTo(dest);
+	}
+}
+
+void DropDownMenu::MouseMotion(SDL_MouseMotionEvent const& motion) {
+	//open the menu
+	bool o = mainButton.MouseMotion(motion) == Button::State::PRESSED;
+
+	if (!(open |= o)) {
+		return;
+	}
+
+	for (auto& i : dropButtons) {
+		//dragging down the menu
+		o |= i.MouseMotion(motion) == Button::State::PRESSED;
+	}
+
+	open = o;
+}
+
+void DropDownMenu::MouseButtonDown(SDL_MouseButtonEvent const& button) {
+	//open the menu
+	if (!(open = mainButton.MouseButtonDown(button) == Button::State::PRESSED)) {
+		return;
+	}
+
+	//update the others anyway
+	for (auto& i : dropButtons) {
+		i.MouseButtonDown(button);
+	}
+}
+
+int DropDownMenu::MouseButtonUp(SDL_MouseButtonEvent const& button) {
+	int ret = -1;
+	mainButton.MouseButtonUp(button);
+
+	for (auto& i : dropButtons) {
+		//the user just released this button
+		if (i.GetState() != i.MouseButtonUp(button) && i.GetState() == Button::State::HOVER && open) {
+			//get this button's index
+			ret = (&i - dropButtons.data());
+		}
+	}
+
+	open = false;
+	return ret;
+}
+
+//-------------------------
+
 void MenuBar::LoadSurfaces(std::string bgName, std::string fgName) {
 	bgImage.LoadSurface(bgName);
 	fgImage.LoadSurface(fgName);
 }
 
 void MenuBar::DrawTo(SDL_Surface* const dest) {
-	//TODO
-	for (auto& i : buttons) {
-		i.button.DrawTo(dest);
-		for (auto& j : i.dropButtons) {
-			j.DrawTo(dest);
-		}
+	//TODO: a full bar across the screen
+	for (auto& i : menuButtons) {
+		i.DrawTo(dest);
 	}
 }
 
-Button::State MenuBar::MouseMotion(SDL_MouseMotionEvent const&, int* entryIndex, int* dropButtonIndex) {
-	//TODO
+Button::State MenuBar::MouseMotion(SDL_MouseMotionEvent const& mouseMotion) {
+	for (auto& i : menuButtons) {
+		i.MouseMotion(mouseMotion);
+	}
 }
 
-Button::State MenuBar::MouseButtonDown(SDL_MouseButtonEvent const&, int* entryIndex, int* dropButtonIndex) {
-	//TODO
+Button::State MenuBar::MouseButtonDown(SDL_MouseButtonEvent const& mouseButton) {
+	for (auto& i : menuButtons) {
+		i.MouseButtonDown(mouseButton);
+	}
 }
 
-Button::State MenuBar::MouseButtonUp(SDL_MouseButtonEvent const&, int* entryIndex, int* dropButtonIndex) {
-	//TODO
+Button::State MenuBar::MouseButtonUp(SDL_MouseButtonEvent const& mouseButton, int* menuIndex, int* buttonIndex) {
+	for (auto& i : menuButtons) {
+		i.MouseButtonUp(mouseButton);
+	}
 }
 
-int MenuBar::NewButton(std::string text) {
-	menuBarEntry entry;
-	entry.index = buttons.size();
+int MenuBar::NewMenu(std::string text) {
+	DropDownMenu ddMenu;
 
 	//setup the button
-	entry.button.Setup(
-		entry.index * bgImage.GetSurface()->w,
+	ddMenu.mainButton.Setup(
+		menuButtons.size() * bgImage.GetSurface()->w,
 		0,
 		bgImage.GetSurface(),
 		fgImage.GetSurface(),
 		text
 	);
 
-	buttons.push_back(entry);
+	menuButtons.push_back(ddMenu);
 
-	return buttons.size() - 1;
+	return menuButtons.size() - 1;
 }
 
-int MenuBar::NewDropButton(int entryIndex, std::string text) {
-	if (entryIndex > buttons.size()) {
-		throw(std::logic_error("No buttons with that index"));
+int MenuBar::NewButton(int menuIndex, std::string text) {
+	if (menuIndex > menuButtons.size()) {
+		throw(std::logic_error("No drop down menu with that index"));
 	}
 
 	Button button(
-		entryIndex * bgImage.GetSurface()->w,
-		buttons[entryIndex].dropButtons.size() * bgImage.GetSurface()->h/3 + bgImage.GetSurface()->h/3,
+		menuIndex * bgImage.GetSurface()->w,
+		menuButtons[menuIndex].dropButtons.size() * bgImage.GetSurface()->h/3 + bgImage.GetSurface()->h/3,
 		bgImage.GetSurface(),
 		fgImage.GetSurface(),
 		text
 	);
 
-	buttons[entryIndex].dropButtons.push_back(button);
+	menuButtons[menuIndex].dropButtons.push_back(button);
 
-	return buttons[entryIndex].dropButtons.size() - 1;
+	return menuButtons[menuIndex].dropButtons.size() - 1;
 }
 
-void MenuBar::ClearButtons() {
-	buttons.clear();
-}
-
-void MenuBar::ClearDropButtons(int entryIndex) {
-	//TODO
+void MenuBar::ClearButtons(int i) {
+	if (i > menuButtons.size()) {
+		throw(std::logic_error("No drop down menu with that index"));
+	}
+	menuButtons[i].dropButtons.clear();
 }
