@@ -30,9 +30,9 @@ SDL_Surface* Image::LoadSurface(std::string fname) {
 		throw(std::runtime_error(std::string() + "Failed to load file: " + fname));
 	}
 	surface = p;
-	SetTransparentColor(255, 0, 255); //default
 	clip = {0, 0, (Uint16)surface->w, (Uint16)surface->h};
 	local = true;
+	SetTransparentColor(255, 0, 255); //default
 	return surface;
 }
 
