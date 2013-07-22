@@ -24,6 +24,7 @@
 #include <stdexcept>
 
 SDL_Surface* Image::LoadSurface(std::string fname) {
+	FreeSurface();
 	SDL_Surface* p = SDL_LoadBMP(fname.c_str());
 	if (!p) {
 		throw(std::runtime_error(std::string() + "Failed to load file: " + fname));
@@ -45,6 +46,7 @@ void Image::FreeSurface() {
 }
 
 SDL_Surface* Image::SetSurface(SDL_Surface* p) {
+	FreeSurface();
 	if (!p) {
 		throw(std::invalid_argument("No surface pointer provided"));
 	}
@@ -66,12 +68,18 @@ void Image::SetTransparentColor(Uint8 r, Uint8 g, Uint8 b) {
 	if (!surface) {
 		throw(std::logic_error("Failed to set the transparent color"));
 	}
+	if (!local) {
+		throw(std::logic_error("Cannot set the transparent color of a non-local surface"));
+	}
 	SDL_SetColorKey(surface, SDL_SRCCOLORKEY, SDL_MapRGB(surface->format, r, g, b));
 }
 
 void Image::ClearTransparentColor() {
 	if (!surface) {
 		throw(std::logic_error("Failed to clear the transparent color"));
+	}
+	if (!local) {
+		throw(std::logic_error("Cannot clear the transparent color of a non-local surface"));
 	}
 	SDL_SetColorKey(surface, 0, 0);
 }
