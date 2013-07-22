@@ -19,19 +19,21 @@
  * 3. This notice may not be removed or altered from any source
  * distribution.
 */
-#ifndef MENUBAR_HPP_
-#define MENUBAR_HPP_
+#ifndef DROPDOWNLIST_HPP_
+#define DROPDOWNLIST_HPP_
 
-#include "image.hpp"
 #include "button.hpp"
 
 #include <vector>
 
-//TODO: Separate this into it's own module
-class DropDownMenu {
+class DropdownList {
 public:
-	DropDownMenu() = default;
-	~DropDownMenu() = default;
+	DropdownList() = default;
+	~DropdownList() = default;
+
+	void LoadSurfaces(std::string bgName, std::string fgName);
+	void SetSurfaces(SDL_Surface* bg, SDL_Surface* fg);
+	void FreeSurfaces();
 
 	void DrawTo(SDL_Surface* const dest);
 
@@ -39,46 +41,27 @@ public:
 	void MouseButtonDown(SDL_MouseButtonEvent const&);
 	int MouseButtonUp(SDL_MouseButtonEvent const&);
 
+	//simple accessors and mutators
+	Sint16 SetX(Sint16 i) { return x = i; }
+	Sint16 SetY(Sint16 i) { return y = i; }
+	Sint16 GetX() const { return x; }
+	Sint16 GetY() const { return y; }
+
+	Button* GetMainButton() { return &mainButton; }
+
+	int NewButton(std::string text);
+	int EraseButton(int index);
+	int GetButtonCount() const { return dropButtons.size(); }
+
+	Image* GetBGImage() { return &bgImage; }
+	Image* GetFGImage() { return &fgImage; }
+
 private:
+	Sint16 x = 0, y = 0;
 	Button mainButton;
-
 	std::vector<Button> dropButtons;
-	bool open = false;
-
-	friend class MenuBar;
-};
-
-class MenuBar {
-public:
-	MenuBar() = default;
-	~MenuBar() = default;
-
-	void LoadSurfaces(std::string bgName, std::string fgName);
-	//set?
-	void DrawTo(SDL_Surface* const dest);
-
-	//TODO: Stop this from interfering with the map
-	Button::State MouseMotion(SDL_MouseMotionEvent const&);
-	Button::State MouseButtonDown(SDL_MouseButtonEvent const&);
-	Button::State MouseButtonUp(SDL_MouseButtonEvent const&, int* menu = nullptr, int* button = nullptr);
-
-	//call when the menu is created
-	int NewMenu(std::string text);
-	int NewButton(int index, std::string text);
-
-	//clean up
-	void ClearMenus() { menuButtons.clear(); }
-	void ClearButtons(int menuIndex);
-
-	//accessors & mutators
-//	Image* GetBGImage() { return &bgImage; }
-//	Image* GetFGImage() { return &fgImage; }
-
-//	std::vector<DropDownMenu>* GetMenuButtons() { return &menuButtons; }
-
-private:
-	std::vector<DropDownMenu> menuButtons;
 	Image bgImage, fgImage;
+	bool open = false;
 };
 
 #endif
