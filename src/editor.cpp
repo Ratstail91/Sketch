@@ -46,16 +46,13 @@ Editor::Editor(lua_State* L) {
 	tileset.LoadSurface("tileset.bmp", 32, 32);
 
 	menuBar.LoadSurfaces("rsc\\button.bmp", "rsc\\pk_white_8.bmp");
-	menuBar.NewMenu("File");
-	menuBar.NewButton(0, "New");
-	menuBar.NewButton(0, "Open");
-	menuBar.NewButton(0, "Save");
-	menuBar.NewButton(0, "Save As");
-	menuBar.NewButton(0, "Exit");
-	menuBar.NewMenu("Edit");
-	menuBar.NewButton(1, "Tilsets");
-	menuBar.NewButton(1, "Brushes");
-	menuBar.NewButton(1, "Filters");
+
+	vector<vector<string>> info = {
+		{ "File", "New", "Open", "Save", "Save As", "Exit" },
+		{ "Edit", "Layers", "Brush", "Tilesets"}
+	};
+
+	menuBar.Setup(info);
 }
 
 Editor::~Editor() {
@@ -79,10 +76,11 @@ void Editor::FrameEnd() {
 }
 
 void Editor::Render(SDL_Surface* const screen) {
+	menuBar.DrawTo(screen);
+
 	for (int i = 0; i < map->GetLayerCount(); i++) {
 		map->DrawLayerTo(screen, &tileset, i, cam.x, cam.y);
 	}
-	menuBar.DrawTo(screen);
 }
 
 //-------------------------
@@ -120,7 +118,9 @@ void Editor::MouseButtonDown(SDL_MouseButtonEvent const& button) {
 }
 
 void Editor::MouseButtonUp(SDL_MouseButtonEvent const& button) {
-	menuBar.MouseButtonUp(button);
+	int entry = -1, butt = -1;
+	menuBar.MouseButtonUp(button, &entry, &butt);
+	cout << "Entry: " << entry << "\tButton: " << butt << endl;
 
 	if (button.button == SDL_BUTTON_LEFT) {
 		//left button: callback
@@ -185,6 +185,35 @@ void Editor::KeyDown(SDL_KeyboardEvent const& key) {
 			case SDLK_SPACE:
 			case SDLK_RETURN:
 				luaL_dofile(luaState, "debug.lua");
+			break;
+
+			//TEST CASES
+
+			case SDLK_1: {
+				vector<string> info = {
+					"foo", "bar"
+				};
+				menuBar.NewEntry(info);
+			}
+			break;
+			case SDLK_2:
+				menuBar.EraseEntry(0);
+			break;
+			case SDLK_3:
+				cout << "Entry coount: " << menuBar.GetEntryCount() << endl;
+			break;
+
+			case SDLK_4:
+				menuBar.NewButton(0, "foobar");
+			break;
+			case SDLK_5:
+				menuBar.EraseButton(0, 0);
+			break;
+			case SDLK_6:
+				menuBar.ClearButtons(0);
+			break;
+			case  SDLK_7:
+				cout << "Button count: " << menuBar.GetButtonCount(0) << endl;
 			break;
 		}
 	}

@@ -25,13 +25,56 @@
 #include "image.hpp"
 #include "button.hpp"
 
+#include <string>
 #include <vector>
 
-//TODO: Separate this into it's own module
-class DropDownMenu {
+class MenuBar {
 public:
-	DropDownMenu() = default;
-	~DropDownMenu() = default;
+	MenuBar() = default;
+	~MenuBar() = default;
+
+	//graphics
+	void LoadSurfaces(std::string bgName, std::string fgName);
+	void SetSurfaces(SDL_Surface* fgSurface, SDL_Surface* bgSurface);
+	void FreeSurfaces();
+
+	void DrawTo(SDL_Surface* const dest);
+
+	//user inputs
+	void MouseMotion(SDL_MouseMotionEvent const&);
+	void MouseButtonDown(SDL_MouseButtonEvent const&);
+	void MouseButtonUp(SDL_MouseButtonEvent const&, int* entry = nullptr, int* button = nullptr);
+
+	//manage the entries & buttons
+	void Setup(std::vector<std::vector<std::string>>);
+	void Clear() { entries.clear(); }
+
+	int NewEntry(std::vector<std::string>);
+	void EraseEntry(int index);
+	int GetEntryCount();
+
+	int NewButton(int entry, std::string text);
+	void EraseButton(int entry, int button);
+	void ClearButtons(int entry);
+	int GetButtonCount(int entry);
+
+	//OO breakers
+	Image* GetBGImage() { return &bgImage; }
+	Image* GetFGImage() { return &fgImage; }
+
+private:
+	void ResetPositions();
+
+	class MenuBarEntry;
+
+	std::vector<MenuBarEntry> entries;
+	Image bgImage, fgImage;
+};
+
+class MenuBar::MenuBarEntry {
+public:
+	MenuBarEntry() = default;
+	~MenuBarEntry() = default;
 
 	void DrawTo(SDL_Surface* const dest);
 
@@ -46,39 +89,6 @@ private:
 	bool open = false;
 
 	friend class MenuBar;
-};
-
-class MenuBar {
-public:
-	MenuBar() = default;
-	~MenuBar() = default;
-
-	void LoadSurfaces(std::string bgName, std::string fgName);
-	//set?
-	void DrawTo(SDL_Surface* const dest);
-
-	//TODO: Stop this from interfering with the map
-	Button::State MouseMotion(SDL_MouseMotionEvent const&);
-	Button::State MouseButtonDown(SDL_MouseButtonEvent const&);
-	Button::State MouseButtonUp(SDL_MouseButtonEvent const&, int* menu = nullptr, int* button = nullptr);
-
-	//call when the menu is created
-	int NewMenu(std::string text);
-	int NewButton(int index, std::string text);
-
-	//clean up
-	void ClearMenus() { menuButtons.clear(); }
-	void ClearButtons(int menuIndex);
-
-	//accessors & mutators
-//	Image* GetBGImage() { return &bgImage; }
-//	Image* GetFGImage() { return &fgImage; }
-
-//	std::vector<DropDownMenu>* GetMenuButtons() { return &menuButtons; }
-
-private:
-	std::vector<DropDownMenu> menuButtons;
-	Image bgImage, fgImage;
 };
 
 #endif
