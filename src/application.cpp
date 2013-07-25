@@ -31,6 +31,7 @@
 //-------------------------
 
 //Add the custom scene headers here
+#include "splash_screen.hpp"
 #include "editor.hpp"
 
 //-------------------------
@@ -130,6 +131,10 @@ void Application::LoadScene(SceneList sceneIndex) {
 	switch(sceneIndex) {
 		//add scene creation calls here
 		case SceneList::FIRST:
+		case SceneList::SPLASHSCREEN:
+			activeScene = new SplashScreen(); //take the lua state?
+		break;
+
 		case SceneList::EDITOR:
 			activeScene = new Editor(luaState);
 		break;

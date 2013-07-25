@@ -19,18 +19,31 @@
  * 3. This notice may not be removed or altered from any source
  * distribution.
 */
-#ifndef SCENELIST_HPP_
-#define SCENELIST_HPP_
+#ifndef SPLASHSCREEN_HPP_
+#define SPLASHSCREEN_HPP_
 
-enum class SceneList {
-	//these are reserved
-	QUIT,
-	CONTINUE,
-	FIRST,
+#include "base_scene.hpp"
 
-	//custom indexes
-	SPLASHSCREEN,
-	EDITOR,
+#include "image.hpp"
+
+#include <chrono>
+
+class SplashScreen : public BaseScene {
+public:
+	//Public access members
+	SplashScreen();
+	~SplashScreen();
+
+	//Frame loop
+	void RunFrame(double delta);
+	void RenderFrame();
+
+private:
+	void LoadResources();
+
+	bool loaded = false;
+	Image logo;
+	std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 };
 
 #endif
