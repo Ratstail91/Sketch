@@ -35,35 +35,46 @@ public:
 	};
 
 	Button() = default;
-	Button(Sint16 x, Sint16 y, SDL_Surface* bg, SDL_Surface* fg, std::string t = "") { Setup(x, y, bg, fg, t); }
+	Button(std::string bgname, std::string fontname, std::string t = "", Sint16 x = 0, Sint16 y = 0);
+	Button(SDL_Surface* background, SDL_Surface* font, std::string t = "", Sint16 x = 0, Sint16 y = 0);
+	~Button() = default;
 
-	void Setup(Sint16 x, Sint16 y, SDL_Surface* bg, SDL_Surface* fg, std::string text = "");
+	//graphics
+	SDL_Surface* LoadSurface(std::string);
+	SDL_Surface* LoadFontSurface(std::string);
+	SDL_Surface* SetSurface(SDL_Surface*);
+	SDL_Surface* SetFontSurface(SDL_Surface*);
+	SDL_Surface* GetSurface() const { return image.GetSurface(); }
+	SDL_Surface* GetFontSurface() const { return font.GetSurface(); }
+	void FreeSurface() { image.FreeSurface(); }
+	void FreeFontSurface() { font.FreeSurface(); }
 
-	//return the current state
+	//handle input
 	State MouseMotion(SDL_MouseMotionEvent const&);
 	State MouseButtonDown(SDL_MouseButtonEvent const&);
 	State MouseButtonUp(SDL_MouseButtonEvent const&);
+	State SetState(State s) { return state = s; }
 	State GetState() const { return state; }
 
 	//yet another draw function
 	void DrawTo(SDL_Surface* const);
 
-	//simple accessors and mutators
+	//text string
+	std::string SetText(std::string);
+	std::string GetText() const { return text; }
+
+	//position
 	Sint16 SetX(Sint16 i) { return x = i; }
 	Sint16 SetY(Sint16 i) { return y = i; }
 	Sint16 GetX() const { return x; }
 	Sint16 GetY() const { return y; }
 
-	void SetSurfaces(SDL_Surface* bg, SDL_Surface* fg);
-
-	std::string SetText(std::string t);
-	std::string GetText() const { return text; }
-
-	//raw access, be careful
+	//OO Breakers
 	Image* GetImage() { return &image; }
 	RasterFont* GetFont() { return &font; }
 
-	//debug
+	Sint16 SetTextX(Sint16 i) { return textX = i; }
+	Sint16 SetTextY(Sint16 i) { return textY = i; }
 	Sint16 GetTextX() const { return textX; }
 	Sint16 GetTextY() const { return textY; }
 private:
@@ -72,7 +83,7 @@ private:
 	Sint16 x = 0, y = 0;
 	Sint16 textX = 0, textY = 0; //prevent recalc every loop
 	Image image;
-	RasterFont font;
+	RasterFont font; //TODO: cache this?
 	State state = State::NORMAL;
 	std::string text;
 };

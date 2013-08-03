@@ -19,30 +19,42 @@
  * 3. This notice may not be removed or altered from any source
  * distribution.
 */
-#ifndef SPLASHSCREEN_HPP_
-#define SPLASHSCREEN_HPP_
+#ifndef SPINNER_HPP_
+#define SPINNER_HPP_
 
+#include "button.hpp"
+#include "raster_font.hpp"
 #include "image.hpp"
-#include "base_scene.hpp"
 
-#include <chrono>
+#include <array>
+#include <string>
 
-class SplashScreen : public BaseScene {
+class Spinner {
 public:
-	//Public access members
-	SplashScreen();
-	~SplashScreen();
+	Spinner() = default;
+	~Spinner() = default;
 
-	//Frame loop
-	void RunFrame(double delta);
-	void RenderFrame();
+	void LoadSurfaces(std::string bgName, std::string fgName);
+	void SetSurfaces(SDL_Surface* fgSurface, SDL_Surface* bgSurface);
+	void FreeSurfaces();
 
+	void DrawTo(SDL_Surface* const dest);
+
+	//user inputs
+	void MouseMotion(SDL_MouseMotionEvent const&);
+	void MouseButtonDown(SDL_MouseButtonEvent const&);
+	void MouseButtonUp(SDL_MouseButtonEvent const&);
+
+	//accessors and mutators
+	int SetMin(int i);
+	int SetMax(int i);
+	int GetMin();
+	int GetMax();
+	int GetValue();
 private:
-	void LoadResources();
-
-	bool loaded = false;
-	Image logo;
-	std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+	std::array<Button, 6> buttons;
+	std::string text;
+	int min = 0, max = 0, value = 0;
 };
 
 #endif

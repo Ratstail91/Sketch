@@ -22,13 +22,13 @@
 #ifndef EXAMPLE_HPP_
 #define EXAMPLE_HPP_
 
-#include "base_scene.hpp"
-
 #include "menu_bar.hpp"
 
 #include "map.hpp"
 #include "tileset.hpp"
 #include "vector2.hpp"
+
+#include "base_scene.hpp"
 
 #include "lua/lua.hpp"
 

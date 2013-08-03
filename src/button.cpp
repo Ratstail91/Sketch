@@ -23,11 +23,46 @@
 
 #include <stdexcept>
 
-void Button::Setup(Sint16 i, Sint16 j, SDL_Surface* bg, SDL_Surface* fg, std::string t) {
-	x = i;
-	y = j;
-	SetSurfaces(bg, fg);
+Button::Button(std::string bgname, std::string fname, std::string t, Sint16 _x, Sint16 _y) {
+	LoadSurface(bgname);
+	LoadFontSurface(fname);
 	SetText(t);
+	SetX(x);
+	SetY(y);
+}
+
+Button::Button(SDL_Surface* bg, SDL_Surface* f, std::string t, Sint16 _x, Sint16 _y) {
+	SetSurface(bg);
+	SetFontSurface(f);
+	SetText(t);
+	SetX(x);
+	SetY(y);
+}
+
+SDL_Surface* Button::LoadSurface(std::string s) {
+	image.LoadSurface(s);
+	image.SetClipH(image.GetClipH()/3); //3 phases, vertical storage
+	SetText(text); //reset textX & textY
+	return image.GetSurface();
+}
+
+SDL_Surface* Button::LoadFontSurface(std::string s) {
+	font.LoadSurface(s);
+	SetText(text); //reset textX & textY
+	return font.GetSurface();
+}
+
+SDL_Surface* Button::SetSurface(SDL_Surface* p) {
+	image.SetSurface(p);
+	image.SetClipH(image.GetClipH()/3); //3 phases, vertical storage
+	SetText(text); //reset textX & textY
+	return image.GetSurface();
+}
+
+SDL_Surface* Button::SetFontSurface(SDL_Surface* p) {
+	font.SetSurface(p);
+	SetText(text); //reset textX & textY
+	return font.GetSurface();
 }
 
 Button::State Button::MouseMotion(SDL_MouseMotionEvent const& motion) {
@@ -51,16 +86,6 @@ Button::State Button::MouseButtonUp(SDL_MouseButtonEvent const& button) {
 void Button::DrawTo(SDL_Surface* const dest) {
 	image.DrawTo(dest, x, y);
 	font.DrawStringTo(text, dest, textX + x, textY + y);
-}
-
-void Button::SetSurfaces(SDL_Surface* bg, SDL_Surface* fg) {
-	//graphical stuff
-	image.SetSurface(bg);
-	image.SetClipH(image.GetClipH() / 3); //3 phases, vertical storage
-	font.SetSurface(fg);
-
-	//reset textX & textY
-	SetText(text);
 }
 
 std::string Button::SetText(std::string t) {

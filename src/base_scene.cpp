@@ -34,7 +34,7 @@ SDL_Surface* BaseScene::screen = nullptr;
 //-------------------------
 
 BaseScene::BaseScene() {
-	nextScene = SceneList::CONTINUE;
+	//
 }
 
 BaseScene::~BaseScene() {

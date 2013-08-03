@@ -28,18 +28,18 @@
 
 class BaseScene {
 public:
-	/* Public access members */
+	//Public access members
 	BaseScene();
 	virtual ~BaseScene();
 
-	/* Program control */
+	//Program control
 	static SDL_Surface* SetScreen(int w, int h, int bpp = 0, Uint32 flags = SDL_HWSURFACE|SDL_DOUBLEBUF);
 	static SDL_Surface* GetScreen();
 
 	SceneList SetNextScene(SceneList sceneIndex);
 	SceneList GetNextScene() const;
 
-	/* Frame loop */
+	//Frame loop
 	virtual void RunFrame(double delta);
 	virtual void RenderFrame();
 
@@ -50,7 +50,7 @@ protected:
 	virtual void FrameEnd() {}
 	virtual void Render(SDL_Surface* const screen) {}
 
-	/* Event handlers */
+	//Event handlers
 	virtual void QuitEvent() { SetNextScene(SceneList::QUIT); }
 	virtual void MouseMotion(SDL_MouseMotionEvent const&) {}
 	virtual void MouseButtonDown(SDL_MouseButtonEvent const&) {}
@@ -68,7 +68,7 @@ protected:
 
 private:
 	static SDL_Surface* screen;
-	SceneList nextScene;
+	SceneList nextScene = SceneList::CONTINUE;
 };
 
 #endif

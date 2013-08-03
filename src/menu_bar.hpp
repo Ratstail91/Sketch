@@ -31,13 +31,21 @@
 class MenuBar {
 public:
 	MenuBar() = default;
+	MenuBar(std::string bgname, std::string fontname, std::vector<std::vector<std::string>> info);
+	MenuBar(SDL_Surface* background, SDL_Surface* font, std::vector<std::vector<std::string>> info);
 	~MenuBar() = default;
 
 	//graphics
-	void LoadSurfaces(std::string bgName, std::string fgName);
-	void SetSurfaces(SDL_Surface* fgSurface, SDL_Surface* bgSurface);
-	void FreeSurfaces();
+	SDL_Surface* LoadSurface(std::string);
+	SDL_Surface* LoadFontSurface(std::string);
+	SDL_Surface* SetSurface(SDL_Surface*);
+	SDL_Surface* SetFontSurface(SDL_Surface*);
+	SDL_Surface* GetSurface() const { return image.GetSurface(); }
+	SDL_Surface* GetFontSurface() const { return fontImage.GetSurface(); }
+	void FreeSurface() { image.FreeSurface(); }
+	void FreeFontSurface() { fontImage.FreeSurface(); }
 
+	//yet another draw function
 	void DrawTo(SDL_Surface* const dest);
 
 	//user inputs
@@ -46,9 +54,10 @@ public:
 	void MouseButtonUp(SDL_MouseButtonEvent const&, int* entry = nullptr, int* button = nullptr);
 
 	//manage the entries & buttons
-	void Setup(std::vector<std::vector<std::string>>);
+	void SetEntries(std::vector<std::vector<std::string>> info);
 	void Clear() { entries.clear(); }
 
+	//OO breakers
 	int NewEntry(std::vector<std::string>);
 	void EraseEntry(int index);
 	int GetEntryCount();
@@ -58,17 +67,17 @@ public:
 	void ClearButtons(int entry);
 	int GetButtonCount(int entry);
 
-	//OO breakers
-	Image* GetBGImage() { return &bgImage; }
-	Image* GetFGImage() { return &fgImage; }
+	Image* GetImage() { return &image; }
+	Image* GetFontImage() { return &fontImage; }
 
 private:
 	void ResetPositions();
+	void ResetSurfaces();
 
 	class MenuBarEntry;
 
 	std::vector<MenuBarEntry> entries;
-	Image bgImage, fgImage;
+	Image image, fontImage;
 };
 
 class MenuBar::MenuBarEntry {

@@ -24,22 +24,40 @@
 #include <stdexcept>
 #include <sstream>
 
-void MenuBar::LoadSurfaces(std::string bgName, std::string fgName) {
-	bgImage.LoadSurface(bgName);
-	fgImage.LoadSurface(fgName);
-	ResetPositions();
+MenuBar::MenuBar(std::string bgname, std::string fontname, std::vector<std::vector<std::string>> info) {
+	LoadSurface(bgname);
+	LoadFontSurface(fontname);
+	SetEntries(info);
 }
 
-void MenuBar::SetSurfaces(SDL_Surface* fgSurface, SDL_Surface* bgSurface) {
-	bgImage.SetSurface(bgSurface);
-	fgImage.SetSurface(fgSurface);
-	ResetPositions();
+MenuBar::MenuBar(SDL_Surface* background, SDL_Surface* font, std::vector<std::vector<std::string>> info) {
+	SetSurface(background);
+	SetFontSurface(font);
+	SetEntries(info);
 }
 
-void MenuBar::FreeSurfaces() {
-	bgImage.FreeSurface();
-	fgImage.FreeSurface();
-	ResetPositions();
+SDL_Surface* MenuBar::LoadSurface(std::string s) {
+	image.LoadSurface(s);
+	ResetSurfaces();
+	return image.GetSurface();
+}
+
+SDL_Surface* MenuBar::LoadFontSurface(std::string s) {
+	fontImage.LoadSurface(s);
+	ResetSurfaces();
+	return fontImage.GetSurface();
+}
+
+SDL_Surface* MenuBar::SetSurface(SDL_Surface* p) {
+	image.SetSurface(p);
+	ResetSurfaces();
+	return image.GetSurface();
+}
+
+SDL_Surface* MenuBar::SetFontSurface(SDL_Surface* p) {
+	fontImage.SetSurface(p);
+	ResetSurfaces();
+	return fontImage.GetSurface();
 }
 
 void MenuBar::DrawTo(SDL_Surface* const dest) {
@@ -61,7 +79,6 @@ void MenuBar::MouseButtonDown(SDL_MouseButtonEvent const& button) {
 }
 
 void MenuBar::MouseButtonUp(SDL_MouseButtonEvent const& button, int* entry, int* butt) {
-	//TODO: hook the "return values"
 	int ret = -1;
 	for (auto& i : entries) {
 		ret = i.MouseButtonUp(button);
@@ -73,7 +90,7 @@ void MenuBar::MouseButtonUp(SDL_MouseButtonEvent const& button, int* entry, int*
 	}
 }
 
-void MenuBar::Setup(std::vector<std::vector<std::string>> info) {
+void MenuBar::SetEntries(std::vector<std::vector<std::string>> info) {
 	entries.clear();
 	for (auto& i : info) {
 		NewEntry(i);
@@ -90,13 +107,11 @@ int MenuBar::NewEntry(std::vector<std::string> info) {
 
 	//create the entry itself
 	MenuBarEntry e;
-	e.mainButton.Setup(
-		entries.size() * bgImage.GetClipW(), //x
-		0, //y; all main buttons have a y of 0
-		bgImage.GetSurface(),
-		fgImage.GetSurface(),
-		info[0] //first is the name
-	);
+	e.mainButton.SetSurface(image.GetSurface());
+	e.mainButton.SetFontSurface(fontImage.GetSurface());
+	e.mainButton.SetText(info[0]);
+	e.mainButton.SetX(entries.size() * image.GetClipW());
+	e.mainButton.SetY(0);
 
 	//push the entry onto the menu bar
 	info.erase(info.begin());
@@ -134,11 +149,11 @@ int MenuBar::NewButton(int entry, std::string text) {
 	//may the programmer gods forgive my sins
 	entries[entry].dropButtons.push_back(
 		Button(
-			entry * bgImage.GetClipW(), //x
-			(entries[entry].dropButtons.size() +1) * (bgImage.GetClipH()/3), //y, +1 to account for the main button's position
-			bgImage.GetSurface(),
-			fgImage.GetSurface(),
-			text
+			image.GetSurface(),
+			fontImage.GetSurface(),
+			text,
+			entry * image.GetClipW(), //x
+			(entries[entry].dropButtons.size() +1) * (image.GetClipH()/3) //y, +1 to account for the main button's position
 		)
 	);
 }
@@ -179,12 +194,24 @@ int MenuBar::GetButtonCount(int entry) {
 
 void MenuBar::ResetPositions() {
 	for (int i = 0; i < entries.size(); i++) {
-		entries[i].mainButton.SetX(i * bgImage.GetClipW());
+		entries[i].mainButton.SetX(i * image.GetClipW());
 		entries[i].mainButton.SetY(0);
 
 		for (int j = 0; j < entries[i].dropButtons.size(); j++) {
-			entries[i].dropButtons[j].SetX(i * bgImage.GetClipW());
-			entries[i].dropButtons[j].SetY((j+1) * (bgImage.GetClipH()/3));
+			entries[i].dropButtons[j].SetX(i * image.GetClipW());
+			entries[i].dropButtons[j].SetY((j+1) * (image.GetClipH()/3));
+		}
+	}
+}
+
+void MenuBar::ResetSurfaces() {
+	for (auto& i : entries) {
+		i.mainButton.SetSurface(image.GetSurface());
+		i.mainButton.SetFontSurface(fontImage.GetSurface());
+
+		for (auto& j : i.dropButtons) {
+			j.SetSurface(image.GetSurface());
+			j.SetFontSurface(fontImage.GetSurface());
 		}
 	}
 }

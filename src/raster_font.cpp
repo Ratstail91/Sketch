@@ -23,9 +23,8 @@
 
 #include <stdexcept>
 
-/* Note: This class can only take a raster font with 16*16 characters, and the
- * indevidual characters must have the same dimensions. Overall this class is too
- * restrictive; I suggest using a 3rd party library.
+/* It might be more efficient to render to a different surface (like an Image)
+ * rather than calling this function with all of it's '%' and '/'.
 */
 
 void RasterFont::DrawStringTo(std::string s, SDL_Surface* const dest, Sint16 x, Sint16 y) {
@@ -41,10 +40,21 @@ void RasterFont::DrawStringTo(std::string s, SDL_Surface* const dest, Sint16 x, 
 	}
 }
 
+/* Note: This class can only take a raster font with 16*16 characters, and the
+ * indevidual characters must have the same dimensions. Overall this class is too
+ * restrictive; I suggest using a 3rd party library.
+*/
+
+SDL_Surface* RasterFont::LoadSurface(std::string fname) {
+	image.LoadSurface(fname);
+	image.SetClipW(image.GetSurface()->w/16);
+	image.SetClipH(image.GetSurface()->h/16);
+	return image.GetSurface();
+}
+
 SDL_Surface* RasterFont::SetSurface(SDL_Surface* p) {
-	if (image.SetSurface(p)) {
-		image.SetClipW(image.GetSurface()->w/16);
-		image.SetClipH(image.GetSurface()->h/16);
-	}
+	image.SetSurface(p);
+	image.SetClipW(image.GetSurface()->w/16);
+	image.SetClipH(image.GetSurface()->h/16);
 	return image.GetSurface();
 }

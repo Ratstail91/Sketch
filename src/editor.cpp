@@ -23,21 +23,22 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 using namespace std;
 
-static string itos(int i) {
-	char buffer[20];
-	snprintf(buffer, 20, "%d", i);
-	return string(buffer);
+string itos(int i) {
+	ostringstream os;
+	os << i;
+	return os.str();
 }
 
 //-------------------------
 //Public access members
 //-------------------------
 
-Editor::Editor(lua_State* L) {
-	luaState = L;
-
+Editor::Editor(lua_State* L) :
+	luaState(L)
+{
 	//get the map object
 	lua_getfield(luaState, LUA_REGISTRYINDEX, "sketch-map");
 	map = reinterpret_cast<Map*>(lua_touserdata(luaState, 1));
@@ -45,14 +46,13 @@ Editor::Editor(lua_State* L) {
 
 	tileset.LoadSurface("tileset.bmp", 32, 32);
 
-	menuBar.LoadSurfaces("rsc\\button.bmp", "rsc\\pk_white_8.bmp");
+	menuBar.LoadSurface("rsc\\button.bmp");
+	menuBar.LoadFontSurface("rsc\\pk_white_8.bmp");
 
-	vector<vector<string>> info = {
+	menuBar.SetEntries({
 		{ "File", "New", "Open", "Save", "Save As", "Exit" },
 		{ "Edit", "Layers", "Brush", "Tilesets"}
-	};
-
-	menuBar.Setup(info);
+	});
 }
 
 Editor::~Editor() {
@@ -76,11 +76,12 @@ void Editor::FrameEnd() {
 }
 
 void Editor::Render(SDL_Surface* const screen) {
-	menuBar.DrawTo(screen);
-
 	for (int i = 0; i < map->GetLayerCount(); i++) {
 		map->DrawLayerTo(screen, &tileset, i, cam.x, cam.y);
 	}
+
+	//always draw on top
+	menuBar.DrawTo(screen);
 }
 
 //-------------------------

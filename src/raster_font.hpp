@@ -24,21 +24,24 @@
 
 #include "image.hpp"
 
-#include <string>
-
 class RasterFont {
 public:
 	RasterFont() = default;
+	RasterFont(std::string fname) { LoadSurface(fname); }
 	RasterFont(SDL_Surface* p) { SetSurface(p); }
 	~RasterFont() = default;
 
 	void DrawStringTo(std::string, SDL_Surface* const, Sint16 x, Sint16 y);
 
 	//Accessors and Mutators
+	SDL_Surface* LoadSurface(std::string);
 	SDL_Surface* SetSurface(SDL_Surface*);
 	SDL_Surface* GetSurface() const { return image.GetSurface(); }
-	Uint16 GetCharW() { return image.GetClipW(); }
-	Uint16 GetCharH() { return image.GetClipH(); }
+	void FreeSurface() { image.FreeSurface(); }
+
+	Uint16 GetCharW() const { return image.GetClipW(); }
+	Uint16 GetCharH() const { return image.GetClipH(); }
+
 private:
 	Image image;
 };

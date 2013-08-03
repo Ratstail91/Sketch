@@ -28,14 +28,21 @@
 class Image {
 public:
 	Image() = default;
+	Image(Image const& rhs) { *this = rhs; }
+	Image(Image&& rhs) { *this = std::move(rhs); }
+	Image(std::string fname) { LoadSurface(fname); }
+	Image(Uint16 w, Uint16 h) { CreateSurface(w, h); }
 	Image(SDL_Surface* p) { SetSurface(p); }
 	~Image() { FreeSurface(); }
 
-	SDL_Surface* LoadSurface(std::string fname);
-	void FreeSurface();
+	Image& operator=(Image const&);
+	Image& operator=(Image&&);
 
+	SDL_Surface* LoadSurface(std::string fname);
+	SDL_Surface* CreateSurface(Uint16 w, Uint16 h);
 	SDL_Surface* SetSurface(SDL_Surface*);
 	SDL_Surface* GetSurface() const { return surface; }
+	void FreeSurface();
 
 	void DrawTo(SDL_Surface* const, Sint16 x, Sint16 y);
 
@@ -53,7 +60,7 @@ public:
 	Uint16 GetClipW() const { return clip.w; }
 	Uint16 GetClipH() const { return clip.h; }
 
-	bool GetLocal() { return local; }
+	bool GetLocal() const { return local; }
 
 	void SetTransparentColor(Uint8 r, Uint8 g, Uint8 b);
 	void ClearTransparentColor();

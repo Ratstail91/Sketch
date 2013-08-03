@@ -22,6 +22,7 @@
 #include "application.hpp"
 
 #include "custom_libraries.hpp"
+#include "map.hpp"
 
 #include <stdexcept>
 #include <chrono>
@@ -39,11 +40,11 @@
 //-------------------------
 
 Application::Application() {
-	activeScene = nullptr;
+	//
 }
 
 Application::~Application() {
-	UnloadScene();
+	//
 }
 
 void Application::Init() {
@@ -74,7 +75,7 @@ void Application::Proc() {
 	LoadScene(SceneList::FIRST);
 
 	//prepare the time system
-	typedef std::chrono::high_resolution_clock Clock;
+	typedef std::chrono::steady_clock Clock;
 
 	Clock::duration delta(16 * Clock::duration::period::den / std::milli::den);
 	Clock::time_point simTime = Clock::now();
@@ -109,8 +110,6 @@ void Application::Proc() {
 }
 
 void Application::Quit() {
-	UnloadScene();
-
 	//delete the "global" objects
 	lua_getfield(luaState, LUA_REGISTRYINDEX, "sketch-map");
 	delete reinterpret_cast<Map*>(lua_touserdata(luaState, -1));

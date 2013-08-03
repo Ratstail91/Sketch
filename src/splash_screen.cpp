@@ -21,10 +21,6 @@
 */
 #include "splash_screen.hpp"
 
-#include <iostream>
-
-using namespace std;
-
 //-------------------------
 //Public access members
 //-------------------------
