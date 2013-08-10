@@ -25,7 +25,9 @@
 //Public access members
 //-------------------------
 
-SplashScreen::SplashScreen() {
+SplashScreen::SplashScreen(lua_State* L) :
+	luaState(L)
+{
 	logo.LoadSurface("rsc\\krstudios.bmp");
 }
 

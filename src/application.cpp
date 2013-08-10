@@ -67,6 +67,8 @@ void Application::Init() {
 	lua_pushlightuserdata(luaState, reinterpret_cast<void*>(new Map()));
 	lua_setfield(luaState, LUA_REGISTRYINDEX, "sketch-map");
 
+	//TODO: tileset manager
+
 	//create the screen
 	BaseScene::SetScreen(800, 600);
 }
@@ -131,7 +133,7 @@ void Application::LoadScene(SceneList sceneIndex) {
 		//add scene creation calls here
 		case SceneList::FIRST:
 		case SceneList::SPLASHSCREEN:
-			activeScene = new SplashScreen(); //take the lua state?
+			activeScene = new SplashScreen(luaState);
 		break;
 
 		case SceneList::EDITOR:

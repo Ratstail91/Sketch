@@ -25,12 +25,14 @@
 #include "image.hpp"
 #include "base_scene.hpp"
 
+#include "lua/lua.hpp"
+
 #include <chrono>
 
 class SplashScreen : public BaseScene {
 public:
 	//Public access members
-	SplashScreen();
+	SplashScreen(lua_State*);
 	~SplashScreen();
 
 	//Frame loop
@@ -40,6 +42,7 @@ public:
 private:
 	void LoadResources();
 
+	lua_State* luaState = nullptr;
 	bool loaded = false;
 	Image logo;
 	std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
